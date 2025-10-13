@@ -31,7 +31,7 @@ export default function ProfileSelect() {
               transition={{ type: "spring", stiffness: 300, damping: 15 }}
             >
               <div className="absolute inset-0 flex items-center justify-center text-4xl md:text-6xl select-none">
-                {p.emoji}
+                {p.emoji ?? ""}
               </div>
               <div className="absolute inset-0 ring-4 ring-transparent group-hover:ring-neutral-200 transition-all duration-200" />
             </motion.div>

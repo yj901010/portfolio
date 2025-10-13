@@ -29,8 +29,9 @@ export default function Intro({
     if (!isFontLoaded || !scope.current) return;
 
     const sequence = async () => {
-      const letterElements = scope.current.querySelectorAll("span");
-      const pElement = letterElements[0];
+      const letterElements = scope.current.querySelectorAll("span") as NodeListOf<HTMLSpanElement>;
+      const spans = Array.from(letterElements) as HTMLSpanElement[];
+      const pElement = spans[0];
       const pWidth = pElement.getBoundingClientRect().width;
 
       await Promise.all([
@@ -52,11 +53,9 @@ export default function Intro({
 
       await new Promise(resolve => setTimeout(resolve, 150));
 
-      const fullWidth = Array.from(letterElements).reduce(
-        (total, el) => total + el.getBoundingClientRect().width,
-        0
-      );
-      const allOtherLetters = Array.from(letterElements).slice(1);
+      const fullWidth = spans.reduce((total, el) => total + el.getBoundingClientRect().width, 0);
+      const allOtherLetters = spans.slice(1);
+      
       const revealDuration = 0.6;
       const staggerDelay = revealDuration / (letters.length - 1 || 1);
 
