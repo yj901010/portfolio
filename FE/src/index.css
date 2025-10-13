@@ -8,3 +8,8 @@ html, body, #root {
   background: #000;
   color: #fff;
 }
+
+/* Scrollbar helpers for horizontal rows */
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+.no-scrollbar::-webkit-scrollbar { display: none; }
+
