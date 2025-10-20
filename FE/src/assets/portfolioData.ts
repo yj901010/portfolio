@@ -16,6 +16,7 @@ export function buildPortfolioContent(profile: Profile): { hero: Media; rows: Ro
     maturity: "ALL",
   };
 
+  // Row 1: 메인 카테고리
   const row1: Row = {
     id: "recruiter-pick",
     title: "오늘의 채용담당자를 위한 최고의 선택",
@@ -29,6 +30,7 @@ export function buildPortfolioContent(profile: Profile): { hero: Media; rows: Ro
     ],
   };
 
+  // Row 2: 지속 주목 항목(링크)
   const row2: Row = {
     id: "contact",
     title: "채용담당자가 계속 주목할 항목",

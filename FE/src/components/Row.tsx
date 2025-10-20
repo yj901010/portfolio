@@ -5,15 +5,7 @@ function classNames(...xs: Array<string | false | null | undefined>) {
   return xs.filter(Boolean).join(" ");
 }
 
-function MediaCard({
-  item,
-  index,
-  kind,
-}: {
-  item: Media & { href?: string };
-  index: number;
-  kind?: Row["kind"];
-}) {
+function MediaCard({ item, index, kind }: { item: Media; index: number; kind?: Row["kind"] }) {
   const [hover, setHover] = React.useState(false);
   return (
     <article
@@ -54,17 +46,12 @@ function MediaCard({
         />
         <div className="absolute bottom-0 inset-x-0 p-3">
           <h3 className="text-white font-semibold drop-shadow line-clamp-1">{item.title}</h3>
-          {item.subtitle && (
-            <p className="text-white/70 text-xs mt-0.5 line-clamp-1">{item.subtitle}</p>
-          )}
+          {item.subtitle && <p className="text-white/70 text-xs mt-0.5 line-clamp-1">{item.subtitle}</p>}
           {kind !== "top10" && (
             <div className="mt-2 hidden group-hover:block">
               <div className="flex flex-wrap gap-1">
                 {item.tags?.slice(0, 5).map((t) => (
-                  <span
-                    key={t}
-                    className="text-[10px] text-white/85 bg-white/10 rounded px-1.5 py-0.5"
-                  >
+                  <span key={t} className="text-[10px] text-white/85 bg-white/10 rounded px-1.5 py-0.5">
                     {t}
                   </span>
                 ))}
@@ -111,11 +98,7 @@ export default function Row({ row }: { row: Row }) {
     <section id={row.id} className="relative">
       <div className="flex items-baseline justify-between px-0">
         <h2 className="text-white text-xl sm:text-2xl font-semibold">{row.title}</h2>
-        <a
-          href="#"
-          className="text-sm text-white/60 hover:text-white/80"
-          aria-label={`${row.title} 전체 보기`}
-        >
+        <a href="#" className="text-sm text-white/60 hover:text-white/80" aria-label={`${row.title} 전체 보기`}>
           See all
         </a>
       </div>
@@ -136,7 +119,7 @@ export default function Row({ row }: { row: Row }) {
         >
           <div className="flex gap-3">
             {row.items.map((it, idx) => (
-              <MediaCard key={it.id} item={it as any} index={idx} kind={row.kind} />
+              <MediaCard key={it.id} item={it} index={idx} kind={row.kind} />
             ))}
           </div>
         </div>

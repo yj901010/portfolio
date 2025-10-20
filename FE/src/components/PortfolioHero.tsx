@@ -1,9 +1,8 @@
-import React from "react";
 import type { Media } from "../assets/mockData";
 
 export default function PortfolioHero({ item }: { item: Media }) {
   return (
-    <section className="relative aspect-[16/7] w-full overflow-hidden" id="home">
+    <section className="relative aspect-[16/6] w-full overflow-hidden" id="home">
       <img
         src={item.backdrop || item.thumb}
         alt={item.title}
