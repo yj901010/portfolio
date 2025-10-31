@@ -1,12 +1,52 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import type { Row, Media } from "../assets/mockData";
 
 function classNames(...xs: Array<string | false | null | undefined>) {
   return xs.filter(Boolean).join(" ");
 }
+const isExternal = (url?: string) => !!url && /^https?:\/\//i.test(url);
+
+function LinkOrA({
+  to,
+  children,
+  className,
+}: {
+  to: string;
+  children: React.ReactNode;
+  className?: string;
+}) {
+  return isExternal(to) ? (
+    <a href={to} className={className}>
+      {children}
+    </a>
+  ) : (
+    <Link to={to} className={className}>
+      {children}
+    </Link>
+  );
+}
 
 function MediaCard({ item, index, kind }: { item: Media; index: number; kind?: Row["kind"] }) {
   const [hover, setHover] = React.useState(false);
+
+  const cardHref = item.href;
+
+  const playTo = item.playHref || item.href;
+  const moreTo = item.moreHref;
+
+  const Img = (
+    <img
+      src={item.thumb}
+      alt={item.title}
+      className={classNames(
+        "absolute inset-0 w-full h-full object-cover object-center transition-transform duration-300",
+        hover && "scale-[1.05]"
+      )}
+      loading="lazy"
+    />
+  );
+
   return (
     <article
       className="group relative w-[62vw] xs:w-[48vw] sm:w-64 md:w-72 lg:w-80 shrink-0"
@@ -14,28 +54,10 @@ function MediaCard({ item, index, kind }: { item: Media; index: number; kind?: R
       onMouseLeave={() => setHover(false)}
     >
       <div className="relative aspect-[16/9] rounded-xl overflow-hidden bg-white/5">
-        {item.href ? (
-          <a href={item.href} target="_blank" rel="noreferrer">
-            <img
-              src={item.thumb}
-              alt={item.title}
-              className={classNames(
-                "absolute inset-0 w-full h-full object-cover object-center transition-transform duration-300",
-                hover && "scale-[1.05]"
-              )}
-              loading="lazy"
-            />
-          </a>
+        {cardHref ? (
+          <LinkOrA to={cardHref}>{Img}</LinkOrA>
         ) : (
-          <img
-            src={item.thumb}
-            alt={item.title}
-            className={classNames(
-              "absolute inset-0 w-full h-full object-cover object-center transition-transform duration-300",
-              hover && "scale-[1.05]"
-            )}
-            loading="lazy"
-          />
+          Img
         )}
 
         <div
@@ -46,7 +68,10 @@ function MediaCard({ item, index, kind }: { item: Media; index: number; kind?: R
         />
         <div className="absolute bottom-0 inset-x-0 p-3">
           <h3 className="text-white font-semibold drop-shadow line-clamp-1">{item.title}</h3>
-          {item.subtitle && <p className="text-white/70 text-xs mt-0.5 line-clamp-1">{item.subtitle}</p>}
+          {item.subtitle && (
+            <p className="text-white/70 text-xs mt-0.5 line-clamp-1">{item.subtitle}</p>
+          )}
+
           {kind !== "top10" && (
             <div className="mt-2 hidden group-hover:block">
               <div className="flex flex-wrap gap-1">
@@ -56,13 +81,37 @@ function MediaCard({ item, index, kind }: { item: Media; index: number; kind?: R
                   </span>
                 ))}
               </div>
+
               <div className="mt-2 flex items-center gap-2">
-                <button className="inline-flex items-center gap-2 text-xs px-2 py-1 rounded-md bg-white text-black hover:bg-white/90">
-                  Play
-                </button>
-                <button className="inline-flex items-center gap-2 text-xs px-2 py-1 rounded-md bg-white/15 text-white hover:bg-white/25">
-                  More
-                </button>
+                {playTo ? (
+                  <LinkOrA
+                    to={playTo}
+                    className="inline-flex items-center gap-2 text-xs px-2 py-1 rounded-md bg-white text-black hover:bg-white/90"
+                  >
+                    Play
+                  </LinkOrA>
+                ) : (
+                  <button
+                    className="inline-flex items-center gap-2 text-xs px-2 py-1 rounded-md bg-white/30 text-black/60 cursor-not-allowed"
+                    disabled
+                  >
+                    Play
+                  </button>
+                )}
+
+                {moreTo ? (
+                  <LinkOrA
+                    to={moreTo}
+                    className="inline-flex items-center gap-2 text-xs px-2 py-1 rounded-md bg-white/15 text-white hover:bg-white/25"
+                  >
+                    More
+                  </LinkOrA>
+                ) : (
+                  <button className="inline-flex items-center gap-2 text-xs px-2 py-1 rounded-md bg-white/15 text-white/60 cursor-not-allowed">
+                    More
+                  </button>
+                )}
+
                 <span className="ml-auto text-[10px] text-white/70">{item.maturity || "ALL"}</span>
               </div>
             </div>
@@ -74,7 +123,6 @@ function MediaCard({ item, index, kind }: { item: Media; index: number; kind?: R
             {index + 1}
           </div>
         )}
-
         {kind === "continue" && (
           <div className="absolute left-0 right-0 bottom-0 h-1.5 bg-white/20">
             <div className="h-full bg-red-600" style={{ width: `${item.progress ?? 0}%` }} />

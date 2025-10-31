@@ -16,13 +16,12 @@ export function buildPortfolioContent(profile: Profile): { hero: Media; rows: Ro
     maturity: "ALL",
   };
 
-  // Row 1: 메인 카테고리
   const row1: Row = {
     id: "recruiter-pick",
     title: "오늘의 채용담당자를 위한 최고의 선택",
     items: [
-      { id: "skills",    title: "기술",        thumb: img("photo-1498050108023-c5249f4df085") },
-      { id: "exp",       title: "경험",        thumb: img("photo-1527430253228-e93688616381") },
+      { id: "skills", title: "기술", thumb: img("photo-1498050108023-c5249f4df085"), href: "/skills" },
+      { id: "exp", title: "경험", thumb: img("photo-1527430253228-e93688616381"), href: "/experience", playHref: "/experience", moreHref: "/experience/all" },
       { id: "cert",      title: "인증 · 수료", thumb: img("photo-1500530855697-b586d89ba3ee") },
       { id: "ref",       title: "추천사항",    thumb: img("photo-1519681393784-d120267933ba") },
       { id: "projects",  title: "프로젝트",    thumb: img("photo-1555066931-4365d14bab8c") },
@@ -30,7 +29,6 @@ export function buildPortfolioContent(profile: Profile): { hero: Media; rows: Ro
     ],
   };
 
-  // Row 2: 지속 주목 항목(링크)
   const row2: Row = {
     id: "contact",
     title: "채용담당자가 계속 주목할 항목",
@@ -41,13 +39,16 @@ export function buildPortfolioContent(profile: Profile): { hero: Media; rows: Ro
         subtitle: "프로젝트와 코드",
         thumb: img("photo-1555066931-4365d14bab8c"),
         href: LINKS.github,
+        playHref: LINKS.github,
       },
       {
         id: "blog",
         title: "블로그",
         subtitle: "기술 기록과 회고",
         thumb: img("photo-1519681393784-d120267933ba"),
-        href: LINKS.blog,
+        href: LINKS.velogblog,
+        playHref: LINKS.velogblog,
+        moreHref: LINKS.tistoryblog,
       },
     ],
   };

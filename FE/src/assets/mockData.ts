@@ -2,13 +2,15 @@ export type Media = {
   id: string;
   title: string;
   subtitle?: string;
-  thumb: string;      // poster/thumbnail
-  backdrop?: string;  // widescreen
-  progress?: number;  // for "continue"
+  thumb: string;
+  backdrop?: string;
+  progress?: number;
   tags?: string[];
-  maturity?: string;  // e.g. '15', '18', 'A'
+  maturity?: string;
   description?: string;
-  href?: string;      // 외부 링크(깃허브/블로그 등)
+  href?: string;
+  playHref?: string;
+  moreHref?: string;
 };
 
 export type Row = {

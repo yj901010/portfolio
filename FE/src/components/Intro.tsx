@@ -95,7 +95,7 @@ export default function Intro({
       <div className="fixed inset-0 z-[9999] bg-black grid place-items-center overflow-hidden">
         <motion.div
           ref={scope}
-          className="absolute top-1/2 left-1/2 flex flex-nowrap items-center"
+          className="absolute top-2/5 left-1/2 flex flex-nowrap items-center"
           initial={{ opacity: 0 }}
           style={{
             fontFamily: FONT_FAMILY,
