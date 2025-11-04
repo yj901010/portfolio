@@ -21,11 +21,10 @@ export function buildPortfolioContent(profile: Profile): { hero: Media; rows: Ro
     title: "오늘의 채용담당자를 위한 최고의 선택",
     items: [
       { id: "skills", title: "기술", thumb: img("photo-1498050108023-c5249f4df085"), href: "/skills" },
-      { id: "exp", title: "경험", thumb: img("photo-1527430253228-e93688616381"), href: "/experience", playHref: "/experience", moreHref: "/experience/all" },
+      { id: "exp", title: "경험 · 경력", thumb: img("photo-1527430253228-e93688616381"), href: "/experience", playHref: "/experience"},
       { id: "cert",      title: "인증 · 수료", thumb: img("photo-1500530855697-b586d89ba3ee") },
-      { id: "ref",       title: "추천사항",    thumb: img("photo-1519681393784-d120267933ba") },
-      { id: "projects",  title: "프로젝트",    thumb: img("photo-1555066931-4365d14bab8c") },
-      { id: "contact",   title: "연락",        thumb: img("photo-1496307042754-b4aa456c4a2d") },
+      { id: "projects",  title: "프로젝트",    thumb: img("photo-1555066931-4365d14bab8c"), href: "/projects", playHref: "/projects" },
+      { id: "contact",   title: "연락",        thumb: img("photo-1496307042754-b4aa456c4a2d"), href: "/contact", playHref: "/contact" },
     ],
   };
 

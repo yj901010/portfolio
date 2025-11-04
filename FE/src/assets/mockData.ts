@@ -23,7 +23,6 @@ export type Row = {
 export const img = (q: string) =>
   `https://images.unsplash.com/${q}?q=80&w=1600&auto=format&fit=crop`;
 
-// --- Browse 페이지 호환을 위한 더미 ---
 export const HERO: Media = {
   id: "hero-browse",
   title: "Smart Agriculture: Beyond the Field",
