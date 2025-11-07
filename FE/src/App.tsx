@@ -1,10 +1,14 @@
-import { useState } from "react";
+import React from "react";
+import { useNavigate } from "react-router-dom";
 import Intro from "./components/Intro";
-import ProfileSelect from "./pages/ProfileSelect";
 
 export default function App() {
-  const [stage, setStage] = useState<"intro" | "select">("intro");
-  return stage === "intro"
-  ? <Intro text="PORTFOLIO" onFinish={() => setStage("select")} />
-  : <ProfileSelect />;
+  const navigate = useNavigate();
+
+  return (
+    <Intro
+      text="PORTFOLIO"
+      onFinish={() => navigate("/browse", { replace: true })}
+    />
+  );
 }

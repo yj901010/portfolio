@@ -10,7 +10,7 @@ export type ProfileData = {
   name: string;
   title: string;
   subtitle: string;
-  avatar: string; // /profile.jpg 등
+  avatar: string;
   email: string;
   phone: string;
   links: SocialLink[];

@@ -17,7 +17,7 @@ export default function Portfolio() {
       <PortfolioNav profile={profile} />
       <main className="pt-16">
         <PortfolioHero item={hero} />
-        <div className="w-full space-y-10 -mt-10 px-10">
+        <div className="w-full space-y-10 px-4 md:px-10 mt-4 md:mt-6">
           {rows.map((r) => (
             <Row key={r.id} row={r} />
           ))}

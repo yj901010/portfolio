@@ -1,27 +1,14 @@
-export type Media = {
-  id: string;
-  title: string;
-  subtitle?: string;
-  thumb: string;
-  backdrop?: string;
-  progress?: number;
-  tags?: string[];
-  maturity?: string;
-  description?: string;
-  href?: string;
-  playHref?: string;
-  moreHref?: string;
+import type { Media, Row } from "../types/media";
+
+export const img = (q: string, opts?: { w?: number; q?: number; h?: number }) => {
+  const w = opts?.w ?? 1600;
+  const quality = opts?.q ?? 80;
+  const base = /^(https?:)?\/\//.test(q) ? q : `https://images.unsplash.com/${q}`;
+  const h = opts?.h ? `&h=${opts.h}` : "";
+  const sep = base.includes("?") ? "&" : "?";
+  return `${base}${sep}q=${quality}&w=${w}${h}&auto=format&fit=crop`;
 };
 
-export type Row = {
-  id: string;
-  title: string;
-  kind?: "default" | "top10" | "continue";
-  items: Media[];
-};
-
-export const img = (q: string) =>
-  `https://images.unsplash.com/${q}?q=80&w=1600&auto=format&fit=crop`;
 
 export const HERO: Media = {
   id: "hero-browse",
@@ -45,3 +32,6 @@ export const ROWS: Row[] = [
     })),
   },
 ];
+
+export const rows = ROWS;
+export const hero = HERO;

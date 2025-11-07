@@ -7,22 +7,29 @@ const FONT_SIZE_VMIN = 14.5;
 const LETTER_SPACING_EM = 0.22;
 const GRADIENT_COLORS = ["#ff2a36", "#e50914", "#9b0911"];
 
+type IntroProps = {
+  onFinish?: () => void;
+  text?: string;
+  autoNavigate?: boolean;
+  nextPath?: string;
+};
+
 export default function Intro({
   onFinish,
   text = "PORTFOLIO",
-}: {
-  onFinish?: () => void;
-  text?: string;
-}) {
+  autoNavigate = false,
+  nextPath = "/browse",
+}: IntroProps) {
   const nav = useNavigate();
   const [scope, animate] = useAnimate();
   const [isFontLoaded, setIsFontLoaded] = useState(false);
   const letters = useMemo(() => [...text.toUpperCase()], [text]);
 
   useEffect(() => {
-    document.fonts.load(`bold ${FONT_SIZE_VMIN}vmin ${FONT_FAMILY}`).then(() => {
-      setIsFontLoaded(true);
-    });
+    document.fonts
+      .load(`bold ${FONT_SIZE_VMIN}vmin ${FONT_FAMILY}`)
+      .then(() => setIsFontLoaded(true))
+      .catch(() => setIsFontLoaded(true));
   }, []);
 
   useEffect(() => {
@@ -31,31 +38,32 @@ export default function Intro({
     const sequence = async () => {
       const letterElements = scope.current.querySelectorAll("span") as NodeListOf<HTMLSpanElement>;
       const spans = Array.from(letterElements) as HTMLSpanElement[];
-      const pElement = spans[0];
-      const pWidth = pElement.getBoundingClientRect().width;
+      if (spans.length === 0) return; // 안전가드
+
+      const firstSpan = spans[0];
+      const firstWidth = firstSpan.getBoundingClientRect().width;
 
       await Promise.all([
         animate(
           scope.current,
-          {
-            width: pWidth,
-            x: -pWidth / 2,
-            opacity: 1,
-          },
+          { width: firstWidth, x: -firstWidth / 2, opacity: 1 },
           { duration: 0.7, ease: [0.4, 0, 0.2, 1] }
         ),
         animate(
-          pElement,
+          firstSpan,
           { opacity: 1, scale: 1 },
           { duration: 1.5, ease: [0.2, 0.8, 0.2, 1], delay: 0 }
         ),
       ]);
 
-      await new Promise(resolve => setTimeout(resolve, 150));
+      await new Promise((resolve) => setTimeout(resolve, 150));
 
-      const fullWidth = spans.reduce((total, el) => total + el.getBoundingClientRect().width, 0);
+      const fullWidth = spans.reduce<number>(
+        (total, el) => total + el.getBoundingClientRect().width,
+        0
+      );
       const allOtherLetters = spans.slice(1);
-      
+
       const revealDuration = 0.6;
       const staggerDelay = revealDuration / (letters.length - 1 || 1);
 
@@ -71,21 +79,20 @@ export default function Intro({
           { duration: 0.3, delay: stagger(staggerDelay, { from: "first" }), ease: "easeOut" }
         ),
       ]);
-      
-      await new Promise(resolve => setTimeout(resolve, 800));
 
-      await animate(
-          scope.current,
-          { scale: 5, opacity: 0 },
-          { duration: 0.5, ease: "easeOut" }
-      );
-      
+      await new Promise((resolve) => setTimeout(resolve, 800));
+
+      await animate(scope.current, { scale: 5, opacity: 0 }, { duration: 0.5, ease: "easeOut" });
+
       onFinish?.();
-      nav("/browse", { replace: true });
+
+      if (autoNavigate) {
+        requestAnimationFrame(() => nav(nextPath, { replace: true }));
+      }
     };
 
     sequence();
-  }, [isFontLoaded, animate, letters.length, scope, nav]);
+  }, [isFontLoaded, animate, letters.length, scope, nav, autoNavigate, nextPath, onFinish]);
 
   return (
     <>
@@ -108,7 +115,7 @@ export default function Intro({
             <motion.span
               key={`${char}-${i}`}
               className="bg-clip-text text-transparent"
-              initial={ i === 0 ? { opacity: 0, scale: 0.5 } : { opacity: 0 } }
+              initial={i === 0 ? { opacity: 0, scale: 0.5 } : { opacity: 0 }}
               style={{
                 backgroundImage: `linear-gradient(to bottom, ${GRADIENT_COLORS[0]}, ${GRADIENT_COLORS[1]}, ${GRADIENT_COLORS[2]})`,
                 filter: `drop-shadow(0 0 24px rgba(229,9,20,0.35))`,

@@ -1,8 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import type { Row, Media } from "../assets/mockData";
+import type { Row, Media } from "../types/media";
+import { img } from "../assets/mockData";
 
-function classNames(...xs: Array<string | false | null | undefined>) {
+function cx(...xs: Array<string | false | null | undefined>) {
   return xs.filter(Boolean).join(" ");
 }
 const isExternal = (url?: string) => !!url && /^https?:\/\//i.test(url);
@@ -31,7 +32,6 @@ function MediaCard({ item, index, kind }: { item: Media; index: number; kind?: R
   const [hover, setHover] = React.useState(false);
 
   const cardHref = item.href;
-
   const playTo = item.playHref || item.href;
   const moreTo = item.moreHref;
 
@@ -39,38 +39,39 @@ function MediaCard({ item, index, kind }: { item: Media; index: number; kind?: R
     <img
       src={item.thumb}
       alt={item.title}
-      className={classNames(
+      className={cx(
         "absolute inset-0 w-full h-full object-cover object-center transition-transform duration-300",
         hover && "scale-[1.05]"
       )}
       loading="lazy"
+      decoding="async"
+      onError={(e) => {
+        (e.currentTarget as HTMLImageElement).src = img(
+          "photo-1503023345310-bd7c1de61c7d",
+          { w: 800 }
+        );
+      }}
     />
   );
 
   return (
     <article
-      className="group relative w-[62vw] xs:w-[48vw] sm:w-64 md:w-72 lg:w-80 shrink-0"
+      className="group relative w-[62vw] sm:w-64 md:w-72 lg:w-80 shrink-0"
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
     >
       <div className="relative aspect-[16/9] rounded-xl overflow-hidden bg-white/5">
-        {cardHref ? (
-          <LinkOrA to={cardHref}>{Img}</LinkOrA>
-        ) : (
-          Img
-        )}
+        {cardHref ? <LinkOrA to={cardHref}>{Img}</LinkOrA> : Img}
 
         <div
-          className={classNames(
+          className={cx(
             "absolute inset-0 opacity-0 transition-opacity duration-300 bg-gradient-to-t from-black/90 via-black/60 to-transparent",
             hover && "opacity-100"
           )}
         />
         <div className="absolute bottom-0 inset-x-0 p-3">
           <h3 className="text-white font-semibold drop-shadow line-clamp-1">{item.title}</h3>
-          {item.subtitle && (
-            <p className="text-white/70 text-xs mt-0.5 line-clamp-1">{item.subtitle}</p>
-          )}
+          {item.subtitle && <p className="text-white/70 text-xs mt-0.5 line-clamp-1">{item.subtitle}</p>}
 
           {kind !== "top10" && (
             <div className="mt-2 hidden group-hover:block">

@@ -1,5 +1,3 @@
-// src/assets/projects.ts
-
 export type ADR = {
   option: string;
   pros: string;
@@ -49,7 +47,6 @@ export type Project = {
   caseStudy?: CaseStudy;
   interventions?: Intervention[];
 
-  // ✅ 사용자 테스트(옵션)
   userTesting?: {
     summary?: string;
     items: Array<{
