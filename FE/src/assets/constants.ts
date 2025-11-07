@@ -5,7 +5,7 @@ export const PROFILE: ProfileData = {
   name: "Lee Yeongjae",
   title: "Backend Developer",
   subtitle: "Spring Boot · FastAPI · GCP · AWS · Kafka · Redis",
-  avatar: "/profile.jpg",
+  avatar: "/info/leeyj.jpg",
   email: "joker901010@gmail.com",
   phone: "+82 10-6515-0987", 
   links: [
