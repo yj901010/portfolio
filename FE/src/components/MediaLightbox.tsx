@@ -37,11 +37,11 @@ export default function MediaLightbox({
         onClick={(e) => e.stopPropagation()}
       >
         {isPdf ? (
-          <div className="h-full w-full grid grid-rows-[1fr_auto] gap-3">
+          <div className="h-full w-full grid grid-rows-[1fr_auto] gap-3 place-items-center">
             <iframe
               src={`${src}#toolbar=1&view=FitH`}
-              className="row-start-1 h-full w-full rounded-lg bg-white"
               title={alt || "PDF"}
+              className="row-start-1 rounded-lg bg-white w-[90vw] md:w-[55vw] h-[55vh] shadow-2xl"
             />
             <div className="row-start-2 flex items-center justify-center gap-3">
               <a
@@ -62,11 +62,21 @@ export default function MediaLightbox({
             </div>
           </div>
         ) : (
-          <img
-            src={src}
-            alt={alt || "preview"}
-            className="max-h-full max-w-full rounded-lg shadow-2xl"
-          />
+          <div className="grid place-items-center gap-3">
+            <img
+              src={src}
+              alt={alt || "preview"}
+              className="rounded-lg shadow-2xl max-h-[55vh] max-w-[90vw] md:max-w-[55vw]"
+            />
+            <a
+              href={src}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 rounded bg-white px-3 py-1.5 text-black hover:bg-white/90"
+            >
+              새 탭에서 크게 보기
+            </a>
+          </div>
         )}
       </div>
     </div>

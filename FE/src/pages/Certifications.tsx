@@ -28,7 +28,7 @@ export default function Certifications() {
 
   return (
     <div className="min-h-screen bg-black text-white">
-      <section className="mx-auto max-w-6xl px-4 pt-24 md:pt-32 lg:pt-36">
+      <section className="mx-auto max-w-6xl px-4 pt-16 md:pt-20 lg:pt-24">
         <div className="mt-2 md:mt-4 flex flex-wrap gap-2">
           {CHIPS.map((c) => (
             <button
