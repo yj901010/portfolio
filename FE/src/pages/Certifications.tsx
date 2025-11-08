@@ -20,15 +20,36 @@ export default function Certifications() {
 
   const list = React.useMemo(() => {
     if (active === "all") return CERTS;
-    if (active === "license" || active === "course") {
-      return CERTS.filter((c) => c.category === active);
+
+    if (active === "license") {
+      return CERTS.filter(
+        (c) =>
+          c.category === "license" &&
+          !(c.tags?.includes("hackathon")) &&
+          !(c.tags?.includes("award"))
+      );
     }
-    return CERTS.filter((c) => c.tags?.includes(active as CertTag));
+
+    if (active === "course") {
+      return CERTS.filter(
+        (c) =>
+          c.category === "course" &&
+          !(c.tags?.includes("hackathon")) &&
+          !(c.tags?.includes("award"))
+      );
+    }
+
+    if (active === "hackathon") {
+      return CERTS.filter((c) => c.tags?.includes("hackathon"));
+    }
+
+    // award
+    return CERTS.filter((c) => c.tags?.includes("award"));
   }, [active]);
 
   return (
     <div className="min-h-screen bg-black text-white">
-      <section className="mx-auto max-w-6xl px-4 pt-16 md:pt-20 lg:pt-24">
+      <section className="mx-auto max-w-6xl px-4 pt-14 md:pt-16 lg:pt-20">
         <div className="mt-2 md:mt-4 flex flex-wrap gap-2">
           {CHIPS.map((c) => (
             <button
