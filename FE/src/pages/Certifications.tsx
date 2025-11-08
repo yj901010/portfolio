@@ -1,17 +1,17 @@
 import React from "react";
 import { CERTS } from "../assets/certs";
-import type { CertCategory, CertTag, Certificate } from "../types/cert";
+import type { CertCategory, Certificate } from "../types/cert";
 import CertificateCard from "../components/CertificateCard";
 import MediaLightbox from "../components/MediaLightbox";
 
-type ChipKey = "all" | CertCategory | CertTag;
+type ChipKey = "all" | CertCategory;
 
 const CHIPS: Array<{ key: ChipKey; label: string }> = [
-  { key: "all", label: "전체" },
-  { key: "license", label: "자격증" },
-  { key: "course", label: "수료·교육" },
-  { key: "hackathon", label: "해커톤" },
-  { key: "award", label: "수상" },
+  { key: "all",        label: "전체" },
+  { key: "license",    label: "자격증" },
+  { key: "course",     label: "수료·교육" },
+  { key: "hackathon",  label: "해커톤" },
+  { key: "award",      label: "수상" },
 ];
 
 export default function Certifications() {
@@ -20,31 +20,7 @@ export default function Certifications() {
 
   const list = React.useMemo(() => {
     if (active === "all") return CERTS;
-
-    if (active === "license") {
-      return CERTS.filter(
-        (c) =>
-          c.category === "license" &&
-          !(c.tags?.includes("hackathon")) &&
-          !(c.tags?.includes("award"))
-      );
-    }
-
-    if (active === "course") {
-      return CERTS.filter(
-        (c) =>
-          c.category === "course" &&
-          !(c.tags?.includes("hackathon")) &&
-          !(c.tags?.includes("award"))
-      );
-    }
-
-    if (active === "hackathon") {
-      return CERTS.filter((c) => c.tags?.includes("hackathon"));
-    }
-
-    // award
-    return CERTS.filter((c) => c.tags?.includes("award"));
+    return CERTS.filter((c) => c.category === active);
   }, [active]);
 
   return (

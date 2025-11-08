@@ -1,5 +1,4 @@
-export type CertCategory = "license" | "course";
-export type CertTag = "hackathon" | "award";
+export type CertCategory = "license" | "course" | "award" | "hackathon";
 
 export type Certificate = {
   id: string;
@@ -7,19 +6,16 @@ export type Certificate = {
   issuer: string;
 
   issueDate: string;
-
   startDate?: string;
   endDate?: string;
-
   expireDate?: string;
   credentialId?: string;
 
   logo?: string;
   thumb?: string;
-
   skills?: string[];
+
   category: CertCategory;
-  tags?: CertTag[];
   iconKey?: string;
 
   previewUrl?: string;
