@@ -2,7 +2,6 @@ import React from "react";
 import { CERTS } from "../assets/certs";
 import type { CertCategory, CertTag, Certificate } from "../types/cert";
 import CertificateCard from "../components/CertificateCard";
-import ImageLightbox from "../components/ImageLightbox";
 import MediaLightbox from "../components/MediaLightbox";
 
 type ChipKey = "all" | CertCategory | CertTag;
