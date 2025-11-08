@@ -5,10 +5,14 @@ export type Certificate = {
   id: string;
   title: string;
   issuer: string;
+
   issueDate: string;
+
+  startDate?: string;
+  endDate?: string;
+
   expireDate?: string;
   credentialId?: string;
-  verifyUrl?: string;
 
   logo?: string;
   thumb?: string;
@@ -17,5 +21,6 @@ export type Certificate = {
   category: CertCategory;
   tags?: CertTag[];
   iconKey?: string;
+
   previewUrl?: string;
 };

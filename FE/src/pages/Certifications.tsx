@@ -3,6 +3,7 @@ import { CERTS } from "../assets/certs";
 import type { CertCategory, CertTag, Certificate } from "../types/cert";
 import CertificateCard from "../components/CertificateCard";
 import ImageLightbox from "../components/ImageLightbox";
+import MediaLightbox from "../components/MediaLightbox";
 
 type ChipKey = "all" | CertCategory | CertTag;
 
@@ -23,13 +24,11 @@ export default function Certifications() {
     if (active === "license" || active === "course") {
       return CERTS.filter((c) => c.category === active);
     }
-    // 해커톤/수상
     return CERTS.filter((c) => c.tags?.includes(active as CertTag));
   }, [active]);
 
   return (
     <div className="min-h-screen bg-black text-white">
-      {/* 상단 설명 제거, 필터 칩만 */}
       <section className="mx-auto max-w-6xl px-4 pt-6 md:pt-8">
         <div className="flex flex-wrap gap-2">
           {CHIPS.map((c) => (
@@ -60,7 +59,11 @@ export default function Certifications() {
       </section>
 
       {preview?.previewUrl && (
-        <ImageLightbox src={preview.previewUrl} alt={preview.title} onClose={() => setPreview(null)} />
+        <MediaLightbox
+          src={preview.previewUrl}
+          alt={preview.title}
+          onClose={() => setPreview(null)}
+        />
       )}
     </div>
   );
