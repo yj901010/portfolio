@@ -9,7 +9,22 @@ html, body, #root {
   color: #fff;
 }
 
-/* Scrollbar helpers for horizontal rows */
 .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 .no-scrollbar::-webkit-scrollbar { display: none; }
 
+html { scroll-behavior: smooth; }
+
+.code-scroll::-webkit-scrollbar { height: 10px; width: 10px; }
+.code-scroll::-webkit-scrollbar-thumb {
+  background: rgba(255,255,255,.28);
+  border-radius: 8px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+.code-scroll::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,.4); }
+.code-scroll::-webkit-scrollbar-track { background: transparent; }
+
+.mask-fade-b {
+  -webkit-mask-image: linear-gradient(to bottom, #000 78%, rgba(0,0,0,0));
+          mask-image: linear-gradient(to bottom, #000 78%, rgba(0,0,0,0));
+}

@@ -1,407 +1,269 @@
-export type ADR = {
-  option: string;
-  pros: string;
-  cons: string;
-  reason: string;
-};
+import type { ProjectDetailData } from "../types/project";
 
-export type DeepDive = {
-  title: string;
-  bullets: string[];
-};
-
-export type Intervention = {
-  date: string;
-  label: string;
-  description?: string;
-};
-
-export type CaseStudy = {
-  problemGoals: string[]; // 문제/목표
-  constraints: string[];  // 제약
-  adrs: ADR[];            // 대안표
-  architecture?: {        // 아키텍처/플로우
-    diagram?: string;     // public/diagrams/<slug>.png
-    steps: string[];      // 핵심 경로 bullet
-  };
-  deepDives: DeepDive[];  // 구현 딥다이브 2~3개
-  outcome?: {             // 결과 요약 숫자
-    p95?: string;
-    tps?: string;
-    error?: string;
-    cost?: string;
-  };
-  risksNext: string[];    // 리스크/한계/Next
-};
-
-export type Project = {
-  slug: string;
-  title: string;
-  period?: string;
-  summary: string;
-  stack: string[];
-  bullets?: string[];
-  links?: { github?: string; demo?: string; docs?: string };
-  hasMetrics?: boolean;
-  cover?: string;
-  caseStudy?: CaseStudy;
-  interventions?: Intervention[];
-
-  userTesting?: {
-    summary?: string;
-    items: Array<{
-      id: string;
-      title: string;
-      priority: "Critical" | "Major" | "Minor";
-      status: "Fixed" | "In Progress" | "Planned";
-      summary: string;
-      steps?: string[];
-      change?: string[];
-      attachments?: { before?: string; after?: string };
-      date?: string;
-    }>;
-  };
-};
-
-export const PROJECTS: Project[] = [
+export const PROJECTS: ProjectDetailData[] = [
   {
-    slug: "myfairy",
-    title: "MyFairy — 인터랙티브 스토리텔링",
-    period: "2025 (Samsung SW AI Academy, WebRTC 6인 팀)",
-    stack: [
-      "React",
-      "Canvas",
-      "OpenVidu/WebRTC",
-      "Spring Boot",
-      "MySQL",
-      "Redis",
-      "FastAPI(AI)",
-      "SD ControlNet",
-      "LLM",
-      "Docker",
-      "Nginx",
-      "Jenkins",
+    slug: "tlatfarm",
+    name: "TlatFarm (스마트팜 · NDVI/AI 분석)",
+    period: "2024.09 ~ 2025.02",
+    teamSize: 5,
+    teamComposition: "BE 1 · FE 1 · AI 1 · DevOps 1 · HW 1",
+    roles: ["NDVI", "GCP", "Spring Boot"],
+    thumb: "/covers/tlat-farm.jpg",
+    overview:
+      "드론 NDVI/RGB 촬영 → AI 분석 → 농가 단위 대시보드/알림까지 제공하는 스마트팜 플랫폼.",
+    problem:
+      "원본 대용량 이미지와 분석 결과를 일관되게 매핑하고 시계열로 관리할 파이프라인 필요.",
+    scenarios: [
+      { title: "1) 촬영/업로드", caption: "GCS 업로드 → AI 웹훅 수신 → 엔티티 매핑" },
     ],
-    summary:
-      "아이가 주도해 친구와 동화를 만드는 협업 서비스. 실시간 그리기, 낙서→동화풍 보정, 스토리 보조까지 하나로.",
-    bullets: [
-      "Nginx 단일 게이트웨이(TLS 종료/정적 캐싱/프록시/WS 업그레이드)",
-      "Gallery–Like 복합키 모델링, 좋아요 토글 + 정렬/필터/페이지네이션",
-      "Zustand 무한 스크롤 & 지연 시 AI 재요청",
-      "Jenkins CI/CD + Docker 멀티스테이지",
-    ],
-    caseStudy: {
-      problemGoals: [
-        "아이 주도 실시간 협업 그리기 + 동화풍 보정으로 ‘창작 참여도’ 향상",
-        "실시간 알림/협업의 끊김 최소화(연결 안정성·지연 체감 개선)",
-        "웹/모바일 혼합 디바이스에서도 일관된 UX 제공(캔버스 퍼포먼스)",
-      ],
-      constraints: [
-        "브라우저 Canvas 성능과 단말 스펙 편차가 큼",
-        "오픈소스 OpenVidu CE의 배포/운영 한계",
-        "소규모 팀, 짧은 기간(6주) — 빠른 통합/배포 필요",
-      ],
-      adrs: [
-        {
-          option: "캔버스 단일 레이어 vs 2-레이어(base/overlay) 구조",
-          pros: "2-레이어는 텍스트/스티커 보존·합성 제어 용이",
-          cons: "레이어 동기화/내보내기(merge) 핸들링 필요",
-          reason: "텍스트 유실 이슈 방지 및 성능/보전성 트레이드오프 최적",
-        },
-        {
-          option: "OpenVidu CE vs 직접 WebRTC 시그널링",
-          pros: "OpenVidu는 시나리오·토큰 발급 플로우가 성숙",
-          cons: "커스터마이즈 제약, 리소스 요구",
-          reason: "TTM 우선, 운영 복잡도↓ — OpenVidu 채택",
-        },
-        {
-          option: "단일 게이트웨이(Nginx) vs 개별 서비스 노출",
-          pros: "TLS/정적 캐시/라우팅 일원화, 배포·운영 단순화",
-          cons: "프록시 계층 추가에 따른 설정 복잡성",
-          reason: "소규모 팀 운영성 최적화 — Nginx 단일 게이트웨이 채택",
-        },
-      ],
-      architecture: {
-        diagram: "/diagrams/myfairy.png",
-        steps: [
-          "FE: React Canvas 협업 UI ↔ OpenVidu(WebRTC) 스트림",
-          "AI: FastAPI → SD ControlNet/Scribble로 보정",
-          "BE: Spring Boot API, JPA(Gallery/Like), Redis 캐시",
-          "Nginx: TLS 종료, /api·/api/ai·/ws 프록시, 정적 캐시",
-          "Jenkins: GitLab Webhook → Docker 빌드/푸시 → 원격 compose 배포",
-        ],
-      },
-      deepDives: [
-        {
-          title: "Nginx 게이트웨이 설계",
-          bullets: [
-            "http→https 리다이렉트, server_tokens off, 캐시 무효화(해시 산출물)",
-            "/ws 업그레이드 헤더 정리, CORS/Origin 허용 범위 최소",
-          ],
-        },
-        {
-          title: "JPA — Gallery/Like(@IdClass)",
-          bullets: [
-            "복합키로 유일성·멱등성 확보, 동시 토글 레이스 완화",
-            "정렬(최신/인기)+hasOrigin 필터, 페이지네이션",
-          ],
-        },
-        {
-          title: "CI/CD — Jenkins on Docker",
-          bullets: [
-            "레지스트리 푸시, SSH 원격 서버 compose 배포 자동화",
-            "브랜치 분기(be/ai), 자격증명 안전 주입",
-          ],
-        },
-      ],
-      outcome: {
-        p95: "—", // 실제 수치 없으면 비워둬도 됨
-        tps: "—",
-        error: "갤러리 상세 오류율 2.6% → 0.8% (팀 테스트 기준)",
-        cost: "배포 리드타임 15m → 4m",
-      },
-      risksNext: [
-        "OpenVidu 커스터마이즈 한계 → 대안(LiveKit/mediasoup) 탐색",
-        "캔버스 성능: 오프스크린 캔버스·WebGL 도입 검토",
-      ],
-    },
-    userTesting: {
-      summary:
-        "삼성 임직원 8명 대상, 태블릿/노트북 혼합 30분 세션 — 실사용 시나리오 기반 피드백을 즉시 반영.",
-      items: [
-        {
-          id: "UT-8",
-          title: "그림 생성 시 기존 글씨 사라짐",
-          priority: "Critical",
-          status: "Fixed",
-          summary: "이미지 생성 이후 페이지에 입력된 텍스트가 유실됨.",
-          steps: ["그림 구경 → 이미지 생성 실행", "기존 글씨가 사라짐(그림과 함께 보여야 함)"],
-          change: [
-            "Canvas 2-레이어(base/overlay) 구조로 분리",
-            "생성 완료 시 base만 교체, overlay(글씨) 유지",
-            "내보내기(export) 시에만 merge",
-          ],
-          attachments: {
-            before: "/images/ut/myfairy-8-before.png",
-            after: "/images/ut/myfairy-8-after.png",
-          },
-          date: "2025-11-04",
-        },
-        {
-          id: "UT-5",
-          title: "로딩 진행 상태 표시 추가",
-          priority: "Major",
-          status: "Fixed",
-          summary: "‘곧 화면이 나올 거예요’만 노출되어 대기 체감이 큼.",
-          steps: ["로딩 화면에서 진행률 파악 불가", "예상 남은 시간·취소 불가"],
-          change: [
-            "FastAPI → SSE(progress) 채널 도입, determinate 진행률 UI",
-            "SSE 실패 시 폴링 fallback",
-            "취소 버튼 및 indeterminate 모드 추가",
-          ],
-          attachments: { after: "/images/ut/myfairy-5-after.png" },
-          date: "2025-11-04",
-        },
-        {
-          id: "UT-7",
-          title: "그림 완료 상태 표시",
-          priority: "Major",
-          status: "Fixed",
-          summary: "누가 완료했는지/진행 중인지 확인 어려움.",
-          steps: ["협업 참여자 상태 구분 불가"],
-          change: [
-            "OpenVidu data channel로 READY_TOGGLE 브로드캐스트",
-            "참여자 목록에 ✅(완료)/⌛(진행) 표시",
-            "전원 완료 시 다음 단계 CTA 노출",
-          ],
-        },
-        {
-          id: "UT-3",
-          title: "조사(을/를 등) 자동 변환",
-          priority: "Major",
-          status: "Fixed",
-          summary: "받침 유무 상관없이 ‘를’만 표시되던 문제.",
-          steps: ["명사 받침 유무에 따라 을/를 자동 적용 필요"],
-          change: [
-            "한글 종성 판단 유틸 FE/BE 공통 모듈화",
-            "을/를·이/가·은/는·과/와까지 확대 지원",
-          ],
-        },
-        {
-          id: "UT-2",
-          title: "친구 신청 푸시 알림",
-          priority: "Major",
-          status: "Fixed",
-          summary: "푸시 미전송으로 신규 요청 확인 지연.",
-          steps: ["친구 요청 발생 시 즉시 인지가 필요"],
-          change: [
-            "FCM 토큰 등록 API + NotificationService",
-            "FriendRequestCreated 이벤트 발생 시 FCM 전송",
-            "딥링크로 ‘받은 친구 신청’ 바로 이동",
-          ],
-        },
-        {
-          id: "UT-4",
-          title: "동화 만들기 시간 설정",
-          priority: "Major",
-          status: "Fixed",
-          summary: "5분 고정 — 사용자별 맞춤/무제한 옵션 필요.",
-          change: [
-            "무제한/3·5·10/사용자 지정 옵션",
-            "방장만 변경, 서버 타임스탬프 기준 동기화",
-            "만료 시 소프트락 + 연장 제안",
-          ],
-        },
-        {
-          id: "UT-6",
-          title: "펜 종류·두께 확장",
-          priority: "Major",
-          status: "Fixed",
-          summary: "펜 스타일 단일/두께 1단계라 표현 제약.",
-          change: [
-            "연필/마커/붓/형광펜 추가, 두께 5단계",
-            "최근 색상 5개, 오프스크린 캔버스 최적화",
-            "Undo/Redo 20단계",
-          ],
-        },
-        {
-          id: "UT-1",
-          title: "메인 메뉴 좌우 화살표",
-          priority: "Minor",
-          status: "Fixed",
-          summary: "화살표가 없어 메뉴 탐색이 불편.",
-          change: [
-            "캐러셀/섹션 네비 좌우 버튼 + 키보드/스와이프",
-            "접근성 라벨/포커스 링 추가",
-          ],
-        },
-      ],
-    },
+    architectureImg: "", erdImg: "",
+    techChips: ["Spring", "GCS", "AI Webhook"],
+    techWhy: [],
+    code: { dockerfile: "", jenkins: "" },
+    contributions: [],
+    issues: [],
+    kpis: [],
   },
-
+  {
+    slug: "sumsum-finder",
+    name: "숨숨파인더 (유실물 통합 관리)",
+    period: "2025.03 ~ 진행중",
+    teamSize: 6,
+    teamComposition: "BE 3 · FE 2 · AI 1",
+    roles: ["Kafka", "FastAPI", "Elasticsearch"],
+    thumb: "/covers/ssfinder.jpg",
+    overview:
+      "경찰청/대중교통 유실물 데이터를 통합 수집·검색·매칭하고 알림까지 제공하는 서비스.",
+    problem:
+      "기관별 데이터 포맷 상이·지연/중복 발생. 스트리밍 수집과 검색 인덱싱 자동화 필요.",
+    scenarios: [
+      { title: "1) 수집 파이프라인", caption: "Kafka 스트림 → 컨슈머 → ES/HDFS 적재" },
+    ],
+    architectureImg: "/projects/ssfinder/architecture.png", erdImg: "/projects/ssfinder/erd.png",
+    techChips: ["Kafka", "FastAPI", "ES", "MySQL"],
+    techWhy: [],
+    code: { dockerfile: "", jenkins: "" },
+    contributions: [],
+    issues: [],
+    kpis: [],
+  },
   {
     slug: "checkmate",
-    title: "Checkmate — 계약서 AI 요약 · 전자서명",
-    period: "2024.07–2025.06",
-    summary:
-      "Upstage OCR + LangChain 요약 · AES-GCM 2-of-2 키분할 · Dropbox Sign · STOMP 알림로 계약/서명 파이프라인 구축.",
-    stack: [
-      "Spring Boot",
-      "FastAPI",
-      "AWS S3/CloudFront",
-      "Redis",
-      "MySQL/MongoDB",
-      "WebSocket(STOMP)",
-      "Dropbox Sign",
-      "Upstage OCR",
+    name: "Checkmate (AI 계약 분석 · 전자서명)",
+    period: "2024.05 ~ 2024.08",
+    teamSize: 4,
+    teamComposition: "BE 2 · AI 1 · FE 1",
+    roles: ["Spring Boot", "FastAPI", "LangChain"],
+    thumb: "/covers/checkmate.jpg",
+    overview:
+      "계약서 업로드 시 조항 분해/요약/리스크 하이라이트 및 전자서명까지 지원하는 통합 플랫폼.",
+    problem:
+      "대량의 계약 검토가 느리고 휴먼 에러가 발생. 핵심 리스크를 빠르게 드러내는 자동화 필요.",
+    scenarios: [
+      { title: "1) 계약 업로드", caption: "PDF 업로드 → 청크/임베딩 → 벡터 검색 준비" },
     ],
-    bullets: [
-      "대용량 스트리밍 복호(AES-GCM) · 키분할(XOR)로 보안 강화",
-      "실시간 상태 알림(WebSocket) · 리트라이/캐싱으로 지연 최적화",
+    architectureImg: "", erdImg: "",
+    techChips: ["Spring", "FastAPI", "Qdrant", "S3"],
+    techWhy: [],
+    code: { dockerfile: "", jenkins: "" },
+    contributions: [],
+    issues: [],
+    kpis: [],
+  },
+  {
+    slug: "my-fairy",
+    name: "My Fairy (마이 페어리)",
+    period: "2025.01.13 ~ 2025.02.21 (6주)",
+    teamSize: 6,
+    teamComposition: "BE 2 · FE 2 · AI 1 · DevOps 1",
+    roles: ["Backend", "DevOps", "Frontend"],
+    thumb: "/covers/myfairy.jpg",
+
+    overview:
+      "아이들이 능동적으로 참여해 창의력을 키울 수 있는 양방향 동화 창작 서비스를 목표로, 핵심 화면과 기본 흐름을 빠르게 검증한 프로토타입입니다.",
+    problem:
+      "현재 유아용 디지털 콘텐츠는 상호작용이 제한적이라 창의력 자극과 몰입도가 낮다는 문제에서 출발했습니다. 아이가 직접 참여하고 결과를 만들어내는 구조로 전환하는 것을 목표로 했습니다.",
+
+    scenarios: [
+      { title: "동화 선택", caption: "동화 선택", image: "/projects/myfairy/scenario1.png" },
+      { title: "방 생성", caption: "친구 초대 및 대기방", image: "/projects/myfairy/scenario2.png"  },
+      { title: "동화 요소 입력", caption: "동화 내용 완성하기", image: "/projects/myfairy/scenario3.png"  },
+      { title: "손그림 그리기", caption: "캔버스 스케치", image: "/projects/myfairy/scenario4.png"  },
+      { title: "완성 & 공유", caption: "나만의 동화책", image: "/projects/myfairy/scenario5.png"  },
     ],
-    links: { github: "https://github.com/yj901010" },
-    hasMetrics: true,
-    cover: "/covers/checkmate.jpg",
-    caseStudy: {
-      problemGoals: [
-        "다양 포맷(hwp/pdf/img) 계약서를 빠르고 신뢰성 있게 요약",
-        "p95 ≤ 1초, 실패율 ≤ 1%, 전자서명 실시간 알림",
-        "민감 파일 안전 저장(AES-GCM + 2-of-2 키분할), 악성코드 사전 차단",
-        "S3+CloudFront 캐시로 egress 비용 30% 절감",
-      ],
-      constraints: [
-        "입력 포맷/용량 편차 → OCR 품질/지연 변동",
-        "외부 OCR API SLA/쿼터 → 리트라이·캐시 필요",
-        "이기종 스택(Spring/FastAPI) + 소팀 운영 → 단순 배포 필요",
-        "실시간 알림(STOMP) 신뢰성/부하 제어",
-      ],
-      adrs: [
-        {
-          option: "앱단 AES-GCM + 2-of-2 키분할 vs S3 SSE-KMS",
-          pros: "세밀제어·감사, 스트리밍 복호",
-          cons: "키 관리 복잡",
-          reason: "보안/감사 요구 최우선",
-        },
-        {
-          option: "Dropbox Sign vs 자체 서명",
-          pros: "성숙 API·감사 대응, TTM↑",
-          cons: "과금/커스터마이즈 제약",
-          reason: "리드타임 우선",
-        },
-        {
-          option: "알림: Polling vs STOMP",
-          pros: "실시간/오버헤드↓",
-          cons: "연결/권한/부하 관리 필요",
-          reason: "UX·지연 목표 충족",
-        },
-      ],
-      architecture: {
-        diagram: "/diagrams/checkmate.png",
-        steps: [
-          "업로드 → ClamAV 검사 → AES-GCM 암호화 → S3",
-          "FastAPI → Upstage OCR → LangChain 요약",
-          "Spring → Dropbox Sign 요청/콜백",
-          "STOMP로 상태 알림 푸시",
-          "Redis 캐시(요약/외부 API)로 지연·비용 절감",
+
+    architectureImg: "/projects/myfairy/architecture.png",
+    erdImg: "/projects/myfairy/erd.png",
+
+    techChips: ["Java", "Spring Boot", "MySQL", "Redis", "Docker & Compose", "Jenkins", "Nginx", "OpenVidu", "React", "FastAPI"],
+    techWhy: [
+      {
+        title: "Jenkins — 왜?",
+        bullets: [
+          "자가 호스팅 환경에서 SSH/Compose 오케스트레이션이 간단함",
+          "웹훅으로 브랜치 기준 자동 빌드, 단계별 게이트 설정 용이",
+          "Blue/Green·헬스체크·롤백 스텝을 Groovy로 명시적 관리",
         ],
       },
-      deepDives: [
-        {
-          title: "AES-GCM + 2-of-2 키분할",
-          bullets: [
-            "256bit DEK 생성 → XOR 분할(MySQL/MongoDB 분산 저장)",
-            "CipherInputStream 스트리밍 복호(대용량 안정)",
-            "키 회전/감사 로그 표준화",
-          ],
-        },
-        {
-          title: "STOMP 알림 신뢰성",
-          bullets: [
-            "CONNECT 인증 + 토픽 권한 캐시(1m TTL)",
-            "Heartbeat 10s/10s, 세션당 구독 제한",
-            "표준 ERROR(JSON) 규격화",
-          ],
-        },
-        {
-          title: "외부 API 리트라이 + 캐시",
-          bullets: [
-            "지수 백오프 + idempotency key",
-            "Redis TTL 1h(빈응답 캐시 제외)",
-            "캐시 히트 시 p95 급감",
-          ],
-        },
-      ],
-      outcome: {
-        p95: "≈ 1.8s → 0.95s",
-        tps: "≈ 420 → 720 req/s",
-        error: "≈ 2.1% → 0.6%",
-        cost: "CDN egress 30%↓",
+      {
+        title: "OpenVidu — 왜?",
+        bullets: [
+          "SFU 기반으로 다자간 통화 지연·대역폭 관리가 유리",
+          "토큰 발급/권한 모델 단순 → 백엔드 연동 부담↓",
+          "대안(WebRTC raw, Twilio) 대비 구축 속도/비용 우위",
+        ],
       },
-      risksNext: [
-        "OCR 품질 편차 → 후처리 룰/사전 보강",
-        "서명 벤더 종속 → 멀티 벤더 어댑터",
-        "키 관리 복잡 → 회전 자동화·운영 가이드",
-      ],
+      {
+        title: "Docker Compose — 왜?",
+        bullets: [
+          "초기 단일 노드 운영에서 K8s 대비 학습·운영 비용 최소화",
+          "서비스 의존성/환경변수(.env)/볼륨 관리가 직관적",
+          "프로파일로 Blue/Green 전환 및 부분 재배포가 쉬움",
+        ],
+      },
+    ],
+
+    code: {
+      dockerfile: `# syntax=docker/dockerfile:1
+FROM node:20-alpine AS builder
+WORKDIR /app
+COPY package*.json ./
+RUN npm ci
+COPY . .
+RUN npm run build
+
+FROM nginx:alpine
+COPY --from=builder /app/dist /usr/share/nginx/html
+EXPOSE 80
+HEALTHCHECK --interval=30s --timeout=3s CMD wget -qO- http://localhost/ || exit 1
+CMD ["nginx", "-g", "daemon off;"]`.trim(),
+      jenkins: `
+pipeline {
+  agent any
+  environment {
+    REMOTE_SERVER = 'ubuntu@i12c206.p.ssafy.io'
+    REMOTE_DIR = '/home/ubuntu/MyFairy'
+  }
+  stages {
+    stage('Checkout Repository') {
+      steps {
+        git branch: 'deploy', credentialsId: 'GIT-LAB-TEST', url: 'https://lab.ssafy.com/s12-webmobile1-sub1/S12P11C206.git'
+      }
+    }
+    stage('Build Frontend & Extract dist') {
+      steps {
+        script {
+          sh """
+            ssh -o StrictHostKeyChecking=no \${REMOTE_SERVER} "cd \${REMOTE_DIR} && docker build -t frontend-builder ./frontend"
+          """
+          sh """
+            ssh -o StrictHostKeyChecking=no \${REMOTE_SERVER} "cd \${REMOTE_DIR} && docker create --name temp-frontend frontend-builder"
+          """
+          sh """
+            ssh -o StrictHostKeyChecking=no \${REMOTE_SERVER} "docker cp temp-frontend:/app/dist \${REMOTE_DIR}/frontend/"
+          """
+          sh """
+            ssh -o StrictHostKeyChecking=no \${REMOTE_SERVER} "cd \${REMOTE_DIR} && docker rm temp-frontend"
+          """
+        }
+      }
+    }
+    stage('Deploy Blue-Green (Backend & AI)') {
+      steps {
+        script {
+          def backendBlueStatus = sh(
+            script: "ssh -o StrictHostKeyChecking=no \${REMOTE_SERVER} \\"docker ps --filter 'name=backend-blue' --format '{{.Names}}'\\"",
+            returnStdout: true
+          ).trim()
+          def activeVersion = backendBlueStatus ? 'blue' : 'green'
+          def newVersion = (activeVersion == 'blue') ? 'green' : 'blue'
+          echo "현재 활성: \${activeVersion} → 새 버전: \${newVersion}"
+
+          if (newVersion == 'green') {
+            sh """ssh -o StrictHostKeyChecking=no \${REMOTE_SERVER} "sed -i '/ai-green:/,/expose:/ { s/^#\\\\s*ports:/  ports:/ }' \${REMOTE_DIR}/docker-compose.yml" """
+            sh """ssh -o StrictHostKeyChecking=no \${REMOTE_SERVER} "sed -i '/ai-blue:/,/expose:/ { s/^[[:space:]]*ports:/# ports:/ }' \${REMOTE_DIR}/docker-compose.yml" """
+          } else {
+            sh """ssh -o StrictHostKeyChecking=no \${REMOTE_SERVER} "sed -i '/ai-blue:/,/expose:/ { s/^#\\\\s*ports:/  ports:/ }' \${REMOTE_DIR}/docker-compose.yml" """
+            sh """ssh -o StrictHostKeyChecking=no \${REMOTE_SERVER} "sed -i '/ai-green:/,/expose:/ { s/^[[:space:]]*ports:/# ports:/ }' \${REMOTE_DIR}/docker-compose.yml" """
+          }
+
+          sh """ssh -o StrictHostKeyChecking=no \${REMOTE_SERVER} "cd \${REMOTE_DIR} && docker-compose --env-file .env up -d --no-deps --build backend-\${newVersion} ai-\${newVersion}" """
+
+          sh """ssh -o StrictHostKeyChecking=no \${REMOTE_SERVER} "docker network inspect app-network || docker network create app-network" """
+
+          def maxAttempts = 10
+          def attempt = 1
+          def backendHealthy = false
+          def aiHealthy = false
+          while (attempt <= maxAttempts && (!backendHealthy || !aiHealthy)) {
+            echo "헬스체크 \${attempt}…"
+            backendHealthy = (sh(
+              script: "ssh -o StrictHostKeyChecking=no \${REMOTE_SERVER} \\"docker run --rm --network app-network curlimages/curl -s -o /dev/null -w '%{http_code}' http://backend-\${newVersion}:8080/health\\"",
+              returnStdout: true
+            ).trim() == "200")
+            aiHealthy = (sh(
+              script: "ssh -o StrictHostKeyChecking=no \${REMOTE_SERVER} 'curl -s -o /dev/null -w \"%{http_code}\" http://localhost:8000/health'",
+              returnStdout: true
+            ).trim() == "200")
+            if (backendHealthy && aiHealthy) break
+            sleep 10; attempt++
+          }
+          if (!backendHealthy || !aiHealthy) { error("신규 버전 헬스체크 실패") }
+
+          if (newVersion == 'green') {
+            sh """ssh -o StrictHostKeyChecking=no \${REMOTE_SERVER} "sed -i 's/server backend-blue:8080;/# server backend-blue:8080;/; s/# server backend-green:8080;/server backend-green:8080;/' \${REMOTE_DIR}/nginx/conf.d/ssl-server.conf" """
+          } else {
+            sh """ssh -o StrictHostKeyChecking=no \${REMOTE_SERVER} "sed -i 's/server backend-green:8080;/# server backend-green:8080;/; s/# server backend-blue:8080;/server backend-blue:8080;/' \${REMOTE_DIR}/nginx/conf.d/ssl-server.conf" """
+          }
+          sh "ssh -o StrictHostKeyChecking=no \${REMOTE_SERVER} 'sudo nginx -s reload'"
+          sh """ssh -o StrictHostKeyChecking=no \${REMOTE_SERVER} "docker-compose --env-file .env rm -f backend-\${activeVersion} ai-\${activeVersion}" """
+        }
+      }
+    }
+  }
+  post { success { echo "배포 성공" } failure { echo "배포 실패" } }
+}
+`.trim(),
     },
-    interventions: [
+
+    contributions: [
+      { no: "01", title: "배포 파이프라인", items: ["멀티스테이지 Dockerfile", "Jenkins file 구성", "Nginx 리로드 구성"] },
+      { no: "02", title: "백엔드 간단 RESTful API", items: ["Story CRUD", "JPA 구성"] },
+      { no: "03", title: "프론트 UI/상태/연동(간단)", items: ["화면 상태 흐름 구성", "Redux 상태관리", "컴포넌트 단위 API 연결"] },
+    ],
+
+    issues: [
       {
-        date: "2025-05-30",
-        label: "Redis 캐싱+리트라이 도입",
-        description:
-          "OCR/요약 결과 캐시 & idempotency → p95↓, 실패율↓",
+        id: "nginx-443",
+        severity: "CRITICAL",
+        title: "OpenVidu & Nginx 443 포트 충돌",
+        detail: {
+          problem: "OpenVidu가 443을 선점해 메인 Nginx의 외부 HTTPS 제공 불가.",
+          cause: "OV 기본 배포가 80/443을 점유하는 구조.",
+          fix: "OV 내부 포트 이관 + 메인 Nginx가 SSL 담당하도록 재설계.",
+        },
       },
       {
-        date: "2025-06-03",
-        label: "STOMP 튜닝",
-        description:
-          "Heartbeat/브로드캐스트 최적화 → TPS↑, 에러↓",
+        id: "docker-build-slow",
+        severity: "MAJOR",
+        title: "Docker 빌드 속도 저하",
+        detail: {
+          problem: "빌드/배포 리드타임 과도.",
+          cause: "캐시 미활용, 레이어 과다, 의존성 설치 중복.",
+          fix: "멀티스테이지 · 캐시 최적화 · 레이어 분리.",
+        },
       },
-      {
-        date: "2025-06-05",
-        label: "Streaming 복호 안정화",
-        description:
-          "대용량 파일 경로 병목 제거 → p95 변동성↓",
-      },
+    ],
+
+    kpis: [
+      { label: "AI 추론 대기시간 단축", value: "61.9%", note: "21s → 8s" },
+      { label: "배포 리드타임 감소", value: "33%", note: "파이프라인 최적화" },
+      { label: "유저 테스트", value: "TESTED", note: "삼성 임직원 유저테스트 완료" },
+      { label: "이미지 경량화", value: "40%", note: "멀티스테이지 빌드" },
     ],
   },
 ];
+
+export function getProjectBySlug(slug: string) {
+  return PROJECTS.find((p) => p.slug === slug);
+}
