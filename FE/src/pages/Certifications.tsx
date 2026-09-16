@@ -1,63 +1,102 @@
-import React from "react";
+import { useState } from "react";
 import { CERTS } from "../assets/certs";
 import type { CertCategory, Certificate } from "../types/cert";
 import CertificateCard from "../components/CertificateCard";
 import MediaLightbox from "../components/MediaLightbox";
 
-type ChipKey = "all" | CertCategory;
-
-const CHIPS: Array<{ key: ChipKey; label: string }> = [
-  { key: "all",        label: "전체" },
-  { key: "license",    label: "자격증" },
-  { key: "course",     label: "수료·교육" },
-  { key: "hackathon",  label: "해커톤" },
-  { key: "award",      label: "수상" },
+const GROUPS: { key: CertCategory; label: string; description: string }[] = [
+  {
+    key: "license",
+    label: "자격증",
+    description: "소프트웨어와 데이터에 관한 자격",
+  },
+  {
+    key: "course",
+    label: "교육·수료",
+    description: "학습하고, 직접 만들어본 과정",
+  },
+  { key: "award", label: "수상", description: "프로젝트로 함께 이룬 성과" },
+  {
+    key: "hackathon",
+    label: "해커톤",
+    description: "제한된 시간 안에 도전한 기록",
+  },
 ];
+const groups = GROUPS.map((group) => ({
+  ...group,
+  items: CERTS.filter((c) => c.category === group.key).sort((a, b) =>
+    b.issueDate.localeCompare(a.issueDate),
+  ),
+})).filter((group) => group.items.length);
 
 export default function Certifications() {
-  const [active, setActive] = React.useState<ChipKey>("all");
-  const [preview, setPreview] = React.useState<Certificate | null>(null);
-
-  const list = React.useMemo(() => {
-    if (active === "all") return CERTS;
-    return CERTS.filter((c) => c.category === active);
-  }, [active]);
-
+  const [active, setActive] = useState<"all" | CertCategory>("all");
+  const [preview, setPreview] = useState<Certificate | null>(null);
+  const visible = groups.filter(
+    (group) => active === "all" || group.key === active,
+  );
+  const count = visible.reduce((total, group) => total + group.items.length, 0);
   return (
-    <div className="min-h-screen bg-black text-white">
-      <section className="mx-auto max-w-6xl px-4 pt-14 md:pt-16 lg:pt-20">
-        <div className="mt-2 md:mt-4 flex flex-wrap gap-2">
-          {CHIPS.map((c) => (
+    <div className="nf-records-page">
+      <header className="nf-records-header">
+        <p className="nf-records-eyebrow">이영재의 기록</p>
+        <h1>자격·수료·수상</h1>
+        <p>배운 것과 이룬 것, 그동안의 기록을 모았습니다.</p>
+      </header>
+      <div className="nf-records-filterbar">
+        <div className="nf-records-filters" role="group" aria-label="기록 분류">
+          <button
+            aria-pressed={active === "all"}
+            onClick={() => setActive("all")}
+          >
+            전체 <span>{CERTS.length}</span>
+          </button>
+          {groups.map((group) => (
             <button
-              key={c.key}
-              onClick={() => setActive(c.key)}
-              className={[
-                "px-3 py-1.5 text-sm rounded-full",
-                active === c.key ? "bg-white text-black" : "bg-white/10 hover:bg-white/15",
-              ].join(" ")}
+              key={group.key}
+              aria-pressed={active === group.key}
+              onClick={() => setActive(group.key)}
             >
-              {c.label}
+              {group.label} <span>{group.items.length}</span>
             </button>
           ))}
         </div>
-      </section>
-
-      <section className="mx-auto max-w-6xl px-4 pb-16">
-        {list.length === 0 ? (
-          <p className="mt-10 text-white/60">표시할 항목이 없습니다.</p>
-        ) : (
-          <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-            {list.map((c) => (
-              <CertificateCard key={c.id} c={c} onPreview={setPreview} />
-            ))}
-          </div>
-        )}
-      </section>
-
+        <span className="nf-records-count" role="status">
+          {count}개의 기록
+        </span>
+      </div>
+      <div className="nf-records-sections">
+        {visible.map((group) => (
+          <section
+            key={group.key}
+            className="nf-records-section"
+            aria-labelledby={`records-${group.key}`}
+          >
+            <header>
+              <h2 id={`records-${group.key}`}>{group.label}</h2>
+              <p>{group.description}</p>
+            </header>
+            <ol>
+              {group.items.map((c, index) => (
+                <li key={c.id}>
+                  <CertificateCard
+                    c={c}
+                    index={index + 1}
+                    onPreview={setPreview}
+                  />
+                </li>
+              ))}
+            </ol>
+          </section>
+        ))}
+      </div>
       {preview?.previewUrl && (
         <MediaLightbox
+          key={preview.id}
           src={preview.previewUrl}
+          previewImageSrc={preview.previewImageUrl}
           alt={preview.title}
+          description={`${preview.issuer} · ${preview.category === "license" ? "취득" : preview.category === "course" ? "수료" : "수상"} ${preview.issueDate.replaceAll("-", ".")}`}
           onClose={() => setPreview(null)}
         />
       )}

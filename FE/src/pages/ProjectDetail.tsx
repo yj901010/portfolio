@@ -12,9 +12,9 @@ import KpiCard from "../components/KpiCard";
 export default function ProjectDetail() {
   const { slug = "" } = useParams();
   const p = getProjectBySlug(slug);
-  if (!p) return <Navigate to="/projects" replace />;
+  useEffect(() => { window.scrollTo({ top: 0, behavior: "auto" }); }, [slug]);
 
-  useEffect(() => { window.scrollTo({ top: 0, behavior: "auto" }); }, []);
+  if (!p) return <Navigate to="/projects" replace />;
 
   return (
     <div className="min-h-screen bg-[#0b0b0b] text-white">

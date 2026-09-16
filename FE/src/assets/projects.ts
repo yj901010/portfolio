@@ -4,10 +4,10 @@ export const PROJECTS: ProjectDetailData[] = [
   {
     slug: "tlatfarm",
     name: "TlatFarm (스마트팜 · NDVI/AI 분석)",
-    period: "2024.09 ~ 2025.02",
+    period: "2025.08 ~ 2026.02 (참여 기간)",
     teamSize: 5,
     teamComposition: "BE 1 · FE 1 · AI 1 · DevOps 1 · HW 1",
-    roles: ["NDVI", "GCP", "Spring Boot"],
+    roles: ["백엔드 개발", "GCP 인프라"],
     thumb: "/covers/tlat-farm.jpg",
     overview:
       "드론 NDVI/RGB 촬영 → AI 분석 → 농가 단위 대시보드/알림까지 제공하는 스마트팜 플랫폼.",
@@ -17,7 +17,7 @@ export const PROJECTS: ProjectDetailData[] = [
       { title: "1) 촬영/업로드", caption: "GCS 업로드 → AI 웹훅 수신 → 엔티티 매핑" },
     ],
     architectureImg: "", erdImg: "",
-    techChips: ["Spring", "GCS", "AI Webhook"],
+    techChips: ["Spring Boot", "Pub/Sub", "Cloud Tasks", "Cloud Run", "Cloud Build", "BigQuery"],
     techWhy: [],
     code: { dockerfile: "", jenkins: "" },
     contributions: [],
@@ -202,7 +202,7 @@ pipeline {
               returnStdout: true
             ).trim() == "200")
             aiHealthy = (sh(
-              script: "ssh -o StrictHostKeyChecking=no \${REMOTE_SERVER} 'curl -s -o /dev/null -w \"%{http_code}\" http://localhost:8000/health'",
+              script: "ssh -o StrictHostKeyChecking=no \${REMOTE_SERVER} 'curl -s -o /dev/null -w "%{http_code}" http://localhost:8000/health'",
               returnStdout: true
             ).trim() == "200")
             if (backendHealthy && aiHealthy) break

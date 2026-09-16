@@ -1,143 +1,142 @@
-import React from "react";
-import { Link, NavLink, useNavigate } from "react-router-dom";
+import { useEffect, useRef, useState } from "react";
+import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
+import { ChevronDown, Search, X } from "lucide-react";
 import { useScrolledHeader } from "../hooks/useScrolledHeader";
 import type { Profile } from "../types/profile";
-import { getProfileById } from "../assets/profiles";
 
-type Props = {
-  profile?: Profile;
-};
-
-export default function AppNav({ profile }: Props) {
-  const scrolled = useScrolledHeader(20);
-  const nav = useNavigate();
-
-  const profileId =
-    profile?.id ||
-    (typeof window !== "undefined" && localStorage.getItem("profileId")) ||
-    "leeyj";
-
-  const effectiveProfile = profile ?? getProfileById(profileId);
-  const homeTo = `/portfolio/${profileId}`;
-
-  const linkCx =
-    "px-3 py-2 text-sm rounded hover:text-white focus:outline-none focus:ring focus:ring-white/20";
-  const activeCx = "text-white font-semibold";
-  const idleCx = "text-white/80";
-
-  const [open, setOpen] = React.useState(false);
-  const popref = React.useRef<HTMLDivElement>(null);
-  React.useEffect(() => {
-    const onDoc = (e: MouseEvent) => {
-      if (!popref.current?.contains(e.target as Node)) setOpen(false);
+export default function AppNav({ profile }: { profile?: Profile }) {
+  const scrolled = useScrolledHeader(24);
+  const navigate = useNavigate();
+  const location = useLocation();
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [query, setQuery] = useState("");
+  const [menu, setMenu] = useState<"profile" | "mobile" | null>(null);
+  const header = useRef<HTMLElement>(null);
+  const searchInput = useRef<HTMLInputElement>(null);
+  const home = `/portfolio/${profile?.id ?? "leeyj"}`;
+  const links = [
+    { to: home, label: "홈" },
+    { to: "/projects", label: "프로젝트" },
+    { to: "/skills", label: "기술" },
+    { to: "/experience", label: "경험·경력" },
+    { to: "/certs", label: "자격·수료·수상" },
+  ];
+  useEffect(() => {
+    const outside = (event: PointerEvent) => {
+      if (!header.current?.contains(event.target as Node)) setMenu(null);
     };
-    document.addEventListener("mousedown", onDoc);
-    return () => document.removeEventListener("mousedown", onDoc);
+    const escape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setMenu(null);
+        setSearchOpen(false);
+      }
+    };
+    document.addEventListener("pointerdown", outside);
+    document.addEventListener("keydown", escape);
+    return () => {
+      document.removeEventListener("pointerdown", outside);
+      document.removeEventListener("keydown", escape);
+    };
   }, []);
-
+  useEffect(() => {
+    if (searchOpen) searchInput.current?.focus();
+  }, [searchOpen]);
+  const isHome = location.pathname.startsWith("/portfolio/");
   return (
     <header
-      role="banner"
-      className={[
-        "fixed inset-x-0 top-0 z-50 transition-colors",
-        scrolled
-          ? "bg-black/60 backdrop-blur border-b border-white/10"
-          : "bg-gradient-to-b from-black/70 to-transparent",
-      ].join(" ")}
+      ref={header}
+      className={`nf-header ${scrolled || !isHome ? "is-solid" : ""}`}
     >
-      <nav className="w-full h-14 px-5 flex items-center">
-        <div className="flex items-center gap-4">
-          <Link
-            to={homeTo}
-            className="text-white font-extrabold tracking-tight"
-            aria-label="Home"
-          >
-            LeeYeongjae
-          </Link>
-
-          <ul className="flex items-center gap-2">
-            <li>
-              <NavLink
-                to="/skills"
-                className={({ isActive }) => `${linkCx} ${isActive ? activeCx : idleCx}`}
-              >
-                기술
-              </NavLink>
-            </li>
-            <li>
-              <NavLink
-                to="/experience"
-                className={({ isActive }) => `${linkCx} ${isActive ? activeCx : idleCx}`}
-              >
-                경험·경력
-              </NavLink>
-            </li>
-            <li>
-              <NavLink
-                to="/certs"
-                className={({ isActive }) => `${linkCx} ${isActive ? activeCx : idleCx}`}
-              >
-                인증·수료
-              </NavLink>
-            </li>
-            <li>
-              <NavLink
-                to="/projects"
-                className={({ isActive }) => `${linkCx} ${isActive ? activeCx : idleCx}`}
-              >
-                프로젝트
-              </NavLink>
-            </li>
-            <li>
-              <NavLink
-                to="/contact"
-                className={({ isActive }) => `${linkCx} ${isActive ? activeCx : idleCx}`}
-              >
-                연락
-              </NavLink>
-            </li>
-          </ul>
-        </div>
-
-        <div className="ml-auto relative" ref={popref}>
-          <button
-            onClick={() => setOpen((v) => !v)}
-            className="w-8 h-8 grid place-items-center rounded bg-white/15 hover:bg-white/25 transition-colors"
-            aria-haspopup="menu"
-            aria-expanded={open}
-            title={effectiveProfile?.name ?? "프로필"}
-          >
-            <span className="text-xl leading-none select-none">
-              {effectiveProfile?.emoji ?? effectiveProfile?.name?.charAt(0) ?? "👤"}
-            </span>
-          </button>
-
-          {open && (
-            <div
-              role="menu"
-              className="absolute right-0 mt-2 w-48 rounded-md bg-black/90 ring-1 ring-white/10 shadow-lg p-1 text-sm"
+      <nav className="nf-navigation" aria-label="주 메뉴">
+        <Link className="nf-wordmark" to={home} aria-label="마이플릭스 홈">
+          MYFLIX
+        </Link>
+        <div className="nf-desktop-links">
+          {links.map((link) => (
+            <NavLink
+              key={link.to}
+              to={link.to}
+              className={({ isActive }) => (isActive ? "is-active" : "")}
             >
-              <button
-                className="w-full text-left px-3 py-2 rounded hover:bg-white/10"
-                onClick={() => {
-                  setOpen(false);
-                  nav(`/portfolio/${profileId}`);
-                }}
-              >
-                내 포트폴리오
-              </button>
-              <button
-                className="w-full text-left px-3 py-2 rounded hover:bg-white/10"
-                onClick={() => {
-                  setOpen(false);
-                  nav("/browse");
-                }}
-              >
-                프로필 선택
-              </button>
-            </div>
-          )}
+              {link.label}
+            </NavLink>
+          ))}
         </div>
+        <button
+          className="nf-mobile-menu"
+          aria-expanded={menu === "mobile"}
+          aria-controls="nf-mobile-navigation"
+          onClick={() => setMenu(menu === "mobile" ? null : "mobile")}
+        >
+          메뉴 <ChevronDown size={13} />
+        </button>
+        <div className="nf-nav-actions">
+          <form
+            className={`nf-search ${searchOpen ? "is-open" : ""}`}
+            role="search"
+            onSubmit={(event) => {
+              event.preventDefault();
+              navigate(`/search?q=${encodeURIComponent(query.trim())}`);
+              setMenu(null);
+            }}
+          >
+            <button
+              type="button"
+              className="nf-icon-button"
+              aria-label={searchOpen ? "검색 닫기" : "검색 열기"}
+              onClick={() => setSearchOpen(!searchOpen)}
+            >
+              {searchOpen ? <X size={22} /> : <Search size={24} />}
+            </button>
+            {searchOpen && (
+              <input
+                ref={searchInput}
+                aria-label="프로젝트 또는 기술 검색"
+                placeholder="프로젝트, 기술"
+                value={query}
+                onChange={(event) => setQuery(event.target.value)}
+              />
+            )}
+          </form>
+          <Link className="nf-contact-link" to="/contact">
+            연락하기
+          </Link>
+          <button
+            className="nf-profile-button"
+            aria-label="프로필 메뉴"
+            aria-expanded={menu === "profile"}
+            aria-controls="nf-profile-menu"
+            onClick={() => setMenu(menu === "profile" ? null : "profile")}
+          >
+            <img src="/info/leeyj.jpg" alt="" />
+            <ChevronDown size={15} />
+          </button>
+        </div>
+        {menu === "mobile" && (
+          <div
+            id="nf-mobile-navigation"
+            className="nf-dropdown nf-mobile-dropdown"
+          >
+            {links.map((link) => (
+              <Link key={link.to} to={link.to} onClick={() => setMenu(null)}>
+                {link.label}
+              </Link>
+            ))}
+          </div>
+        )}
+        {menu === "profile" && (
+          <div id="nf-profile-menu" className="nf-dropdown">
+            <span className="nf-menu-person">
+              <img src="/info/leeyj.jpg" alt="" /> 이영재 · Backend
+            </span>
+            <Link to="/contact" onClick={() => setMenu(null)}>
+              연락처와 소개
+            </Link>
+            <Link to="/browse" onClick={() => setMenu(null)}>
+              프로필 선택으로 돌아가기
+            </Link>
+          </div>
+        )}
       </nav>
     </header>
   );

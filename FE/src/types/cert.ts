@@ -19,4 +19,5 @@ export type Certificate = {
   iconKey?: string;
 
   previewUrl?: string;
+  previewImageUrl?: string;
 };

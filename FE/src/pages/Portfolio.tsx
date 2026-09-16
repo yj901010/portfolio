@@ -1,31 +1,78 @@
-import { useParams, Navigate } from "react-router-dom";
+import { useState } from "react";
+import { Link, Navigate, useParams } from "react-router-dom";
+import {
+  ArrowUpRight,
+  Code2,
+  GraduationCap,
+  BriefcaseBusiness,
+} from "lucide-react";
 import { getProfileById } from "../assets/profiles";
-import PortfolioNav from "../components/PortfolioNav";
+import { CATALOG, FEATURED_PROJECT, toMedia } from "../assets/catalog";
 import PortfolioHero from "../components/PortfolioHero";
+import ProjectPreview from "../components/ProjectPreview";
 import Row from "../components/Row";
-import { buildPortfolioContent } from "../assets/portfolioData";
 
 export default function Portfolio() {
-  const { profileId = "" } = useParams();
-  const profile = getProfileById(profileId);
-  if (!profile) return <Navigate to="/" replace />;
-
-  const { hero, rows } = buildPortfolioContent(profile);
-
+  const { profileId = "leeyj" } = useParams();
+  const [selected, setSelected] = useState<string | null>(null);
+  const project = CATALOG.find((p) => p.slug === selected);
+  if (!getProfileById(profileId)) return <Navigate to="/browse" replace />;
   return (
-    <div className="min-h-screen bg-black text-white">
-      <PortfolioNav profile={profile} />
-      <main className="pt-16">
-        <PortfolioHero item={hero} />
-        <div className="w-full space-y-10 px-4 md:px-10 mt-4 md:mt-6">
-          {rows.map((r) => (
-            <Row key={r.id} row={r} />
-          ))}
-          <footer className="mt-16 pb-20 text-center text-white/40 text-sm">
-            <p>© {new Date().getFullYear()} Myflix — Portfolio Browse UI</p>
-          </footer>
-        </div>
-      </main>
+    <div className="nf-home">
+      <PortfolioHero
+        item={toMedia(FEATURED_PROJECT)}
+        onMore={() => setSelected(FEATURED_PROJECT.slug)}
+      />
+      <div className="nf-home-rows">
+        <Row
+          row={{
+            id: "selected",
+            title: "이영재의 프로젝트",
+            items: CATALOG.map(toMedia),
+          }}
+          onSelect={setSelected}
+        />
+        <Row
+          row={{
+            id: "backend",
+            title: "백엔드와 데이터가 만나는 이야기",
+            items: CATALOG.filter((p) => p.slug !== "my-fairy").map(toMedia),
+          }}
+          onSelect={setSelected}
+        />
+        <section className="nf-explore">
+          <h2>개발자를 더 알아보는 방법</h2>
+          <div>
+            <Link to="/skills">
+              <Code2 size={26} />
+              <span>
+                <strong>기술 스택</strong>
+                <small>코드를 구성하는 도구들</small>
+              </span>
+              <ArrowUpRight size={20} />
+            </Link>
+            <Link to="/experience">
+              <BriefcaseBusiness size={26} />
+              <span>
+                <strong>경험과 경력</strong>
+                <small>지금까지 이어온 개발 이야기</small>
+              </span>
+              <ArrowUpRight size={20} />
+            </Link>
+            <Link to="/certs">
+              <GraduationCap size={26} />
+              <span>
+                <strong>자격·수료·수상</strong>
+                <small>배움과 성취의 기록</small>
+              </span>
+              <ArrowUpRight size={20} />
+            </Link>
+          </div>
+        </section>
+      </div>
+      {project && (
+        <ProjectPreview project={project} onClose={() => setSelected(null)} />
+      )}
     </div>
   );
 }

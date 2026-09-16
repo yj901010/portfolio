@@ -1,0 +1,435 @@
+.nf-records-page {
+  width: min(1160px, 92%);
+  margin: 0 auto;
+  padding: 122px 0 40px;
+}
+.nf-records-eyebrow {
+  color: #aaa;
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  margin: 0 0 12px;
+}
+.nf-records-header h1 {
+  font-size: clamp(30px, 3.3vw, 44px);
+  line-height: 1.25;
+  font-weight: 700;
+  letter-spacing: -0.045em;
+  margin: 0 0 17px;
+}
+.nf-records-header > p:last-child {
+  margin: 0;
+  color: #b3b3b3;
+  font-size: 16px;
+  line-height: 1.7;
+}
+.nf-records-filterbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  border-bottom: 1px solid #424242;
+  margin-top: 36px;
+}
+.nf-records-filters {
+  display: flex;
+  gap: 30px;
+}
+.nf-records-filters button {
+  color: #aaa;
+  background: transparent;
+  border: 0;
+  border-bottom: 3px solid transparent;
+  padding: 15px 0 16px;
+  font-size: 15px;
+  white-space: nowrap;
+}
+.nf-records-filters button:hover {
+  color: white;
+}
+.nf-records-filters button[aria-pressed="true"] {
+  color: white;
+  border-bottom-color: #e50914;
+  font-weight: 700;
+}
+.nf-records-filters button span {
+  margin-left: 5px;
+  font-size: 12px;
+  color: #999;
+  font-weight: 400;
+}
+.nf-records-count {
+  color: #999;
+  font-size: 12px;
+  white-space: nowrap;
+}
+.nf-records-section {
+  margin-top: 38px;
+}
+.nf-records-section > header {
+  display: flex;
+  align-items: baseline;
+  gap: 17px;
+  margin-bottom: 16px;
+}
+.nf-records-section h2 {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 600;
+  letter-spacing: -0.025em;
+}
+.nf-records-section > header p {
+  color: #999;
+  font-size: 13px;
+  margin: 0;
+}
+.nf-records-section ol {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+.nf-records-section li {
+  border-top: 1px solid #333;
+}
+.nf-records-section li:last-child {
+  border-bottom: 1px solid #333;
+}
+.nf-record {
+  display: grid;
+  grid-template-columns: 40px minmax(0, 1fr) 168px 114px;
+  align-items: center;
+  column-gap: 22px;
+  padding: 26px 12px;
+  transition: background-color 0.15s;
+}
+.nf-record:hover,
+.nf-record:focus-within {
+  background: #1d1d1d;
+}
+.nf-record-number {
+  color: #737373;
+  font-size: 25px;
+  font-variant-numeric: tabular-nums;
+  font-weight: 400;
+}
+.nf-record-content h3 {
+  margin: 0 0 7px;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.55;
+  overflow-wrap: anywhere;
+  letter-spacing: -0.025em;
+}
+.nf-record-issuer {
+  color: #b3b3b3;
+  font-size: 14px;
+  margin: 0;
+}
+.nf-record-skills {
+  color: #999;
+  font-size: 12px;
+  line-height: 1.9;
+  margin: 9px 0 0;
+}
+.nf-record-date {
+  font-size: 13px;
+  font-variant-numeric: tabular-nums;
+}
+.nf-record-date span {
+  color: #999;
+  font-size: 11px;
+}
+.nf-record-date p {
+  margin: 5px 0 0;
+  color: #d2d2d2;
+}
+.nf-record-open {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  background: transparent;
+  color: #ddd;
+  border: 1px solid #666;
+  border-radius: 2px;
+  padding: 9px 8px;
+  font-size: 12px;
+  white-space: nowrap;
+}
+.nf-record-open:hover {
+  background: white;
+  color: #141414;
+  border-color: white;
+}
+.nf-record-no-file {
+  color: #999;
+  font-size: 12px;
+  text-align: center;
+}
+.nf-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+.nf-evidence {
+  color: #f5f5f1;
+  border: 0;
+  padding: 0;
+  border-radius: 5px;
+  background: #181818;
+  width: min(1000px, calc(100% - 48px));
+  max-width: none;
+  max-height: calc(100dvh - 48px);
+  margin: auto;
+  overflow: auto;
+  box-shadow: 0 12px 60px #000a;
+}
+.nf-evidence::backdrop {
+  background: #000c;
+}
+.nf-evidence-inner {
+  width: 100%;
+}
+.nf-evidence-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  padding: 22px 26px;
+}
+.nf-evidence-header > div {
+  flex: 1;
+  min-width: 0;
+}
+.nf-evidence-header h2 {
+  font-size: 19px;
+  font-weight: 600;
+  line-height: 1.55;
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+.nf-evidence-header p {
+  color: #aaa;
+  font-size: 13px;
+  margin: 7px 0 0;
+}
+.nf-evidence-header button {
+  flex: 0 0 36px;
+  height: 36px;
+}
+.nf-evidence-viewer {
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-height: 230px;
+  padding: 16px;
+  background: #242424;
+}
+.nf-evidence-viewer img {
+  display: block;
+  max-width: 100%;
+  max-height: 64dvh;
+  object-fit: contain;
+}
+.nf-evidence-viewer iframe {
+  display: block;
+  border: 0;
+  width: 100%;
+  height: 62dvh;
+  background: white;
+}
+.nf-evidence-viewer > p {
+  text-align: center;
+  color: #ddd;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.nf-evidence-viewer .nf-evidence-loading {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  right: 12px;
+  z-index: 1;
+  background: #242424;
+  padding: 12px;
+}
+.nf-evidence-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 18px 26px;
+}
+.nf-evidence-footer p {
+  color: #aaa;
+  font-size: 12px;
+  margin: 0;
+  line-height: 1.7;
+}
+.nf-evidence-footer a {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: white;
+  font-size: 13px;
+  white-space: nowrap;
+  padding: 6px 0;
+}
+.nf-evidence-footer a:hover {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+@media (max-width: 800px) {
+  .nf-records-page {
+    width: 90%;
+    padding-top: 98px;
+  }
+  .nf-record {
+    grid-template-columns: 28px minmax(0, 1fr) 114px;
+    gap: 12px 18px;
+    padding: 22px 0;
+  }
+  .nf-record-content {
+    grid-row: span 2;
+  }
+  .nf-record-date {
+    grid-column: 3;
+    grid-row: 1;
+    align-self: end;
+  }
+  .nf-record-open,
+  .nf-record-no-file {
+    grid-column: 3;
+    grid-row: 2;
+    align-self: start;
+  }
+  .nf-record-number {
+    align-self: start;
+    font-size: 23px;
+    grid-row: span 2;
+  }
+  .nf-record-date p {
+    font-size: 11px;
+  }
+  .nf-records-section > header {
+    flex-wrap: wrap;
+    gap: 8px 16px;
+  }
+}
+@media (max-width: 540px) {
+  .nf-records-header > p:last-child {
+    font-size: 14px;
+  }
+  .nf-records-filterbar {
+    margin-top: 24px;
+  }
+  .nf-records-filters {
+    justify-content: space-between;
+    width: 100%;
+    gap: 10px;
+  }
+  .nf-records-filters button {
+    font-size: 13px;
+  }
+  .nf-records-filters button span {
+    margin-left: 3px;
+    font-size: 10px;
+  }
+  .nf-records-count {
+    display: none;
+  }
+  .nf-records-section {
+    margin-top: 29px;
+  }
+  .nf-records-section h2 {
+    font-size: 20px;
+  }
+  .nf-records-section > header p {
+    font-size: 11px;
+  }
+  .nf-record {
+    grid-template-columns: 25px minmax(0, 1fr) auto;
+    column-gap: 12px;
+    padding: 22px 0;
+  }
+  .nf-record-number {
+    font-size: 20px;
+  }
+  .nf-record-content {
+    grid-column: 2 / 4;
+    grid-row: 1;
+  }
+  .nf-record-content h3 {
+    font-size: 16px;
+  }
+  .nf-record-issuer {
+    font-size: 12px;
+  }
+  .nf-record-skills {
+    font-size: 11px;
+    margin-top: 7px;
+  }
+  .nf-record-date {
+    grid-column: 2;
+    grid-row: 2;
+    align-self: center;
+  }
+  .nf-record-open,
+  .nf-record-no-file {
+    grid-column: 3;
+    grid-row: 2;
+    align-self: center;
+  }
+  .nf-record-open {
+    font-size: 11px;
+    padding: 8px;
+    gap: 5px;
+  }
+  .nf-record-open > svg:first-child {
+    display: none;
+  }
+  .nf-record-date span {
+    font-size: 10px;
+  }
+  .nf-record-date p {
+    font-size: 11px;
+    margin-top: 3px;
+  }
+  .nf-evidence {
+    width: calc(100% - 20px);
+    max-height: calc(100dvh - 24px);
+  }
+  .nf-evidence-header {
+    padding: 18px 16px;
+    gap: 10px;
+  }
+  .nf-evidence-header h2 {
+    font-size: 16px;
+  }
+  .nf-evidence-header p {
+    font-size: 11px;
+  }
+  .nf-evidence-viewer {
+    padding: 10px;
+  }
+  .nf-evidence-viewer iframe {
+    height: 55dvh;
+  }
+  .nf-evidence-footer {
+    padding: 15px 16px;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .nf-evidence-footer p {
+    width: 100%;
+    font-size: 11px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .nf-record {
+    transition: none;
+  }
+}

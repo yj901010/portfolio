@@ -1,87 +1,66 @@
+import { ArrowUpRight, FileText } from "lucide-react";
 import type { Certificate } from "../types/cert";
 
-function fmt(dateStr?: string) {
-  if (!dateStr) return "";
-  const d = new Date(dateStr);
-  const y = d.getFullYear();
-  const m = `${d.getMonth() + 1}`.padStart(2, "0");
-  return `${y}.${m}`;
-}
-function diffMonths(a?: string, b?: string) {
-  if (!a || !b) return undefined;
-  const A = new Date(a);
-  const B = new Date(b);
-  return (B.getFullYear() - A.getFullYear()) * 12 + (B.getMonth() - A.getMonth()) + 1;
-}
-
-function CategoryIcon({ cat }: { cat: Certificate["category"] }) {
-  const wrap = "inline-grid place-items-center h-7 w-7 rounded-md";
-  if (cat === "award")     return <div className={`${wrap} bg-yellow-500/20 text-yellow-300`} title="수상">
-    <svg viewBox="0 0 24 24" className="h-4 w-4" fill="currentColor"><path d="M17 3H7v6a5 5 0 105 5 5 5 0 005-5V3z"/><path d="M8 21l4-2 4 2"/></svg>
-  </div>;
-  if (cat === "hackathon") return <div className={`${wrap} bg-violet-600/20 text-violet-300`} title="해커톤">
-    <svg viewBox="0 0 24 24" className="h-4 w-4" fill="currentColor"><path d="M8 7l-5 5 5 5v-3h5v-4H8V7zM16 7h-2v10h2l5-5-5-5z"/></svg>
-  </div>;
-  if (cat === "license")   return <div className={`${wrap} bg-amber-500/20 text-amber-300`} title="자격증">
-    <svg viewBox="0 0 24 24" className="h-4 w-4" fill="currentColor"><path d="M12 2l3 6 6 .9-4.5 4.3 1 6.3L12 17l-5.5 2.5 1-6.3L3 8.9 9 8l3-6z"/></svg>
-  </div>;
-  return <div className={`${wrap} bg-sky-500/20 text-sky-300`} title="수료·교육">
-    <svg viewBox="0 0 24 24" className="h-4 w-4" fill="currentColor"><path d="M12 3L1 9l11 6 9-4.91V17h2V9L12 3z"/></svg>
-  </div>;
-}
-function Pill({ cat }: { cat: Certificate["category"] }) {
-  const base = "shrink-0 rounded px-2 py-0.5 text-[10px] font-medium";
-  if (cat === "award")     return <span className={`${base} bg-yellow-500/20 text-yellow-300`}>수상</span>;
-  if (cat === "hackathon") return <span className={`${base} bg-violet-500/20 text-violet-300`}>해커톤</span>;
-  if (cat === "license")   return <span className={`${base} bg-emerald-600/20 text-emerald-300`}>자격증</span>;
-  return <span className={`${base} bg-indigo-600/20 text-indigo-300`}>수료·교육</span>;
+function date(value?: string) {
+  return value ? value.slice(0, 7).replace("-", ".") : "";
 }
 
 export default function CertificateCard({
   c,
+  index,
   onPreview,
 }: {
   c: Certificate;
-  onPreview?: (c: Certificate) => void;
+  index: number;
+  onPreview: (c: Certificate) => void;
 }) {
-  const dateLine = c.startDate
-    ? `${fmt(c.startDate)}–${c.endDate ? fmt(c.endDate) : "진행중"}${
-        diffMonths(c.startDate, c.endDate ?? new Date().toISOString().slice(0, 10))
-          ? ` (${diffMonths(c.startDate, c.endDate ?? new Date().toISOString().slice(0, 10))}개월)`
-          : ""
-      }`
-    : `Issued ${fmt(c.issueDate)}`;
-
+  const isCourse = c.category === "course";
+  const dateLine =
+    isCourse && c.startDate
+      ? `${date(c.startDate)} — ${c.endDate ? date(c.endDate) : "진행 중"}`
+      : date(c.issueDate);
+  const dateLabel = isCourse
+    ? "교육 기간"
+    : c.category === "license"
+      ? "취득"
+      : "수상";
   return (
-    <article className="group relative rounded-xl bg-white/5 transition hover:shadow-[0_10px_30px_rgba(229,9,20,0.25)]">
-      <div className="pointer-events-none absolute inset-x-2 bottom-1 h-[2px] bg-gradient-to-r from-red-500/0 via-red-500/60 to-red-500/0 blur-[2px] opacity-0 group-hover:opacity-100 transition" />
-      <div className="p-4">
-        <div className="flex items-start gap-3">
-          <CategoryIcon cat={c.category} />
-          <div className="min-w-0 flex-1">
-            <div className="flex items-start gap-2">
-              <h3 className="text-white font-semibold leading-tight line-clamp-2">{c.title}</h3>
-              <Pill cat={c.category} />
-            </div>
-            <p className="mt-1 text-white/70 text-sm line-clamp-1">{c.issuer}</p>
-            <p className="mt-0.5 text-white/50 text-xs">{dateLine}</p>
-            {c.credentialId && <p className="mt-0.5 text-white/45 text-[11px]">ID: {c.credentialId}</p>}
-          </div>
-          {c.previewUrl ? (
-            <button
-              className="ml-auto inline-flex h-8 w-8 items-center justify-center rounded-md text-red-500 hover:bg-white/10"
-              title="미리보기"
-              onClick={() => onPreview?.(c)}
-              aria-label="미리보기"
-            >
-              <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <circle cx="11" cy="11" r="7"></circle>
-                <path d="M20 20l-3.5-3.5"></path>
-              </svg>
-            </button>
-          ) : null}
-        </div>
+    <article className="nf-record">
+      <span className="nf-record-number" aria-hidden="true">
+        {String(index).padStart(2, "0")}
+      </span>
+      <div className="nf-record-content">
+        <h3>{c.title}</h3>
+        <p className="nf-record-issuer">{c.issuer}</p>
+        {!!c.skills?.length && (
+          <p className="nf-record-skills">
+            <span className="nf-sr-only">관련 기술: </span>
+            {c.skills.join(" · ")}
+          </p>
+        )}
+        {c.expireDate && (
+          <p className="nf-record-skills">
+            유효기간: {c.expireDate.replaceAll("-", ".")}
+          </p>
+        )}
       </div>
+      <div className="nf-record-date">
+        <span>{dateLabel}</span>
+        <p>{dateLine}</p>
+      </div>
+      {c.previewUrl ? (
+        <button
+          className="nf-record-open"
+          aria-label={`${c.title} 증빙 보기`}
+          onClick={() => onPreview(c)}
+        >
+          <FileText size={17} />
+          <span>증빙 보기</span>
+          <ArrowUpRight size={15} />
+        </button>
+      ) : (
+        <span className="nf-record-no-file">첨부 없음</span>
+      )}
     </article>
   );
 }

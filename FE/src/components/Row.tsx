@@ -1,183 +1,133 @@
-import React from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import type { Row, Media } from "../types/media";
-import { img } from "../assets/mockData";
+import { ChevronDown, ChevronLeft, ChevronRight, Play } from "lucide-react";
+import type { Row as RowData, Media } from "../types/media";
+import { PROJECTS } from "../assets/projects";
 
-function cx(...xs: Array<string | false | null | undefined>) {
-  return xs.filter(Boolean).join(" ");
-}
-const isExternal = (url?: string) => !!url && /^https?:\/\//i.test(url);
-
-function LinkOrA({
-  to,
-  children,
-  className,
+function Tile({
+  item,
+  onSelect,
 }: {
-  to: string;
-  children: React.ReactNode;
-  className?: string;
+  item: Media;
+  onSelect?: (id: string) => void;
 }) {
-  return isExternal(to) ? (
-    <a href={to} className={className}>
-      {children}
-    </a>
-  ) : (
-    <Link to={to} className={className}>
-      {children}
-    </Link>
-  );
-}
-
-function MediaCard({ item, index, kind }: { item: Media; index: number; kind?: Row["kind"] }) {
-  const [hover, setHover] = React.useState(false);
-
-  const cardHref = item.href;
-  const playTo = item.playHref || item.href;
-  const moreTo = item.moreHref;
-
-  const Img = (
-    <img
-      src={item.thumb}
-      alt={item.title}
-      className={cx(
-        "absolute inset-0 w-full h-full object-cover object-center transition-transform duration-300",
-        hover && "scale-[1.05]"
-      )}
-      loading="lazy"
-      decoding="async"
-      onError={(e) => {
-        (e.currentTarget as HTMLImageElement).src = img(
-          "photo-1503023345310-bd7c1de61c7d",
-          { w: 800 }
-        );
-      }}
-    />
-  );
-
+  const project = PROJECTS.find((p) => p.slug === item.id);
   return (
-    <article
-      className="group relative w-[62vw] sm:w-64 md:w-72 lg:w-80 shrink-0"
-      onMouseEnter={() => setHover(true)}
-      onMouseLeave={() => setHover(false)}
-    >
-      <div className="relative aspect-[16/9] rounded-xl overflow-hidden bg-white/5">
-        {cardHref ? <LinkOrA to={cardHref}>{Img}</LinkOrA> : Img}
-
-        <div
-          className={cx(
-            "absolute inset-0 opacity-0 transition-opacity duration-300 bg-gradient-to-t from-black/90 via-black/60 to-transparent",
-            hover && "opacity-100"
-          )}
-        />
-        <div className="absolute bottom-0 inset-x-0 p-3">
-          <h3 className="text-white font-semibold drop-shadow line-clamp-1">{item.title}</h3>
-          {item.subtitle && <p className="text-white/70 text-xs mt-0.5 line-clamp-1">{item.subtitle}</p>}
-
-          {kind !== "top10" && (
-            <div className="mt-2 hidden group-hover:block">
-              <div className="flex flex-wrap gap-1">
-                {item.tags?.slice(0, 5).map((t) => (
-                  <span key={t} className="text-[10px] text-white/85 bg-white/10 rounded px-1.5 py-0.5">
-                    {t}
-                  </span>
-                ))}
-              </div>
-
-              <div className="mt-2 flex items-center gap-2">
-                {playTo ? (
-                  <LinkOrA
-                    to={playTo}
-                    className="inline-flex items-center gap-2 text-xs px-2 py-1 rounded-md bg-white text-black hover:bg-white/90"
-                  >
-                    Play
-                  </LinkOrA>
-                ) : (
-                  <button
-                    className="inline-flex items-center gap-2 text-xs px-2 py-1 rounded-md bg-white/30 text-black/60 cursor-not-allowed"
-                    disabled
-                  >
-                    Play
-                  </button>
-                )}
-
-                {moreTo ? (
-                  <LinkOrA
-                    to={moreTo}
-                    className="inline-flex items-center gap-2 text-xs px-2 py-1 rounded-md bg-white/15 text-white hover:bg-white/25"
-                  >
-                    More
-                  </LinkOrA>
-                ) : (
-                  <button className="inline-flex items-center gap-2 text-xs px-2 py-1 rounded-md bg-white/15 text-white/60 cursor-not-allowed">
-                    More
-                  </button>
-                )}
-
-                <span className="ml-auto text-[10px] text-white/70">{item.maturity || "ALL"}</span>
-              </div>
-            </div>
+    <article className="nf-tile">
+      <div className="nf-tile-picture">
+        <Link
+          to={item.href ?? "/projects"}
+          aria-label={`${item.title} 프로젝트 보기`}
+        >
+          <img
+            src={item.thumb}
+            alt=""
+            loading="lazy"
+            onError={(event) => {
+              event.currentTarget.onerror = null;
+              if (project?.thumb) event.currentTarget.src = project.thumb;
+            }}
+          />
+          <span className="nf-tile-shade" />
+          <span className="nf-tile-mark" aria-hidden="true">
+            M
+          </span>
+          <span className={`nf-tile-title nf-title-${item.id}`}>
+            {item.title}
+          </span>
+        </Link>
+      </div>
+      <div className="nf-tile-info">
+        <div className="nf-tile-controls">
+          <Link
+            className="nf-round nf-round-play"
+            aria-label={`${item.title} 프로젝트 보기`}
+            to={item.href ?? "/projects"}
+          >
+            <Play size={18} fill="currentColor" />
+          </Link>
+          {project && onSelect && (
+            <button
+              className="nf-round nf-info-open"
+              aria-label={`${item.title} 상세 정보`}
+              onClick={() => onSelect(item.id)}
+            >
+              <ChevronDown size={23} />
+            </button>
           )}
         </div>
-
-        {kind === "top10" && (
-          <div className="absolute -left-1 bottom-2 text-[120px] font-black leading-none text-white/10 drop-shadow-xl select-none">
-            {index + 1}
-          </div>
-        )}
-        {kind === "continue" && (
-          <div className="absolute left-0 right-0 bottom-0 h-1.5 bg-white/20">
-            <div className="h-full bg-red-600" style={{ width: `${item.progress ?? 0}%` }} />
-          </div>
-        )}
+        <p className="nf-tile-subtitle">{item.subtitle ?? "프로젝트 기록"}</p>
+        <p className="nf-tile-tags">{item.tags?.slice(0, 3).join(" · ")}</p>
       </div>
     </article>
   );
 }
 
-export default function Row({ row }: { row: Row }) {
-  const scrollerRef = React.useRef<HTMLDivElement>(null);
-  const scrollByAmount = (dir: 1 | -1) => {
-    const el = scrollerRef.current;
+export default function Row({
+  row,
+  onSelect,
+}: {
+  row: RowData;
+  onSelect?: (id: string) => void;
+}) {
+  const ref = useRef<HTMLDivElement>(null);
+  const [edges, setEdges] = useState({ start: true, end: true });
+  useEffect(() => {
+    const el = ref.current;
     if (!el) return;
-    const amount = Math.round(el.clientWidth * 0.9) * dir;
-    el.scrollBy({ left: amount, behavior: "smooth" });
+    const update = () =>
+      setEdges({
+        start: el.scrollLeft < 4,
+        end: el.scrollLeft + el.clientWidth >= el.scrollWidth - 4,
+      });
+    update();
+    el.addEventListener("scroll", update, { passive: true });
+    const observer = new ResizeObserver(update);
+    observer.observe(el);
+    return () => {
+      observer.disconnect();
+      el.removeEventListener("scroll", update);
+    };
+  }, [row.items.length]);
+  const scroll = (direction: number) => {
+    const el = ref.current;
+    if (el)
+      el.scrollBy({
+        left: direction * el.clientWidth * 0.85,
+        behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches
+          ? "instant"
+          : "smooth",
+      });
   };
-
   return (
-    <section id={row.id} className="relative">
-      <div className="flex items-baseline justify-between px-0">
-        <h2 className="text-white text-xl sm:text-2xl font-semibold">{row.title}</h2>
-        <a href="#" className="text-sm text-white/60 hover:text-white/80" aria-label={`${row.title} 전체 보기`}>
-          See all
-        </a>
+    <section className="nf-row" aria-labelledby={`row-${row.id}`}>
+      <div className="nf-row-heading">
+        <h2 id={`row-${row.id}`}>{row.title}</h2>
+        <Link to="/projects">
+          모두 보기 <ChevronRight size={15} />
+        </Link>
       </div>
-
-      <div className="relative mt-3">
+      <div className="nf-row-rail">
         <button
-          aria-label="이전"
-          className="absolute left-0 top-1/2 -translate-y-1/2 z-10 p-2 rounded-full bg-black/50 hover:bg-black/70"
-          onClick={() => scrollByAmount(-1)}
+          className="nf-row-arrow previous"
+          disabled={edges.start}
+          aria-label={`${row.title} 이전`}
+          onClick={() => scroll(-1)}
         >
-          ‹
+          <ChevronLeft size={32} />
         </button>
-        <div
-          ref={scrollerRef}
-          className="no-scrollbar overflow-x-auto whitespace-nowrap scroll-smooth px-0"
-          role="region"
-          aria-label={`${row.title} 가로 목록`}
-        >
-          <div className="flex gap-3">
-            {row.items.map((it, idx) => (
-              <MediaCard key={it.id} item={it} index={idx} kind={row.kind} />
-            ))}
-          </div>
+        <div className="nf-row-track" ref={ref}>
+          {row.items.map((item) => (
+            <Tile key={item.id} item={item} onSelect={onSelect} />
+          ))}
         </div>
         <button
-          aria-label="다음"
-          className="absolute right-0 top-1/2 -translate-y-1/2 z-10 p-2 rounded-full bg-black/50 hover:bg-black/70"
-          onClick={() => scrollByAmount(1)}
+          className="nf-row-arrow next"
+          disabled={edges.end}
+          aria-label={`${row.title} 다음`}
+          onClick={() => scroll(1)}
         >
-          ›
+          <ChevronRight size={32} />
         </button>
       </div>
     </section>
