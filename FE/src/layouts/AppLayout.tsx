@@ -1,13 +1,20 @@
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 import AppNav from "../components/AppNav";
 import SiteFooter from "../components/SiteFooter";
 import ScrollToTop from "../components/ScrollToTop";
 
 export default function AppLayout() {
+  const { pathname } = useLocation();
   return (
-    <div className="min-h-screen bg-black text-white">
+    <div className="nf-app">
+      <a className="nf-skip-link" href="#main-content">
+        본문으로 바로가기
+      </a>
       <AppNav />
-      <main className="pt-2">
+      <main
+        id="main-content"
+        className={pathname === "/contact" ? "nf-contact-offset" : undefined}
+      >
         <ScrollToTop />
         <Outlet />
       </main>

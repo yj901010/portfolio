@@ -1,7 +1,6 @@
 import { createBrowserRouter, Navigate } from "react-router-dom";
 import App from "../App";
 import AppLayout from "../layouts/AppLayout";
-
 import ProfileSelect from "../pages/ProfileSelect";
 import Portfolio from "../pages/Portfolio";
 import Skills from "../pages/Skills";
@@ -14,7 +13,6 @@ import Certifications from "../pages/Certifications";
 const router = createBrowserRouter([
   { path: "/", element: <App /> },
   { path: "/browse", element: <ProfileSelect /> },
-
   {
     element: <AppLayout />,
     children: [
@@ -23,11 +21,11 @@ const router = createBrowserRouter([
       { path: "/experience", element: <ExperienceTimeline /> },
       { path: "/certs", element: <Certifications /> },
       { path: "/projects", element: <Projects /> },
+      { path: "/search", element: <Projects /> },
       { path: "/projects/:slug", element: <ProjectDetail /> },
       { path: "/contact", element: <Contact /> },
-      { path: "*", element: <Navigate to="/" replace /> },
+      { path: "*", element: <Navigate to="/portfolio/leeyj" replace /> },
     ],
   },
 ]);
-
 export default router;

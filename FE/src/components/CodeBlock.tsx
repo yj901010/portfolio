@@ -16,7 +16,7 @@ export default function CodeBlock({
   const copy = async () => {
     try {
       await navigator.clipboard.writeText(code);
-    } catch {}
+    } catch { /* Clipboard access may be unavailable; the code remains selectable. */ }
   };
 
   return (

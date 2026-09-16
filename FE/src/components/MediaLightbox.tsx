@@ -1,77 +1,99 @@
-import React from "react";
+import { useEffect, useRef, useState } from "react";
+import { ExternalLink, X } from "lucide-react";
 
 export default function MediaLightbox({
   src,
-  alt,
+  previewImageSrc,
+  alt = "증빙 자료",
+  description,
   onClose,
 }: {
   src: string;
+  previewImageSrc?: string;
   alt?: string;
+  description?: string;
   onClose: () => void;
 }) {
+  const dialog = useRef<HTMLDialogElement>(null);
+  const [loading, setLoading] = useState(true);
+  const [failed, setFailed] = useState(false);
   const isPdf = /\.pdf(\?|$)/i.test(src);
-
-  React.useEffect(() => {
-    const onKey = (e: KeyboardEvent) => e.key === "Escape" && onClose();
-    document.addEventListener("keydown", onKey);
-    return () => document.removeEventListener("keydown", onKey);
-  }, [onClose]);
-
+  useEffect(() => {
+    const el = dialog.current;
+    if (!el) return;
+    const previous = document.activeElement;
+    const overflow = document.body.style.overflow;
+    el.showModal();
+    document.body.style.overflow = "hidden";
+    return () => {
+      el.close();
+      document.body.style.overflow = overflow;
+      if (previous instanceof HTMLElement) previous.focus();
+    };
+  }, []);
   return (
-    <div
-      className="fixed inset-0 z-[999] bg-black/50 backdrop-blur-sm"
-      role="dialog"
-      aria-modal="true"
-      onMouseDown={onClose}
+    <dialog
+      ref={dialog}
+      className="nf-evidence"
+      aria-labelledby="evidence-title"
+      onCancel={onClose}
+      onClick={(event) => {
+        if (event.target === event.currentTarget) onClose();
+      }}
     >
-      <button
-        onMouseDown={(e) => { e.stopPropagation(); onClose(); }}
-        className="absolute top-4 right-4 rounded-md bg-white/10 hover:bg-white/20 text-white px-3 py-1.5"
-        aria-label="닫기"
-      >
-        ✕
-      </button>
-
-      <div
-        className="absolute inset-4 md:inset-10 grid place-items-center"
-        onMouseDown={(e) => e.stopPropagation()}
-      >
-        {isPdf ? (
-           <div className="h-full w-full grid grid-rows-[1fr_auto] gap-3 place-items-center">
+      <div className="nf-evidence-inner">
+        <header className="nf-evidence-header">
+          <div>
+            <h2 id="evidence-title">{alt}</h2>
+            {description && <p>{description}</p>}
+          </div>
+          <button className="nf-round" onClick={onClose} aria-label="증빙 닫기">
+            <X size={23} />
+          </button>
+        </header>
+        <div className="nf-evidence-viewer">
+          {loading && (
+            <p className="nf-evidence-loading" role="status">
+              증빙을 불러오는 중…
+            </p>
+          )}
+          {failed ? (
+            <p role="alert">
+              미리보기를 불러오지 못했습니다. 아래에서 원본을 열어주세요.
+            </p>
+          ) : isPdf && !previewImageSrc ? (
             <iframe
-              src={`${src}#toolbar=1&view=FitH`}
-              title={alt || "PDF"}
-              className="row-start-1 rounded-lg bg-white w-[90vw] md:w-[55vw] h-[55vh] shadow-2xl"
+              src={`${src}#view=FitH`}
+              title={`${alt} PDF 증빙`}
+              onLoad={() => setLoading(false)}
+              onError={() => {
+                setLoading(false);
+                setFailed(true);
+              }}
             />
-            <div className="row-start-2">
-              <a
-                href={src}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 rounded bg-white px-3 py-1.5 text-black hover:bg-white/90"
-              >
-                새 탭에서 열기
-              </a>
-            </div>
-          </div>
-        ) : (
-          <div className="grid place-items-center gap-3">
+          ) : (
             <img
-              src={src}
-              alt={alt || "preview"}
-              className="rounded-lg shadow-2xl max-h-[55vh] max-w-[90vw] md:max-w-[55vw]"
+              src={previewImageSrc ?? src}
+              alt={alt}
+              onLoad={() => setLoading(false)}
+              onError={() => {
+                setLoading(false);
+                setFailed(true);
+              }}
             />
-            <a
-              href={src}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 rounded bg-white px-3 py-1.5 text-black hover:bg-white/90"
-            >
-              새 탭에서 크게 보기
-            </a>
-          </div>
-        )}
+          )}
+        </div>
+        <footer className="nf-evidence-footer">
+          <p>
+            {isPdf
+              ? "문서 미리보기입니다. 원본 PDF도 확인할 수 있습니다."
+              : "원본에서 더 크게 확인할 수 있습니다."}
+          </p>
+          <a href={src} target="_blank" rel="noopener noreferrer">
+            원본 열기 <ExternalLink size={16} />
+          </a>
+        </footer>
       </div>
-    </div>
+    </dialog>
   );
 }

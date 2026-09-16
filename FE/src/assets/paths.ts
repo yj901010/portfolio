@@ -1,5 +1,5 @@
 const RAW_BASE: string =
-  (import.meta as any)?.env?.BASE_URL ?? "/";
+  import.meta.env.BASE_URL ?? "/";
 
 const BASE = RAW_BASE.endsWith("/") ? RAW_BASE : RAW_BASE + "/";
 
