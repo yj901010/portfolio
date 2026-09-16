@@ -6,11 +6,14 @@ import { getArtwork } from "../assets/catalog";
 export default function ProjectCard({
   p,
   onPreview,
+  headingLevel = 2,
 }: {
   p: ProjectDetailData;
+  headingLevel?: 2 | 3;
   onPreview?: (id: string) => void;
 }) {
   const art = getArtwork(p);
+  const Heading = headingLevel === 3 ? "h3" : "h2";
   return (
     <article className="nf-project-card">
       <div className="nf-project-card-image">
@@ -38,7 +41,9 @@ export default function ProjectCard({
       </div>
       <div className="nf-project-card-bottom">
         <div>
-          <h2>{art.title}</h2>
+          <p className="nf-project-card-context">{p.organization}{p.ongoing ? " · 진행 중" : ""}</p>
+          <Heading>{art.title}</Heading>
+          <p className="nf-project-card-summary">{p.summary}</p>
           <p>{p.techChips.slice(0, 3).join(" · ")}</p>
         </div>
         <div className="nf-project-card-actions">

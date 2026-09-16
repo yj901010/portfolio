@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900">
+  <rect width="1600" height="900" fill="#15252d"/>
+  <path d="M0 218H1600M0 681H1600" stroke="#31434c" stroke-width="2"/>
+  <text x="95" y="305" fill="#82989f" font-family="Arial,sans-serif" font-size="24" letter-spacing="7">CLINICAL RESEARCH</text>
+  <text x="90" y="518" fill="#eceddf" font-family="Arial,sans-serif" font-weight="700" font-size="168" letter-spacing="-8">K-HOPE</text>
+  <path d="M95 574H252" stroke="#b94148" stroke-width="5"/>
+  <g transform="translate(1090 -95) rotate(11)">
+    <rect width="650" height="1060" fill="#c7d0cd"/>
+    <rect x="38" width="2" height="1060" fill="#a2afad"/>
+    <text x="74" y="691" fill="#42585e" font-family="Georgia,serif" font-size="615">H</text>
+    <path d="M78 805H565M78 833H450M78 861H565" stroke="#91a19f" stroke-width="3"/>
+  </g>
+</svg>

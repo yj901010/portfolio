@@ -100,7 +100,7 @@ export default function Row({
       });
   };
   return (
-    <section className="nf-row" aria-labelledby={`row-${row.id}`}>
+    <section className={`nf-row nf-row-${row.id}`} aria-labelledby={`row-${row.id}`}>
       <div className="nf-row-heading">
         <h2 id={`row-${row.id}`}>{row.title}</h2>
         <Link to="/projects">

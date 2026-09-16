@@ -17,8 +17,13 @@ export type ProjectDetailData = {
   slug: string;
   name: string;
   period: string;
-  teamSize: number;
-  teamComposition: string;
+  category: "work" | "ssafy";
+  organization: string;
+  summary: string;
+  ongoing?: boolean;
+  references?: { label: string; url: string }[];
+  teamSize?: number;
+  teamComposition?: string;
   roles: string[];
 
   overview: string;

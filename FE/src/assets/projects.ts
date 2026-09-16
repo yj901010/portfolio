@@ -2,7 +2,35 @@ import type { ProjectDetailData } from "../types/project";
 
 export const PROJECTS: ProjectDetailData[] = [
   {
+    slug: "khope",
+    name: "K-HOPE (임상시험 지원 플랫폼)",
+    category: "work",
+    organization: "아이티아이즈",
+    summary: "임상시험을 지원하는 웹 플랫폼",
+    ongoing: true,
+    period: "2026.02 ~ 현재 (참여 기간)",
+    roles: ["백엔드 개발", "API 구현·연동"],
+    thumb: "/artwork/khope.svg",
+    overview: "한국인 암 특화 디지털 스마트 임상시험 플랫폼 K-HOPE의 백엔드 개발에 참여하고 있습니다.",
+    problem: "임상시험 관련 업무를 지원하는 웹 플랫폼에서 API, 실시간 통신, 외부 연동과 데이터 수집 기능을 개발합니다.",
+    scenarios: [],
+    techChips: ["REST API", "WebSocket", "Streaming", "Webhook", "Airflow"],
+    techWhy: [],
+    code: { dockerfile: "", jenkins: "" },
+    contributions: [
+      { no: "01", title: "API와 업무 로직", items: ["설계된 API 명세를 바탕으로 REST API와 업무 로직 구현"] },
+      { no: "02", title: "실시간 통신·외부 연동", items: ["WebSocket, 스트리밍, 웹훅 관련 기능 개발"] },
+      { no: "03", title: "데이터 수집", items: ["Airflow를 활용한 데이터 수집 작업 개발"] },
+    ],
+    issues: [],
+    kpis: [],
+    references: [{ label: "K-HOPE 공식 사업 소개", url: "https://www.iteyes.co.kr/reference-1" }],
+  },
+  {
     slug: "tlatfarm",
+    category: "work",
+    organization: "터빈크루",
+    summary: "드론·에너지 데이터를 연결하는 스마트팜",
     name: "TlatFarm (스마트팜 · NDVI/AI 분석)",
     period: "2025.08 ~ 2026.02 (참여 기간)",
     teamSize: 5,
@@ -26,11 +54,14 @@ export const PROJECTS: ProjectDetailData[] = [
   },
   {
     slug: "sumsum-finder",
+    category: "ssafy",
+    organization: "SSAFY",
+    summary: "공공 유실물 데이터를 모아 검색하는 서비스",
     name: "숨숨파인더 (유실물 통합 관리)",
     period: "2025.03 ~ 진행중",
     teamSize: 6,
     teamComposition: "BE 3 · FE 2 · AI 1",
-    roles: ["Kafka", "FastAPI", "Elasticsearch"],
+    roles: ["데이터 수집·적재", "검색 연동"],
     thumb: "/covers/ssfinder.jpg",
     overview:
       "경찰청/대중교통 유실물 데이터를 통합 수집·검색·매칭하고 알림까지 제공하는 서비스.",
@@ -49,11 +80,14 @@ export const PROJECTS: ProjectDetailData[] = [
   },
   {
     slug: "checkmate",
+    category: "ssafy",
+    organization: "SSAFY",
+    summary: "AI 계약 분석과 전자서명 서비스",
     name: "Checkmate (AI 계약 분석 · 전자서명)",
     period: "2024.05 ~ 2024.08",
     teamSize: 4,
     teamComposition: "BE 2 · AI 1 · FE 1",
-    roles: ["Spring Boot", "FastAPI", "LangChain"],
+    roles: ["백엔드 개발", "OCR·AI 비동기 처리"],
     thumb: "/covers/checkmate.jpg",
     overview:
       "계약서 업로드 시 조항 분해/요약/리스크 하이라이트 및 전자서명까지 지원하는 통합 플랫폼.",
@@ -72,11 +106,14 @@ export const PROJECTS: ProjectDetailData[] = [
   },
   {
     slug: "my-fairy",
+    category: "ssafy",
+    organization: "SSAFY",
+    summary: "함께 만드는 양방향 동화 서비스",
     name: "My Fairy (마이 페어리)",
     period: "2025.01.13 ~ 2025.02.21 (6주)",
     teamSize: 6,
     teamComposition: "BE 2 · FE 2 · AI 1 · DevOps 1",
-    roles: ["Backend", "DevOps", "Frontend"],
+    roles: ["백엔드 개발", "인프라·배포", "프론트엔드 개발"],
     thumb: "/covers/myfairy.jpg",
 
     overview:

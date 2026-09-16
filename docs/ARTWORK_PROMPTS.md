@@ -44,3 +44,9 @@ Style/medium: cinematic practical miniature film still, tactile paper textures a
 Composition/framing: 16:9 landscape; open book as focal point, layered miniature forest creating cinematic depth, balanced uncluttered composition.
 Constraints: create exactly one image. No sparkles, magic particle effects, people, words, letters, logos, UI, or watermarks. Book illustrations only, no text. Original symbolic cover artwork.
 ```
+
+## K-HOPE
+
+Output: `FE/public/artwork/khope.svg`
+
+Original code-native typography cover, created on 2026-09-16. Dark blue-gray background, editorial type and a paper-like H motif. This is a symbolic project cover, not an official K-HOPE logo, product screenshot, or clinical record. No external image or patient data is embedded.
