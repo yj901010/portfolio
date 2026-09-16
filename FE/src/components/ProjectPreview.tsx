@@ -74,7 +74,7 @@ export default function ProjectPreview({
         <div className="nf-preview-body">
           <div>
             <p className="nf-preview-meta">
-              {project.period} <span>팀 프로젝트</span>
+              {project.period} <span>{project.category === "work" ? "회사 프로젝트" : "SSAFY 프로젝트"}</span>
             </p>
             <h3>{art.subtitle}</h3>
             <p>{project.overview}</p>
@@ -84,19 +84,21 @@ export default function ProjectPreview({
               <span>기술: </span>
               {project.techChips.join(", ")}
             </p>
+            <p><span>소속: </span>{project.organization}</p>
+            {project.teamComposition && <p><span>팀 구성: </span>{project.teamComposition}</p>}
             <p>
-              <span>팀 구성: </span>
-              {project.teamComposition}
-            </p>
-            <p>
-              <span>분야: </span>
+              <span>담당: </span>
               {project.roles.join(", ")}
             </p>
           </aside>
         </div>
         <section className="nf-preview-story">
-          <h3>프로젝트의 시작</h3>
-          <p>{project.problem}</p>
+          <h3>{project.ongoing ? "담당 업무" : "프로젝트의 시작"}</h3>
+          {project.ongoing ? (
+            <ul className="nf-preview-responsibilities">
+              {project.contributions.flatMap((contribution) => contribution.items).map((item) => <li key={item}>{item}</li>)}
+            </ul>
+          ) : <p>{project.problem}</p>}
           <Link to={`/projects/${project.slug}`} onClick={onClose}>
             설계와 개발 과정 전체 보기 →
           </Link>

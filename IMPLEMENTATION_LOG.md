@@ -98,3 +98,14 @@ Modules: FE/src/pages/ExperienceTimeline.tsx, FE/src/assets/timelineData.ts, FE/
 Validation: npm run lint and npm run build passed. Browser verified desktop, 390px and 320px layouts; no horizontal overflow in the page or case dialog. Escape restored the trigger focus and body scrolling. Browser Back with an active section hash closed the case and preserved scrollY (1615 before/after) and button focus. Section links clear the fixed header. Browser error log was empty. Temporary viewport override reset.
 
 Preview: http://127.0.0.1:5174/experience
+## 2026-09-16: Company and SSAFY project collections
+
+- Added K-HOPE using confirmed ITeyes responsibilities: API implementation, WebSocket/streaming/webhook integration, and Airflow collection. Unknown team size/composition and outcome metrics are omitted.
+- Added project category, organization and short service summaries. Home and /projects now share company projects (K-HOPE, TlatFarm) followed by SSAFY projects (Checkmate, 숨숨파인더, MyFairy), in the order explicitly supplied by the user.
+- Company projects use two columns and SSAFY uses three on desktop; the full list stacks on mobile while home retains horizontal browse rows. Preserved the existing hero and developer-navigation cards.
+- Added an original SVG typography cover for K-HOPE; it is not a service screenshot or official logo. Existing other covers remain in use.
+- Preview metadata identifies company/SSAFY and organization; responsibility labels replace duplicated technology-as-category labels. Search includes organization and project category.
+- /projects/khope is navigable with confirmed contributions and an official business-reference link. Common details skip absent scenarios, diagrams, code and results, and no longer nest main landmarks.
+- Existing SSAFY date strings remain unchanged pending the optional clarification about the PDF detail-page dates. Category ordering uses the user's explicit sequence rather than parsing those inconsistent legacy date strings.
+
+Validation: npm run lint, npm run build and git diff --check passed. Browser verified company/SSAFY order on home and /projects; K-HOPE preview and detail navigation; no unknown team values or empty placeholders on K-HOPE; searches for SSAFY (3) and K-HOPE (1); loaded images; 390px list and 320px dialog without horizontal overflow; Escape and focus restoration. Temporary viewport reset.

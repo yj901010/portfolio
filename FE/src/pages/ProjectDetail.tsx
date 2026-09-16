@@ -29,13 +29,14 @@ export default function ProjectDetail() {
               <Pill key={r} tone="red">{r}</Pill>
             ))}
             <Chip>기간 · {p.period}</Chip>
-            <Chip>인원 · {p.teamSize}명</Chip>
-            <Chip>팀 구성 · {p.teamComposition}</Chip>
+            {p.teamSize != null && <Chip>인원 · {p.teamSize}명</Chip>}
+            <Chip>{p.category === "work" ? "회사 프로젝트" : "SSAFY 프로젝트"} · {p.organization}</Chip>
+            {p.teamComposition && <Chip>팀 구성 · {p.teamComposition}</Chip>}
           </div>
         </div>
       </header>
 
-      <main className="mx-auto max-w-7xl px-4 pb-24 space-y-16">
+      <div className="mx-auto max-w-7xl px-4 pb-24 space-y-16">
         {/* 개요 & 문제정의 */}
         <SectionTitle id="intro" title="프로젝트 소개" />
         <div className="grid gap-10 md:grid-cols-2">
@@ -49,6 +50,7 @@ export default function ProjectDetail() {
           </MutedCard>
         </div>
 
+        {p.scenarios.length > 0 && (<>
         {/* 사용자 시나리오 */}
         <SectionTitle id="scenario" title="사용자 시나리오" />
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-5">
@@ -74,7 +76,9 @@ export default function ProjectDetail() {
             </figure>
           ))}
         </div>
+        </>)}
 
+        {(p.architectureImg || p.erdImg) && (<>
         {/* 시스템 설계 */}
         <SectionTitle id="design" title="시스템 설계" />
         <div className="grid gap-6 md:grid-cols-2">
@@ -101,6 +105,7 @@ export default function ProjectDetail() {
             </div>
           </div>
         </div>
+        </>)}
 
         {/* 기술 스택 */}
         <SectionTitle id="stack" title="기술 스택 (Tech Stack)" />
@@ -120,6 +125,7 @@ export default function ProjectDetail() {
           ))}
         </div>
 
+        {(p.code.dockerfile || p.code.jenkins) && (<>
         {/* 기술 구현(코드) */}
         <SectionTitle id="impl" title="기술 구현 (코드 스냅샷)" />
         <div className="grid gap-6 md:grid-cols-2">
@@ -136,7 +142,9 @@ export default function ProjectDetail() {
             </div>
           </MutedCard>
         </div>
+        </>)}
 
+        {p.contributions.length > 0 && (<>
         {/* 나의 기여 */}
         <SectionTitle id="contrib" title="나의 기여 (Contributions)" />
         <div className="space-y-4">
@@ -155,23 +163,34 @@ export default function ProjectDetail() {
             </div>
           ))}
         </div>
+        </>)}
 
+        {p.issues.length > 0 && (<>
         {/* 트러블 슈팅 */}
         <SectionTitle id="troubleshoot" title="트러블 슈팅 (Troubleshooting)" />
         <Accordion items={p.issues} />
+        </>)}
 
+        {p.kpis.length > 0 && (<>
         {/* 주요 성과 */}
         <SectionTitle id="kpi" title="주요 성과 (Key Achievements)" />
         <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
           {p.kpis.map((k) => <KpiCard key={k.label} label={k.label} value={k.value} note={k.note} />)}
         </div>
+        </>)}
+
+        {p.references && (
+          <section aria-label="프로젝트 참고 자료" className="flex flex-wrap gap-5 text-sm text-white/75">
+            {p.references.map((reference) => <a key={reference.url} href={reference.url} target="_blank" rel="noopener noreferrer" className="underline underline-offset-4 hover:text-white">{reference.label} ↗<span className="nf-sr-only"> (새 탭)</span></a>)}
+          </section>
+        )}
 
         <section className="pt-4">
           <div className="flex flex-wrap items-center justify-between gap-3 border-t border-white/10 pt-6">
             <a href="/projects" className="text-white/80 hover:text-white">← 프로젝트 목록</a>
           </div>
         </section>
-      </main>
+      </div>
     </div>
   );
 }

@@ -7,7 +7,7 @@ import {
   BriefcaseBusiness,
 } from "lucide-react";
 import { getProfileById } from "../assets/profiles";
-import { CATALOG, FEATURED_PROJECT, toMedia } from "../assets/catalog";
+import { CATALOG, FEATURED_PROJECT, PROJECT_GROUPS, toMedia } from "../assets/catalog";
 import PortfolioHero from "../components/PortfolioHero";
 import ProjectPreview from "../components/ProjectPreview";
 import Row from "../components/Row";
@@ -24,22 +24,13 @@ export default function Portfolio() {
         onMore={() => setSelected(FEATURED_PROJECT.slug)}
       />
       <div className="nf-home-rows">
-        <Row
-          row={{
-            id: "selected",
-            title: "이영재의 프로젝트",
-            items: CATALOG.map(toMedia),
-          }}
-          onSelect={setSelected}
-        />
-        <Row
-          row={{
-            id: "backend",
-            title: "백엔드와 데이터가 만나는 이야기",
-            items: CATALOG.filter((p) => p.slug !== "my-fairy").map(toMedia),
-          }}
-          onSelect={setSelected}
-        />
+        {PROJECT_GROUPS.map((group) => (
+          <Row
+            key={group.id}
+            row={{ id: group.id, title: group.title, items: group.items.map(toMedia) }}
+            onSelect={setSelected}
+          />
+        ))}
         <section className="nf-explore">
           <h2>개발자를 더 알아보는 방법</h2>
           <div>
