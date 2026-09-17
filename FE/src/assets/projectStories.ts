@@ -1,9 +1,11 @@
 import type { ProjectStory } from "../types/projectStory";
 import { KHOPE_STORY } from "./khopeStory";
+import { TLATFARM_STORY } from "./tlatfarmStory";
 
 // Editorial sources and attribution boundaries: docs/PROJECT_SOURCES.md.
 export const PROJECT_STORIES: Partial<Record<string, ProjectStory>> = {
   khope: KHOPE_STORY,
+  tlatfarm: TLATFARM_STORY,
   "sumsum-finder": {
     "title": "ssFinder · 숨숨파인더",
     "description": "공공 습득물 데이터를 모아 분실물 검색과 AI 매칭 결과를 제공하는 서비스",
