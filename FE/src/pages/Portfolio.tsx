@@ -7,7 +7,7 @@ import {
   BriefcaseBusiness,
 } from "lucide-react";
 import { getProfileById } from "../assets/profiles";
-import { CATALOG, FEATURED_PROJECT, PROJECT_GROUPS, toMedia } from "../assets/catalog";
+import { CATALOG, PROJECT_GROUPS, toMedia } from "../assets/catalog";
 import PortfolioHero from "../components/PortfolioHero";
 import ProjectPreview from "../components/ProjectPreview";
 import Row from "../components/Row";
@@ -20,8 +20,9 @@ export default function Portfolio() {
   return (
     <div className="nf-home">
       <PortfolioHero
-        item={toMedia(FEATURED_PROJECT)}
-        onMore={() => setSelected(FEATURED_PROJECT.slug)}
+        projects={CATALOG}
+        onMore={setSelected}
+        previewOpen={selected !== null}
       />
       <div className="nf-home-rows">
         {PROJECT_GROUPS.map((group) => (
