@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { ChevronLeft, ChevronRight, Info, Pause, Play } from "lucide-react";
 import { Link } from "react-router-dom";
+import BillboardVideo from "./BillboardVideo";
 import { getArtwork } from "../assets/catalog";
 import type { ProjectDetailData } from "../types/project";
 import "../styles/portfolio-hero.css";
@@ -20,6 +21,7 @@ export default function PortfolioHero({
   const billboard = useRef<HTMLElement>(null);
   const [index, setIndex] = useState(0);
   const [autoPlay, setAutoPlay] = useState(() => !window.matchMedia(REDUCED_MOTION).matches);
+  const [motionPlaying, setMotionPlaying] = useState(() => !window.matchMedia(REDUCED_MOTION).matches);
   const [hovered, setHovered] = useState(false);
   const [visible, setVisible] = useState(() => !document.hidden);
   const [inView, setInView] = useState(true);
@@ -30,7 +32,12 @@ export default function PortfolioHero({
 
   useEffect(() => {
     const motion = window.matchMedia(REDUCED_MOTION);
-    const onMotionChange = () => { if (motion.matches) setAutoPlay(false); };
+    const onMotionChange = () => {
+      if (motion.matches) {
+        setAutoPlay(false);
+        setMotionPlaying(false);
+      }
+    };
     const onVisibilityChange = () => setVisible(!document.hidden);
     motion.addEventListener("change", onMotionChange);
     document.addEventListener("visibilitychange", onVisibilityChange);
@@ -56,6 +63,12 @@ export default function PortfolioHero({
     setIndex((nextIndex + count) % count);
   }
 
+  function togglePlayback() {
+    const next = !(autoPlay || motionPlaying);
+    setAutoPlay(next);
+    setMotionPlaying(next);
+  }
+
   return (
     <section ref={billboard} className="nf-billboard nf-project-billboard" aria-label="추천 프로젝트"
       aria-roledescription="캐러셀" data-project={project.slug}
@@ -71,6 +84,9 @@ export default function PortfolioHero({
           if (project.thumb && image.getAttribute("src") !== project.thumb) image.src = project.thumb;
           else image.hidden = true;
         }} />
+      {art.heroVideo && <BillboardVideo key={`video-${project.slug}`} src={art.heroVideo}
+        playing={motionPlaying && visible && inView && !previewOpen}
+        position={art.heroPosition ?? art.imagePosition} />}
       <div className="nf-billboard-shade" />
       <div className="nf-billboard-copy" key={`copy-${project.slug}`}>
         <div className="nf-original"><span>M</span> ORIGINAL PROJECT</div>
@@ -92,9 +108,9 @@ export default function PortfolioHero({
           <span className="nf-billboard-count" aria-hidden="true">{String(activeIndex + 1).padStart(2, "0")} <span>/ {String(count).padStart(2, "0")}</span></span>
           <button className="nf-billboard-control" aria-label="이전 추천 프로젝트" onClick={() => selectProject(activeIndex - 1)}><ChevronLeft size={20} /></button>
           <button className="nf-billboard-control" aria-label="다음 추천 프로젝트" onClick={() => selectProject(activeIndex + 1)}><ChevronRight size={20} /></button>
-          <button className="nf-billboard-control" data-rotation-control aria-label={autoPlay ? "자동 전환 정지" : "자동 전환 시작"}
-            onClick={() => setAutoPlay((current) => !current)}>
-            {autoPlay ? <Pause size={17} /> : <Play size={17} />}
+          <button className="nf-billboard-control" data-rotation-control aria-label={autoPlay || motionPlaying ? "자동 재생 정지" : "자동 재생 시작"}
+            onClick={togglePlayback}>
+            {autoPlay || motionPlaying ? <Pause size={17} /> : <Play size={17} />}
           </button>
         </div>
         <div className="nf-billboard-selectors" role="group" aria-label="프로젝트 바로 선택">

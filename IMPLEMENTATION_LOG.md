@@ -210,3 +210,16 @@ Validation: ESLint, TypeScript and Vite production build passed. Visually checke
 Routes: /portfolio/leeyj and its existing project-preview/detail links. Modules: PortfolioHero.tsx, Portfolio.tsx, catalog.ts, portfolio-hero.css.
 
 Validation: ESLint, TypeScript and Vite build passed. Browser checked all five slides at 1280px and 320px: images loaded, one selector active, matching titles and destinations, no horizontal overflow, clipped text or CTA/control overlap. Keyboard selection, previous/next wraparound and all five matching detail dialogs passed. Observed automatic advancement and explicit pause remaining stable beyond the rotation interval. Reviewed hover/visibility/reduced-motion guards in source; the automation did not reliably establish native pointer hover, so no browser hover-pass claim is made. Browser error log empty. Temporary viewport override reset; git diff --check passed.
+
+## 2026-09-17: Six-second scene-motion billboard previews
+
+- Added five silent 1280 × 720 / 24fps MP4 loops, one per project, totaling 1,672,126 bytes. These are composited cinemagraphs, not footage from a production service or output from an AI video service. Motion is local to scene elements: a distant drone approaching and passing the camera, rain over a stationary platform, a fluttering paper corner, a turning book page, vertical waterfall highlights, lantern light, and gathering document sheets.
+- Kept every existing thumbnail and detail image unchanged. Added optional heroVideo catalog entries and BillboardVideo.tsx; only the active home slide has a video element. The image remains underneath until the video plays and covers loading/autoplay failure.
+- Extended the existing playback button to stop/resume both motion and carousel rotation. Manual project choice keeps its video playing while stopping rotation. Modal, page-visibility and intersection guards pause media; reduced-motion defaults to static artwork with explicit playback available.
+- Added reproducible offline rendering source, small prepared compositing layers, exact image-edit prompts and build-tool versions. No new frontend dependency; generation tools and installed packages are not bundled into the website.
+
+Routes: /portfolio/leeyj. Artwork/output: FE/public/videos. Sources: scripts/render-previews.py, scripts/video-assets, docs/PROJECT_VIDEO_PREVIEWS.md.
+
+Validation: ESLint, TypeScript and Vite production build passed. Decoded all five clips: exactly 144 frames, 6 seconds, 24fps, 1280 × 720, no audio, and measurable frame changes. Inspected decoded frame contact sheets and the live billboard. Browser verified all five videos on desktop and at 320px, one active video, mute, duration and no horizontal overflow. Explicit pause preserved currentTime, resume worked, opening/closing details paused/resumed, and scrolling the banner offscreen paused playback. Reduced-motion, hidden-tab and playback-failure guards were reviewed in source; no simulated browser pass is claimed for those paths.
+
+Final motion revision: removed all platform/water horizontal deformation in response to the owner's preview feedback. Page-turn texture bounds exclude the book binding and foreground plants. Re-decoded the revised clips and checked the updated scenes in the browser. Original thumbnails remain unchanged. Browser error log empty; viewport override reset.

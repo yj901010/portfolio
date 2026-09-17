@@ -41,3 +41,10 @@
   .nf-billboard-controls { left:5%; right:5%; bottom:63px; width:auto; max-width:300px; }
   .nf-billboard-selectors button { min-height:44px; }
 }
+
+/* Keep the poster underneath until an actual video frame is playing. */
+.nf-project-billboard .nf-billboard-video { opacity:0; pointer-events:none; animation:none; transition:opacity .6s ease; }
+.nf-project-billboard .nf-billboard-video.is-ready { opacity:1; }
+@media(prefers-reduced-motion:reduce) {
+  .nf-project-billboard .nf-billboard-video { transition:none; }
+}
