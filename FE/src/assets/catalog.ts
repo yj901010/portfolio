@@ -5,11 +5,12 @@ import type { Media } from "../types/media";
 
 type Artwork = {
   title: string; subtitle: string; image: string; imagePosition?: string;
-  heroImage?: string; heroPosition?: string; accent: string;
+  heroImage?: string; heroVideo?: string; heroPosition?: string; accent: string;
 };
 
 const ART: Record<string, Artwork> = {
   khope: {
+    heroVideo: "/videos/khope.mp4",
     title: "K-HOPE",
     subtitle: "임상시험을 지원하는 웹 플랫폼",
     image: "/artwork/khope.svg",
@@ -17,24 +18,28 @@ const ART: Record<string, Artwork> = {
     accent: "#d8e6e8",
   },
   "sumsum-finder": {
+    heroVideo: "/videos/ssfinder.mp4",
     title: "숨숨파인더",
     subtitle: "흩어진 기록, 하나의 연결",
     image: "/artwork/ssfinder.png",
     accent: "#dfc14c",
   },
   checkmate: {
+    heroVideo: "/videos/checkmate.mp4",
     title: "CHECKMATE",
     subtitle: "계약서의 행간을 읽다",
     image: "/artwork/checkmate.png",
     accent: "#e9dfd0",
   },
   "my-fairy": {
+    heroVideo: "/videos/myfairy.mp4",
     title: "MY FAIRY",
     subtitle: "우리가 함께 만드는 이야기",
     image: "/artwork/myfairy.png",
     accent: "#e9dbaa",
   },
   tlatfarm: {
+    heroVideo: "/videos/tlatfarm.mp4",
     title: "TlatFarm",
     subtitle: "데이터로 바라보는 농장",
     image: TLATFARM_STORY.image,
