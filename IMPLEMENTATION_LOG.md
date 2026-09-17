@@ -109,3 +109,25 @@ Preview: http://127.0.0.1:5174/experience
 - Existing SSAFY date strings remain unchanged pending the optional clarification about the PDF detail-page dates. Category ordering uses the user's explicit sequence rather than parsing those inconsistent legacy date strings.
 
 Validation: npm run lint, npm run build and git diff --check passed. Browser verified company/SSAFY order on home and /projects; K-HOPE preview and detail navigation; no unknown team values or empty placeholders on K-HOPE; searches for SSAFY (3) and K-HOPE (1); loaded images; 390px list and 320px dialog without horizontal overflow; Escape and focus restoration. Temporary viewport reset.
+
+## 2026-09-17: Recruiter-focused SSAFY implementation stories
+
+- Implemented the approved Netflix-style project detail layout as React components: service purpose, responsibility, four contribution groups per project, selectable implementation cases, interactive diagrams, and concrete outcomes.
+- Added 12 cases and 24 diagram views: five for ssFinder (collection, preprocessing, map search, index recovery, matching), four for CheckMate (file security, OCR, test-mode signature, news cache), and three for MyFairy (deployment, runtime routing, members).
+- Replaced the old SSAFY code snapshots, placeholder sections and unsupported metrics with reviewed content from the supplied PDF, draft and authored source changes. Public pages omit commit hashes and remaining-work sections; docs/PROJECT_SOURCES.md records provenance and expression boundaries.
+- Corrected SSAFY dates and team composition from the PDF detail pages. Lists, search, previews and detail pages now share the revised purpose, technologies and contribution text. Preserved the requested company/SSAFY ordering and both company records.
+- Added typed diagram data and a recursive renderer without raw HTML or new dependencies. Numbered native buttons support keyboard selection and announce the selected explanation. Project, case and view changes reset selection to a valid step.
+- Added three compressed WebP detail covers from the approved prototype, about 140 KB combined. Scoped styles preserve the shared header and adapt diagrams to a vertical flow on small screens.
+
+Routes: /projects/checkmate, /projects/sumsum-finder, /projects/my-fairy. Existing /projects/khope and /projects/tlatfarm continue using their existing detail renderer.
+
+Modules: FE/src/assets/projectStories.ts, FE/src/types/projectStory.ts, FE/src/components/ProjectStoryDetail.tsx, FE/src/styles/project-story.css. Integration: FE/src/assets/projects.ts and FE/src/pages/ProjectDetail.tsx.
+
+Validation:
+
+- ESLint, TypeScript project build, Vite production build and git diff --check passed. Invoked the installed CLI entry points with the bundled Node runtime.
+- Content integrity check passed for all 12 cases and 24 views, valid step references, existing covers and shared metadata; both company records matched origin/master exactly.
+- Browser checked all 24 views at desktop width and 320 px: no horizontal overflow or clipped diagram text. A 390 px visual check and keyboard Enter confirmed the selected explanation updates correctly. Browser error log was empty.
+- Verified project list ordering, updated CheckMate preview metadata, preview-to-detail navigation, browser Back, the existing K-HOPE detail, and SSAFY search returning three projects. Reset the temporary viewport override afterward.
+
+Preview: http://127.0.0.1:5174/projects/checkmate. These checks cover the local application and production build; this change does not publish a deployment.

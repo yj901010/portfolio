@@ -1,4 +1,6 @@
 import { useEffect } from "react";
+import ProjectStoryDetail from "../components/ProjectStoryDetail";
+import { PROJECT_STORIES } from "../assets/projectStories";
 import { useParams, Navigate } from "react-router-dom";
 import { getProjectBySlug } from "../assets/projects";
 import SectionTitle from "../components/SectionTitle";
@@ -15,6 +17,8 @@ export default function ProjectDetail() {
   useEffect(() => { window.scrollTo({ top: 0, behavior: "auto" }); }, [slug]);
 
   if (!p) return <Navigate to="/projects" replace />;
+  const story = PROJECT_STORIES[slug];
+  if (story) return <ProjectStoryDetail key={slug} project={p} story={story} />;
 
   return (
     <div className="min-h-screen bg-[#0b0b0b] text-white">
