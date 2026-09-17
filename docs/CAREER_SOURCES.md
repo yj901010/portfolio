@@ -17,9 +17,12 @@
 
 - 입사 2025년 8월은 기존 사이트와 PDF가 일치. 퇴사일은 사용자가 2026-02-01로 정정했다.
 - Spring Boot 백엔드 및 GCP 인프라 작업.
-- Pub/Sub을 통한 드론 데이터 수신·연동.
-- 풍력·태양광 등 에너지 데이터의 BigQuery 주기적 집계 및 통계 결과 연동은 TlatFarm 업무에 포함된다고 사용자가 확인했다.
-- Cloud Run, Cloud Build, Cloud Tasks 사용.
+- 사용자는 드론의 그리드별 촬영과 AI 병해충 분석으로 생육 상태를 확인하는 서비스라고 설명했다. Pub/Sub을 통한 드론 데이터 수신·처리가 본인의 Spring 백엔드 업무다.
+- 풍력·태양광 등 BigQuery에 적재된 에너지 데이터의 집계 및 Spring 연동은 사용자 설명을 근거로 한다. 집계 주기와 실행 도구의 세부사항은 기억이 불확실하므로 화면에서는 특정 스케줄을 단정하지 않는다.
+- 재직 당시 드론 예약 운행에 Cloud Tasks를 사용했다고 확인했다. 현재 운영 화면에 같은 기능이 유지되는지는 주장하지 않는다.
+- Cloud Build·Cloud Run 기반 환경은 사용자 설명과 개인 블로그의 이미지 빌드·저장·실행 그림을 함께 참고했다. 구체적인 배포 트리거나 자동 롤백 설정의 소유권까지 확장하지 않는다.
+- 제공된 서비스 화면을 읽기 전용으로 확인했다. 작물 분석·촬영 이력·에너지 추이 기능의 존재는 제품 설명에만 활용하며, 본인 구현이나 현재 백엔드 구성의 증거로 사용하지 않는다. 실데이터·접속 정보·새 운영 화면 캡처는 저장하거나 게시하지 않았다.
+- 공개 문구의 근거와 제외 범위는 [TLATFARM_CONTENT.md](TLATFARM_CONTENT.md)에 기록한다.
 - TlatFarm은 CES 2026 Innovation Awards의 Construction & Industrial Tech 부문 Honoree. 참여 프로젝트의 수상이며 개인 수상으로 표시하지 않는다.
 - 수상 공식 출처: https://www.ces.tech/ces-innovation-awards/2026/tlatfarm-technologies-live-at-the-farm/
 
@@ -31,7 +34,7 @@
 - Google CPU 할당: https://docs.cloud.google.com/run/docs/configuring/billing-settings
 - Cloud Tasks 연동: https://docs.cloud.google.com/run/docs/triggering/using-tasks
 
-표현은 '요청 처리 외 시간의 CPU throttling'을 사용한다. '인스턴스가 0개로 축소됨'과 혼동하지 않는다. 특정 CPU 백분율, 비용 절감률, 처리량, 성공률 또는 재시도·멱등성 구현을 별도로 확인하지 않고 추가하지 않는다. 블로그는 메일 발송 사례이므로 드론 자동화의 구현 증명으로 바꾸어 인용하지 않는다. BigQuery의 구체적인 실행 방식이 Scheduled Queries인지 다른 스케줄러인지 확인되지 않아 '주기적 집계'로만 기록했다.
+표현은 '요청 처리 외 시간의 CPU 할당 제한'을 사용한다. '인스턴스가 0개로 축소됨'과 혼동하지 않는다. 특정 CPU 백분율, 비용 절감률, 처리량, 성공률 또는 재시도·멱등성 구현을 별도로 확인하지 않고 추가하지 않는다. 블로그는 메일 발송 사례이므로 드론 자동화의 구현 증명으로 바꾸어 인용하지 않는다. 드론 예약 운행은 별도로 사용자가 설명한 재직 당시의 기여다. BigQuery의 집계 주기와 실행 방식은 화면에서 특정하지 않는다.
 
 ## 제공된 포트폴리오 PDF
 

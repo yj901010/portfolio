@@ -1,6 +1,7 @@
 import type { ProjectDetailData } from "../types/project";
 import { PROJECT_STORIES } from "./projectStories";
 import { KHOPE_STORY } from "./khopeStory";
+import { TLATFARM_STORY } from "./tlatfarmStory";
 
 type SsafyMetadata = Pick<ProjectDetailData, "slug" | "name" | "summary" | "period" | "teamComposition" | "roles" | "problem">;
 
@@ -52,26 +53,22 @@ export const PROJECTS: ProjectDetailData[] = [
     category: "work",
     organization: "터빈크루",
     summary: "드론·에너지 데이터를 연결하는 스마트팜",
-    name: "TlatFarm (스마트팜 · NDVI/AI 분석)",
-    period: "2025.08 ~ 2026.02 (참여 기간)",
-    teamSize: 5,
-    teamComposition: "BE 1 · FE 1 · AI 1 · DevOps 1 · HW 1",
+    name: "TlatFarm (드론·AI 스마트팜)",
+    period: "2025.08 ~ 2026.02.01 (참여 기간)",
     roles: ["백엔드 개발", "GCP 인프라"],
-    thumb: "/covers/tlat-farm.jpg",
-    overview:
-      "드론 NDVI/RGB 촬영 → AI 분석 → 농가 단위 대시보드/알림까지 제공하는 스마트팜 플랫폼.",
-    problem:
-      "원본 대용량 이미지와 분석 결과를 일관되게 매핑하고 시계열로 관리할 파이프라인 필요.",
-    scenarios: [
-      { title: "1) 촬영/업로드", caption: "GCS 업로드 → AI 웹훅 수신 → 엔티티 매핑" },
-    ],
-    architectureImg: "", erdImg: "",
-    techChips: ["Spring Boot", "Pub/Sub", "Cloud Tasks", "Cloud Run", "Cloud Build", "BigQuery"],
+    thumb: TLATFARM_STORY.image,
+    overview: TLATFARM_STORY.description,
+    problem: "드론 데이터와 에너지 집계 결과를 서비스에 연결하고, Cloud Run의 실행 환경에 맞게 비동기 작업을 처리했습니다.",
+    scenarios: [],
+    techChips: TLATFARM_STORY.technologies,
     techWhy: [],
     code: { dockerfile: "", jenkins: "" },
-    contributions: [],
+    contributions: TLATFARM_STORY.contributions.map((item, index) => ({
+      no: String(index + 1).padStart(2, "0"), title: item.title, items: [item.text],
+    })),
     issues: [],
     kpis: [],
+    references: TLATFARM_STORY.reference ? [TLATFARM_STORY.reference] : [],
   },
   ssafyProject({
     "slug": "checkmate",

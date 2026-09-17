@@ -172,3 +172,19 @@ Preview: /projects/khope → Airflow 데이터 적재·집계. K-HOPE now contai
 Validation: ESLint, TypeScript and Vite production build passed. All diagram explanation references and shared metadata passed the content check; focused public-content scan passed. Browser verified the two new views at desktop and 320px, all four explanations via keyboard, and career-to-detail navigation. No overflow, clipped text or browser errors. Temporary viewport override reset; git diff --check passed.
 
 Preview: /projects/khope → Text-to-SQL 학습 데이터.
+
+
+## 2026-09-17: TlatFarm historical contribution stories
+
+- Replaced the sparse TlatFarm detail with the shared project-story layout: service purpose, responsibilities, four contribution groups, three cases and six diagram views. Kept the existing cover and company/SSAFY ordering.
+- Led with the Cloud Run background-execution issue and Cloud Tasks request separation. Included the build/runtime overview, Pub/Sub drone-data receiving, and BigQuery energy aggregation/service integration. Nine selectable explanations distinguish personal backend work from the overall drone/AI product flow.
+- Used the owner's historical account, their public technical article and deployment diagram, the existing PDF, and Google CPU allocation/Cloud Tasks documentation. Read the provided production site only to understand visible product functions; did not change settings, schedule flights or alter records. No private access details, live records or new production screenshots were added.
+- Kept the blog's Contact-email reproduction distinct from the separately reported drone-reservation contribution. Did not equate CPU throttling with scale-to-zero or invent data schemas, ingestion protocols, exact aggregation schedules, measured results or delivery guarantees. No source-code audit is claimed for this company project.
+- Removed unverified legacy team counts and GCS/webhook/entity-mapping copy. Shared metadata and contribution summaries across preview/detail/career; added the TlatFarm career-to-detail link and preserved the official CES project reference.
+- Added docs/TLATFARM_CONTENT.md and updated docs/CAREER_SOURCES.md with source and attribution boundaries.
+
+Routes: /projects/tlatfarm, /projects, /experience. New data module: FE/src/assets/tlatfarmStory.ts. No new dependencies or runtime component changes.
+
+Validation: ESLint, TypeScript and Vite production build passed. Content checks covered all story step references, existing covers, shared metadata, the TlatFarm dates and removed unknown team fields. Browser verified all six views on desktop and at 320px with no horizontal overflow or clipped diagram text, all nine explanations by keyboard, career-to-detail and preview-to-detail navigation, and the five-project order. Desktop/mobile visuals and existing cover were checked; browser error log was empty. Temporary viewport override reset; git diff --check passed.
+
+Preview: http://127.0.0.1:5174/projects/tlatfarm. Local verification does not claim a production deployment.

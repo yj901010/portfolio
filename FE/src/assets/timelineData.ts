@@ -1,4 +1,5 @@
 import { KHOPE_STORY } from "./khopeStory";
+import { TLATFARM_STORY } from "./tlatfarmStory";
 
 export type Category = "WORK" | "PROJECT" | "EDU" | "NONDEV";
 
@@ -57,14 +58,11 @@ export const TIMELINE: TimelineItem[] = [
     title: "터빈크루",
     subtitle: "백엔드 · GCP 인프라 개발",
     project: "TlatFarm",
-    summary: "드론과 에너지 데이터를 연결하는 스마트팜 플랫폼",
+    summary: TLATFARM_STORY.description,
     context: "참여 프로젝트 · CES 2026 혁신상 Honoree / Construction & Industrial Tech",
-    technologies: ["Spring Boot", "Pub/Sub", "BigQuery", "Cloud Tasks", "Cloud Run", "Cloud Build"],
-    highlights: [
-      { label: "드론 데이터 연동", description: "Spring Boot 백엔드에서 Pub/Sub으로 드론 데이터를 수신하고 서비스에 연결했습니다." },
-      { label: "에너지 통계", description: "BigQuery에 쌓인 풍력·태양광 에너지 데이터를 주기적으로 집계하고, 통계 결과를 서비스에 연동했습니다." },
-      { label: "비동기 처리·인프라", description: "Cloud Run의 요청 종료 후 비동기 작업이 중단되는 문제를 Cloud Tasks로 해결하고, Cloud Run·Cloud Build 기반 실행 및 빌드 환경을 다뤘습니다." },
-    ],
+    technologies: TLATFARM_STORY.technologies,
+    highlights: TLATFARM_STORY.contributions.map((item) => ({ label: item.title, description: item.text })),
+    relatedProjects: [{ label: "TlatFarm 구현 이야기", path: "/projects/tlatfarm" }],
     references: [{ label: "CES 공식 수상 소개", url: "https://www.ces.tech/ces-innovation-awards/2026/tlatfarm-technologies-live-at-the-farm/" }],
     caseStudy: {
       title: "응답은 끝났는데, 비동기 작업도 멈췄다",
