@@ -48,6 +48,7 @@ export default function ProjectPreview({
           <img
             src={art.image}
             alt=""
+            style={{ objectPosition: art.imagePosition }}
             onError={(event) => {
               event.currentTarget.onerror = null;
               event.currentTarget.src = project.thumb ?? "";

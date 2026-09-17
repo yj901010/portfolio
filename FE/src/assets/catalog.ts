@@ -1,8 +1,9 @@
 import { PROJECTS } from "./projects";
+import { TLATFARM_STORY } from "./tlatfarmStory";
 import type { ProjectDetailData } from "../types/project";
 import type { Media } from "../types/media";
 
-const ART: Record<string, { title: string; subtitle: string; image: string; accent: string }> = {
+const ART: Record<string, { title: string; subtitle: string; image: string; imagePosition?: string; accent: string }> = {
   khope: {
     title: "K-HOPE",
     subtitle: "임상시험을 지원하는 웹 플랫폼",
@@ -30,7 +31,8 @@ const ART: Record<string, { title: string; subtitle: string; image: string; acce
   tlatfarm: {
     title: "TlatFarm",
     subtitle: "데이터로 바라보는 농장",
-    image: "/covers/tlat-farm.jpg",
+    image: TLATFARM_STORY.image,
+    imagePosition: TLATFARM_STORY.imagePosition,
     accent: "#b7dd87",
   },
 };

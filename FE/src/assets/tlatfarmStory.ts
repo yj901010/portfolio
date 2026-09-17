@@ -9,7 +9,8 @@ export const TLATFARM_STORY: ProjectStory = {
   description: "드론의 구역별 촬영과 AI 병해충 분석으로 작물 생육 상태를 확인하는 스마트팜 플랫폼",
   responsibility: "Spring Boot 백엔드와 GCP 인프라 개발에 참여했습니다. Pub/Sub으로 전달된 드론 데이터 처리, Cloud Tasks를 활용한 예약 작업 실행, BigQuery의 에너지 집계 결과 연동을 담당했습니다.",
   technologies: ["Spring Boot", "Pub/Sub", "Cloud Tasks", "Cloud Run", "Cloud Build", "BigQuery"],
-  image: "/covers/tlat-farm.jpg",
+  image: "/artwork/tlatfarm-cover.webp",
+  imagePosition: "75% 25%",
   reference: {
     label: "Cloud Tasks 선택 배경 · Velog",
     url: "https://velog.io/@joker901010/Cloud-Run에서-Async가-동작하지-않았던Cloud-Run에서-Async가-동작하지-않았던-이유-feat.-CPU-Throttling",

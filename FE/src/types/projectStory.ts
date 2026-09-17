@@ -30,6 +30,7 @@ export type ProjectStory = {
   responsibility: string;
   technologies: string[];
   image: string;
+  imagePosition?: string;
   repository?: string;
   reference?: { label: string; url: string };
   contributions: { title: string; text: string }[];
