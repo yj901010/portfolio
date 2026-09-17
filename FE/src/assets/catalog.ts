@@ -1,12 +1,19 @@
 import { PROJECTS } from "./projects";
+import { TLATFARM_STORY } from "./tlatfarmStory";
 import type { ProjectDetailData } from "../types/project";
 import type { Media } from "../types/media";
 
-const ART: Record<string, { title: string; subtitle: string; image: string; accent: string }> = {
+type Artwork = {
+  title: string; subtitle: string; image: string; imagePosition?: string;
+  heroImage?: string; heroPosition?: string; accent: string;
+};
+
+const ART: Record<string, Artwork> = {
   khope: {
     title: "K-HOPE",
     subtitle: "임상시험을 지원하는 웹 플랫폼",
     image: "/artwork/khope.svg",
+    heroImage: "/artwork/khope-billboard.svg",
     accent: "#d8e6e8",
   },
   "sumsum-finder": {
@@ -30,12 +37,12 @@ const ART: Record<string, { title: string; subtitle: string; image: string; acce
   tlatfarm: {
     title: "TlatFarm",
     subtitle: "데이터로 바라보는 농장",
-    image: "/covers/tlat-farm.jpg",
+    image: TLATFARM_STORY.image,
+    imagePosition: TLATFARM_STORY.imagePosition,
+    heroPosition: "85% 25%",
     accent: "#b7dd87",
   },
 };
-
-export const FEATURED_PROJECT = PROJECTS.find((p) => p.slug === "sumsum-finder")!;
 
 // Latest participation first, in the order confirmed by the portfolio owner.
 export const CATALOG = ["khope", "tlatfarm", "checkmate", "sumsum-finder", "my-fairy"]

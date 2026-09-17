@@ -120,6 +120,7 @@ export default function ProjectStoryDetail({ project, story }: { project: Projec
     </nav>
     <header className="ps-banner">
       <img src={story.image} alt="" className="ps-cover" fetchPriority="high" decoding="async"
+        style={{ objectPosition: story.imagePosition }}
         onError={(event) => { event.currentTarget.hidden = true; }} />
       <div className="ps-banner-shade" />
       <div className="ps-banner-copy">

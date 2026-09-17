@@ -188,3 +188,25 @@ Routes: /projects/tlatfarm, /projects, /experience. New data module: FE/src/asse
 Validation: ESLint, TypeScript and Vite production build passed. Content checks covered all story step references, existing covers, shared metadata, the TlatFarm dates and removed unknown team fields. Browser verified all six views on desktop and at 320px with no horizontal overflow or clipped diagram text, all nine explanations by keyboard, career-to-detail and preview-to-detail navigation, and the five-project order. Desktop/mobile visuals and existing cover were checked; browser error log was empty. Temporary viewport override reset; git diff --check passed.
 
 Preview: http://127.0.0.1:5174/projects/tlatfarm. Local verification does not claim a production deployment.
+
+
+## 2026-09-17: TlatFarm cover replacement
+
+- Replaced the legacy application screenshot with a generated cinematic drone-and-crop-field cover, matching the photographic direction of the other project posters. Kept title text in the existing HTML overlays.
+- Saved FE/public/artwork/tlatfarm-cover.webp at 1672 × 941 (219,510 bytes), encoded from the generated PNG without changing dimensions. Home/list artwork, preview and detail now share the new asset; removed the unreferenced old screenshot.
+- Added an optional image-position setting to the shared story metadata and applied it in the preview/detail renderers so narrow mobile crops and wide detail banners retain the drone. Other projects keep their existing positioning.
+- Recorded the built-in generation mode, exact prompt and conceptual nature of the artwork in docs/TLATFARM_ARTWORK.md; updated the project source note.
+
+Validation: ESLint, TypeScript and Vite production build passed. Visually checked desktop list, preview and detail and 320px preview/detail; the drone remains visible and title text readable. Mobile preview loaded the new asset with no horizontal overflow. Browser error log empty; viewport override reset. git diff --check passed. No new dependencies.
+
+
+## 2026-09-17: All-project home billboard
+
+- Replaced the ssFinder-only home billboard and hard-coded copy with the five projects in catalog order: K-HOPE, TlatFarm, CheckMate, ssFinder, MyFairy. Image, title, tagline, description, category and destination now come from the selected project.
+- Added previous/next, direct project selectors, current position and an explicit rotation toggle. Automatic rotation advances every eight seconds; manual selection and keyboard interaction stop it. Effects suspend the timer on pointer hover, when the tab/banner is not visible, or while a preview is open. Reduced-motion preference disables automatic playback by default and CSS fades; an explicit play action remains available.
+- The primary link and details dialog both use the displayed project's slug. Existing company/SSAFY rows and their ordering remain intact.
+- Added FE/src/styles/portfolio-hero.css for the responsive controls and title styles. Added a title-free variant of the existing K-HOPE SVG for the billboard to avoid duplicate baked-in text; adjusted TlatFarm's tall-banner crop separately from its card/detail crop. No new dependency or image-generation call.
+
+Routes: /portfolio/leeyj and its existing project-preview/detail links. Modules: PortfolioHero.tsx, Portfolio.tsx, catalog.ts, portfolio-hero.css.
+
+Validation: ESLint, TypeScript and Vite build passed. Browser checked all five slides at 1280px and 320px: images loaded, one selector active, matching titles and destinations, no horizontal overflow, clipped text or CTA/control overlap. Keyboard selection, previous/next wraparound and all five matching detail dialogs passed. Observed automatic advancement and explicit pause remaining stable beyond the rotation interval. Reviewed hover/visibility/reduced-motion guards in source; the automation did not reliably establish native pointer hover, so no browser hover-pass claim is made. Browser error log empty. Temporary viewport override reset; git diff --check passed.
