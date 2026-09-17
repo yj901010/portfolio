@@ -5,10 +5,15 @@ import { TIMELINE, type TimelineItem } from "../assets/timelineData";
 import "../styles/experience.css";
 
 function References({ item }: { item: TimelineItem }) {
-  if (!item.references?.length) return null;
+  if (!item.references?.length && !item.relatedProjects?.length) return null;
   return (
     <div className="nf-career-links">
-      {item.references.map((reference) => (
+      {item.relatedProjects?.map((project) => (
+        <Link key={project.path} to={project.path}>
+          {project.label}<ArrowRight size={14} aria-hidden="true" />
+        </Link>
+      ))}
+      {item.references?.map((reference) => (
         <a key={reference.url} href={reference.url} target="_blank" rel="noopener noreferrer">
           {reference.label} <ArrowUpRight size={14} aria-hidden="true" />
           <span className="nf-sr-only"> (새 탭)</span>

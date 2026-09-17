@@ -105,6 +105,7 @@ export default function ProjectStoryDetail({ project, story }: { project: Projec
   const navigate = useNavigate();
   const [caseIndex, setCaseIndex] = useState(0);
   const current = story.cases[caseIndex];
+  const reference = story.reference ?? (story.repository ? { label: "GitHub 저장소", url: story.repository } : undefined);
 
   return <article className="project-story">
     <nav className="ps-project-nav" aria-label="프로젝트 이동">
@@ -122,7 +123,10 @@ export default function ProjectStoryDetail({ project, story }: { project: Projec
         onError={(event) => { event.currentTarget.hidden = true; }} />
       <div className="ps-banner-shade" />
       <div className="ps-banner-copy">
-        <p className="ps-meta">{project.organization} · {project.period} · {project.teamSize}인 팀 프로젝트</p>
+        <p className="ps-meta">{[
+          project.organization, project.period,
+          project.teamSize ? `${project.teamSize}인 팀 프로젝트` : undefined,
+        ].filter(Boolean).join(" · ")}</p>
         <h1>{story.title}</h1>
         <p className="ps-description">{story.description}</p>
       </div>
@@ -147,7 +151,7 @@ export default function ProjectStoryDetail({ project, story }: { project: Projec
       </section>
       <footer className="ps-footer">
         <span>이영재 · Backend Developer</span>
-        <a href={story.repository} target="_blank" rel="noopener noreferrer">GitHub 저장소 ↗<span className="nf-sr-only"> (새 탭)</span></a>
+        {reference && <a href={reference.url} target="_blank" rel="noopener noreferrer">{reference.label} ↗<span className="nf-sr-only"> (새 탭)</span></a>}
       </footer>
     </div>
   </article>;

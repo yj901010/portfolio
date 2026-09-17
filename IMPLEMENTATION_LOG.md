@@ -131,3 +131,18 @@ Validation:
 - Verified project list ordering, updated CheckMate preview metadata, preview-to-detail navigation, browser Back, the existing K-HOPE detail, and SSAFY search returning three projects. Reset the temporary viewport override afterward.
 
 Preview: http://127.0.0.1:5174/projects/checkmate. These checks cover the local application and production build; this change does not publish a deployment.
+
+
+## 2026-09-17: K-HOPE contribution stories
+
+- Replaced the generic K-HOPE responsibilities with four contribution groups and five implementation cases: research conditions, shared output formatting, execution cancellation, AI streaming, and asynchronous results/notifications.
+- Compared the owner's committed changes and authorship locally. Published only generalized engineering descriptions and diagrams. Internal repository identifiers, source excerpts, endpoints, schemas, actual records and detailed business rules are not included in the page, public documentation or PR. The reviewed work repositories were not modified.
+- Added FE/src/assets/khopeStory.ts with ten diagram views, and registered it in the existing project story data. Shared the updated technologies and responsibilities with the catalog preview and experience page.
+- Updated the common story renderer to support an official public reference and an unknown team size. Existing SSAFY repository links and team metadata remain intact.
+- Added a direct K-HOPE implementation link in the work experience entry. Recorded public content boundaries in docs/KHOPE_CONTENT.md and updated the career source notes.
+
+Routes: /projects/khope, /projects, /experience. No new runtime dependencies or deployment changes.
+
+Validation: ESLint, TypeScript and Vite production build passed. Content checks verified diagram explanation references, shared metadata, public-only references and a focused scan for internal identifiers. Desktop and 320px browser checks covered all ten new diagram views with no horizontal overflow or clipped text; keyboard selection updated the explanation. Visually checked the cover and mobile layout. Confirmed career-to-detail and preview-to-detail navigation, updated preview text, and CheckMate's existing team metadata and repository link. Browser error log was empty; temporary viewport override reset. git diff --check passed.
+
+Preview: http://127.0.0.1:5174/projects/khope.
