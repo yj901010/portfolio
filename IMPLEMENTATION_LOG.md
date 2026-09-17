@@ -146,3 +146,16 @@ Routes: /projects/khope, /projects, /experience. No new runtime dependencies or 
 Validation: ESLint, TypeScript and Vite production build passed. Content checks verified diagram explanation references, shared metadata, public-only references and a focused scan for internal identifiers. Desktop and 320px browser checks covered all ten new diagram views with no horizontal overflow or clipped text; keyboard selection updated the explanation. Visually checked the cover and mobile layout. Confirmed career-to-detail and preview-to-detail navigation, updated preview text, and CheckMate's existing team metadata and repository link. Browser error log was empty; temporary viewport override reset. git diff --check passed.
 
 Preview: http://127.0.0.1:5174/projects/khope.
+
+
+## 2026-09-17: Airflow data preparation and aggregation
+
+- Added the owner's separately supplied DAG work to K-HOPE after static source inspection. Kept the backend-first case order and four contribution groups; the Airflow case has separate data-loading and daily-aggregation diagrams with eight selectable explanations.
+- Data-loading description covers manual full replacement, a server-side cursor, chunked reads, bulk insertion, per-chunk commits and row-count comparison. It does not claim incremental replication or whole-run atomicity.
+- Daily-aggregation description covers target selection, existing-result filtering, explicit rebuild, dynamic task mapping, bounded concurrency, result validation and task outcome summaries. It does not claim production execution verification or complete idempotency.
+- Added Python, Airflow and PostgreSQL to shared project technologies and added the data work to the career entry. Updated source notes to distinguish supplied DAGs from previously inspected authored API commits.
+- DAG files were read only, not imported, executed, copied into this repository or modified. Internal identifiers, schedules, settings, SQL and business rules were omitted from public content.
+
+Validation: ESLint, TypeScript and Vite build passed. All story explanation references and shared metadata passed the content check; a scoped scan found none of the reviewed internal identifiers in the public content. Browser verified both Airflow views and all eight step explanations on desktop, both views at 320px, keyboard selection, and career-to-detail navigation. No horizontal overflow, clipped text or browser errors. Temporary viewport override reset; git diff --check passed.
+
+Preview: /projects/khope → Airflow 데이터 적재·집계. K-HOPE now contains six cases and twelve diagram views.
