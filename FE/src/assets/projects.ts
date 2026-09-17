@@ -1,5 +1,6 @@
 import type { ProjectDetailData } from "../types/project";
 import { PROJECT_STORIES } from "./projectStories";
+import { KHOPE_STORY } from "./khopeStory";
 
 type SsafyMetadata = Pick<ProjectDetailData, "slug" | "name" | "summary" | "period" | "teamComposition" | "roles" | "problem">;
 
@@ -17,7 +18,7 @@ function ssafyProject(metadata: SsafyMetadata): ProjectDetailData {
     contributions: story.contributions.map((item, index) => ({
       no: String(index + 1).padStart(2, "0"), title: item.title, items: [item.text],
     })),
-    references: [{ label: "GitHub 저장소", url: story.repository }],
+    references: story.repository ? [{ label: "GitHub 저장소", url: story.repository }] : [],
     scenarios: [], techWhy: [], code: { dockerfile: "", jenkins: "" }, issues: [], kpis: [],
   };
 }
@@ -28,22 +29,20 @@ export const PROJECTS: ProjectDetailData[] = [
     name: "K-HOPE (임상시험 지원 플랫폼)",
     category: "work",
     organization: "아이티아이즈",
-    summary: "임상시험을 지원하는 웹 플랫폼",
+    summary: "연구 업무 API와 AI 서비스 연동",
     ongoing: true,
     period: "2026.02 ~ 현재 (참여 기간)",
-    roles: ["백엔드 개발", "API 구현·연동"],
+    roles: ["백엔드 개발", "연구 업무·AI 연동"],
     thumb: "/artwork/khope.svg",
-    overview: "한국인 암 특화 디지털 스마트 임상시험 플랫폼 K-HOPE의 백엔드 개발에 참여하고 있습니다.",
-    problem: "임상시험 관련 업무를 지원하는 웹 플랫폼에서 API, 실시간 통신, 외부 연동과 데이터 수집 기능을 개발합니다.",
+    overview: KHOPE_STORY.description,
+    problem: "연구 조건 관리와 결과 조회를 연결하고, 실행 중인 작업과 외부 AI 응답을 서비스에서 일관된 흐름으로 처리하는 백엔드를 개발합니다.",
     scenarios: [],
-    techChips: ["REST API", "WebSocket", "Streaming", "Webhook", "Airflow"],
+    techChips: KHOPE_STORY.technologies,
     techWhy: [],
     code: { dockerfile: "", jenkins: "" },
-    contributions: [
-      { no: "01", title: "API와 업무 로직", items: ["설계된 API 명세를 바탕으로 REST API와 업무 로직 구현"] },
-      { no: "02", title: "실시간 통신·외부 연동", items: ["WebSocket, 스트리밍, 웹훅 관련 기능 개발"] },
-      { no: "03", title: "데이터 수집", items: ["Airflow를 활용한 데이터 수집 작업 개발"] },
-    ],
+    contributions: KHOPE_STORY.contributions.map((item, index) => ({
+      no: String(index + 1).padStart(2, "0"), title: item.title, items: [item.text],
+    })),
     issues: [],
     kpis: [],
     references: [{ label: "K-HOPE 공식 사업 소개", url: "https://www.iteyes.co.kr/reference-1" }],

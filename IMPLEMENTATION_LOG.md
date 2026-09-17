@@ -131,3 +131,44 @@ Validation:
 - Verified project list ordering, updated CheckMate preview metadata, preview-to-detail navigation, browser Back, the existing K-HOPE detail, and SSAFY search returning three projects. Reset the temporary viewport override afterward.
 
 Preview: http://127.0.0.1:5174/projects/checkmate. These checks cover the local application and production build; this change does not publish a deployment.
+
+
+## 2026-09-17: K-HOPE contribution stories
+
+- Replaced the generic K-HOPE responsibilities with four contribution groups and five implementation cases: research conditions, shared output formatting, execution cancellation, AI streaming, and asynchronous results/notifications.
+- Compared the owner's committed changes and authorship locally. Published only generalized engineering descriptions and diagrams. Internal repository identifiers, source excerpts, endpoints, schemas, actual records and detailed business rules are not included in the page, public documentation or PR. The reviewed work repositories were not modified.
+- Added FE/src/assets/khopeStory.ts with ten diagram views, and registered it in the existing project story data. Shared the updated technologies and responsibilities with the catalog preview and experience page.
+- Updated the common story renderer to support an official public reference and an unknown team size. Existing SSAFY repository links and team metadata remain intact.
+- Added a direct K-HOPE implementation link in the work experience entry. Recorded public content boundaries in docs/KHOPE_CONTENT.md and updated the career source notes.
+
+Routes: /projects/khope, /projects, /experience. No new runtime dependencies or deployment changes.
+
+Validation: ESLint, TypeScript and Vite production build passed. Content checks verified diagram explanation references, shared metadata, public-only references and a focused scan for internal identifiers. Desktop and 320px browser checks covered all ten new diagram views with no horizontal overflow or clipped text; keyboard selection updated the explanation. Visually checked the cover and mobile layout. Confirmed career-to-detail and preview-to-detail navigation, updated preview text, and CheckMate's existing team metadata and repository link. Browser error log was empty; temporary viewport override reset. git diff --check passed.
+
+Preview: http://127.0.0.1:5174/projects/khope.
+
+
+## 2026-09-17: Airflow data preparation and aggregation
+
+- Added the owner's separately supplied DAG work to K-HOPE after static source inspection. Kept the backend-first case order and four contribution groups; the Airflow case has separate data-loading and daily-aggregation diagrams with eight selectable explanations.
+- Data-loading description covers manual full replacement, a server-side cursor, chunked reads, bulk insertion, per-chunk commits and row-count comparison. It does not claim incremental replication or whole-run atomicity.
+- Daily-aggregation description covers target selection, existing-result filtering, explicit rebuild, dynamic task mapping, bounded concurrency, result validation and task outcome summaries. It does not claim production execution verification or complete idempotency.
+- Added Python, Airflow and PostgreSQL to shared project technologies and added the data work to the career entry. Updated source notes to distinguish supplied DAGs from previously inspected authored API commits.
+- DAG files were read only, not imported, executed, copied into this repository or modified. Internal identifiers, schedules, settings, SQL and business rules were omitted from public content.
+
+Validation: ESLint, TypeScript and Vite build passed. All story explanation references and shared metadata passed the content check; a scoped scan found none of the reviewed internal identifiers in the public content. Browser verified both Airflow views and all eight step explanations on desktop, both views at 320px, keyboard selection, and career-to-detail navigation. No horizontal overflow, clipped text or browser errors. Temporary viewport override reset; git diff --check passed.
+
+Preview: /projects/khope → Airflow 데이터 적재·집계. K-HOPE now contains six cases and twelve diagram views.
+
+
+## 2026-09-17: Text-to-SQL training-data preparation tool
+
+- Added the data-authoring tool to K-HOPE using the owner's stated project relationship and purpose. Read the supplied site and corresponding local implementation to verify concept/expression management, relationship visualization, validation and JSON/ZIP output. Did not claim commit attribution for this separately supplied tool.
+- Added a case between research APIs and Airflow: concept/expression input and persistence, hierarchy/group visualization, missing/duplicate/reference checks, and file preview/export. The diagram describes the author's workflow, not a mandatory export approval gate.
+- Extended the shared contribution summary, technologies and career entry. Preserved the four contribution groups and existing layout. K-HOPE now contains seven cases and fourteen views.
+- Described the output as concept, expression and relationship data used to prepare Text-to-SQL training materials. Did not claim automatic question/SQL-pair generation, model training or measured model accuracy gains.
+- No live data edits, dataset downloads, source copies, actual domain data, source-site screenshots or internal identifiers were added to the portfolio. Reviewed application files were not modified.
+
+Validation: ESLint, TypeScript and Vite production build passed. All diagram explanation references and shared metadata passed the content check; focused public-content scan passed. Browser verified the two new views at desktop and 320px, all four explanations via keyboard, and career-to-detail navigation. No overflow, clipped text or browser errors. Temporary viewport override reset; git diff --check passed.
+
+Preview: /projects/khope → Text-to-SQL 학습 데이터.

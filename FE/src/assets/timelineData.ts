@@ -1,3 +1,5 @@
+import { KHOPE_STORY } from "./khopeStory";
+
 export type Category = "WORK" | "PROJECT" | "EDU" | "NONDEV";
 
 type Reference = { label: string; url: string };
@@ -37,12 +39,15 @@ export const TIMELINE: TimelineItem[] = [
     current: true,
     project: "K-HOPE",
     summary: "한국인 암 특화 디지털 스마트 임상시험 플랫폼",
-    technologies: ["REST API", "WebSocket", "Streaming", "Webhook", "Airflow"],
+    technologies: KHOPE_STORY.technologies,
     highlights: [
-      { label: "API 구현", description: "설계된 API 명세를 바탕으로 REST API와 업무 로직을 개발합니다." },
-      { label: "실시간 통신·연동", description: "WebSocket, 스트리밍, 웹훅을 활용한 통신 및 외부 연동 기능을 구현합니다." },
-      { label: "데이터 수집", description: "Airflow를 활용한 데이터 수집 작업을 개발합니다." },
+      { label: "연구 업무·결과 조회", description: "연구 조건 관리와 결과 조회 API를 개발하고, 조회 응답·다운로드의 출력 기준을 공통화했습니다." },
+      { label: "학습 데이터 제작", description: "Text-to-SQL 학습에 사용할 용어·표현 데이터의 입력·검토·관계 시각화·JSON/ZIP 내보내기 도구를 개발했습니다." },
+      { label: "데이터 적재·집계", description: "Airflow로 청크 단위 데이터 적재와 건수 확인, 대상별 일일 집계·재집계·실행 결과 요약을 구성했습니다." },
+      { label: "작업 실행·취소", description: "실행 중인 작업을 식별자로 관리하고, 취소 요청을 쿼리 중단과 리소스 정리로 연결했습니다." },
+      { label: "AI 서비스 연동", description: "AI 응답 스트리밍과 WebSocket 전송을 분리하고, 비동기 결과 수신·저장·화면 알림을 구현했습니다." },
     ],
+    relatedProjects: [{ label: "K-HOPE 구현 이야기", path: "/projects/khope" }],
     references: [{ label: "K-HOPE 공식 사업 소개", url: "https://www.iteyes.co.kr/reference-1" }],
   },
   {
