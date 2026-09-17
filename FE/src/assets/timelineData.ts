@@ -42,6 +42,7 @@ export const TIMELINE: TimelineItem[] = [
     technologies: KHOPE_STORY.technologies,
     highlights: [
       { label: "연구 업무·결과 조회", description: "연구 조건 관리와 결과 조회 API를 개발하고, 조회 응답·다운로드의 출력 기준을 공통화했습니다." },
+      { label: "학습 데이터 제작", description: "Text-to-SQL 학습에 사용할 용어·표현 데이터의 입력·검토·관계 시각화·JSON/ZIP 내보내기 도구를 개발했습니다." },
       { label: "데이터 적재·집계", description: "Airflow로 청크 단위 데이터 적재와 건수 확인, 대상별 일일 집계·재집계·실행 결과 요약을 구성했습니다." },
       { label: "작업 실행·취소", description: "실행 중인 작업을 식별자로 관리하고, 취소 요청을 쿼리 중단과 리소스 정리로 연결했습니다." },
       { label: "AI 서비스 연동", description: "AI 응답 스트리밍과 WebSocket 전송을 분리하고, 비동기 결과 수신·저장·화면 알림을 구현했습니다." },

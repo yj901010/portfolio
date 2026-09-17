@@ -18,13 +18,13 @@ function implementation(
 export const KHOPE_STORY: ProjectStory = {
   title: "K-HOPE",
   description: "임상시험과 연구 업무를 지원하는 플랫폼의 백엔드 개발",
-  responsibility: "설계된 업무와 API 명세를 바탕으로 연구 조건 관리, 결과 조회·다운로드, 작업 실행 제어와 AI 서비스 연동을 구현하고 있습니다. Airflow를 활용한 데이터 적재·집계 DAG도 작성했습니다.",
-  technologies: ["Java", "Spring Boot", "Python", "Airflow", "PostgreSQL", "REST API", "JDBC", "WebSocket", "NDJSON", "Webhook"],
+  responsibility: "설계된 업무와 API 명세를 바탕으로 연구 조건 관리, 결과 조회·다운로드, 작업 실행 제어와 AI 서비스 연동을 구현하고 있습니다. Text-to-SQL 학습용 데이터 제작 도구와 Airflow 데이터 적재·집계 DAG도 개발했습니다.",
+  technologies: ["Java", "Spring Boot", "Python", "FastAPI", "React", "Airflow", "PostgreSQL", "REST API", "JDBC", "WebSocket", "NDJSON", "Webhook"],
   image: "/artwork/khope.svg",
   reference: { label: "K-HOPE 공식 사업 소개", url: "https://www.iteyes.co.kr/reference-1" },
   contributions: [
     { title: "연구 업무·결과 API", text: "연구 조건 관리·검색·대시보드 API와 AI 조건 응답 연계를 구현했습니다. 조회와 다운로드의 출력 항목을 공통화해 같은 기준에서 관리하도록 정리했습니다." },
-    { title: "Airflow 데이터 적재·집계", text: "청크 조회·일괄 적재·건수 확인 DAG와 일별 집계 DAG를 작성했습니다. 집계 대상 필터링, 동적 태스크 매핑, 재집계 선택과 실행 결과 요약을 구성했습니다." },
+    { title: "학습 데이터 제작·배치 처리", text: "Text-to-SQL 학습용 개념·표현 데이터를 입력·검토·내보내는 웹 도구와, Airflow 기반 데이터 적재·일별 집계 DAG를 구현했습니다." },
     { title: "작업 실행·취소 제어", text: "실행 중인 작업을 식별자로 관리하고, 중복 실행 확인과 취소 요청을 실제 쿼리 중단·리소스 정리로 연결했습니다." },
     { title: "AI 스트리밍·결과 연동", text: "AI 응답 스트림 수신과 WebSocket 전송을 분리하고, 결과 콜백의 요청·상태 확인, 결과 저장과 화면 알림을 구현했습니다." },
   ],
@@ -44,6 +44,19 @@ export const KHOPE_STORY: ProjectStory = {
         split(node("연구 조건 관리 API", "저장 · 수정 · 조회", 0), node("AI 응답 연동", "조건 정보 변환", 1)),
         { type: "group", title: "구성된 조건으로 결과 조회", items: [flow(node("조회 요청 구성", "기존 업무 API로 연결"), node("결과 조회·응답 조립", "목록과 요약 정보", 2))] },
       ],
+    ),
+    implementation(
+      "training-data", "Text-to-SQL 학습 데이터", "학습에 사용할 용어·표현 데이터를 제작하다",
+      "같은 개념을 나타내는 다양한 자연어 표현과 개념 간 관계를 함께 정리해야 했습니다. Text-to-SQL 학습용 데이터를 만들 수 있도록 입력·검토·시각화·파일 생성 기능을 하나의 웹 도구로 구성했습니다.",
+      "용어·표현과 개념 관계를 관리하고 품질 검토 후 JSON·ZIP으로 내보낼 수 있는 데이터 제작 흐름을 구현했습니다. 학습에 활용할 자료를 구조화하고 확인하는 작업을 지원했습니다.",
+      [
+        { title: "개념과 자연어 표현 관리", text: "개념별 자연어 표현과 상위·하위 관계, 여러 개념을 묶는 그룹을 입력·수정할 수 있도록 구현했습니다. 데이터 저장·조회 API를 연결해 작성한 내용을 다시 불러와 관리하도록 구성했습니다." },
+        { title: "관계 구조를 시각적으로 검토", text: "계층 구조와 그룹 연결을 각각 시각화하고, 선택한 개념의 관계와 표현을 확인할 수 있도록 구성했습니다. 항목만 나열된 목록에서 파악하기 어려운 연결 관계를 검토하는 화면을 만들었습니다." },
+        { title: "누락·중복·참조 오류 확인", text: "중복 식별자, 필수 값 누락, 존재하지 않는 상위 개념·그룹 구성원 참조를 확인하도록 구현했습니다. 여러 개념에 겹치는 표현은 경고로 보여주고, 입력한 자연어 표현의 매핑 후보도 확인할 수 있도록 구성했습니다." },
+        { title: "용도별 JSON 생성과 ZIP 내보내기", text: "계층·그룹·용어 매핑 데이터를 용도에 맞는 JSON으로 생성하고 파일 내용을 미리 볼 수 있도록 구현했습니다. 개별 파일 또는 선택한 파일 묶음을 ZIP으로 내려받아 후속 데이터 작업에 활용하도록 구성했습니다." },
+      ],
+      [split(node("다양한 자연어 표현", "같은 개념을 다르게 표현"), node("개념 간 관계", "계층과 그룹을 함께 관리")), { type: "note", text: "학습에 사용할 자료의 구조와 표현을 함께 검토할 필요" }],
+      [flow(node("데이터 입력·저장", "개념 · 자연어 표현", 0), node("관계 시각화", "계층 · 그룹 연결", 1), node("품질 검토", "누락 · 중복 · 참조 확인", 2), node("파일 생성", "JSON · ZIP", 3))],
     ),
     {
       id: "airflow-data", label: "Airflow 데이터 적재·집계",

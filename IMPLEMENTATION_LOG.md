@@ -159,3 +159,16 @@ Preview: http://127.0.0.1:5174/projects/khope.
 Validation: ESLint, TypeScript and Vite build passed. All story explanation references and shared metadata passed the content check; a scoped scan found none of the reviewed internal identifiers in the public content. Browser verified both Airflow views and all eight step explanations on desktop, both views at 320px, keyboard selection, and career-to-detail navigation. No horizontal overflow, clipped text or browser errors. Temporary viewport override reset; git diff --check passed.
 
 Preview: /projects/khope → Airflow 데이터 적재·집계. K-HOPE now contains six cases and twelve diagram views.
+
+
+## 2026-09-17: Text-to-SQL training-data preparation tool
+
+- Added the data-authoring tool to K-HOPE using the owner's stated project relationship and purpose. Read the supplied site and corresponding local implementation to verify concept/expression management, relationship visualization, validation and JSON/ZIP output. Did not claim commit attribution for this separately supplied tool.
+- Added a case between research APIs and Airflow: concept/expression input and persistence, hierarchy/group visualization, missing/duplicate/reference checks, and file preview/export. The diagram describes the author's workflow, not a mandatory export approval gate.
+- Extended the shared contribution summary, technologies and career entry. Preserved the four contribution groups and existing layout. K-HOPE now contains seven cases and fourteen views.
+- Described the output as concept, expression and relationship data used to prepare Text-to-SQL training materials. Did not claim automatic question/SQL-pair generation, model training or measured model accuracy gains.
+- No live data edits, dataset downloads, source copies, actual domain data, source-site screenshots or internal identifiers were added to the portfolio. Reviewed application files were not modified.
+
+Validation: ESLint, TypeScript and Vite production build passed. All diagram explanation references and shared metadata passed the content check; focused public-content scan passed. Browser verified the two new views at desktop and 320px, all four explanations via keyboard, and career-to-detail navigation. No overflow, clipped text or browser errors. Temporary viewport override reset; git diff --check passed.
+
+Preview: /projects/khope → Text-to-SQL 학습 데이터.
