@@ -236,3 +236,12 @@ Final motion revision: removed all platform/water horizontal deformation in resp
 Validation: ESLint, TypeScript and Vite production build passed. Static checks passed for five projects, 25 case links, five covers and eight proof assets. Browser checked desktop home/index/detail, 320px home/CheckMate and 768px TlatFarm/ssFinder/MyFairy without horizontal overflow. Search matching/empty states, direct case links, keyboard case selection, diagram view switching, project selection, legacy home/skills redirects and missing-project recovery passed. The skills anchor receives focus and the home has no video element. Print styles were reviewed in source; no exported PDF validation is claimed.
 
 Preview: http://127.0.0.1:5174/. Deferred optional work: approved product screenshots and a standalone concise resume PDF.
+
+
+## 2026-09-30: Plain-language introduction and hidden encouragement award
+
+- Replaced the generic introduction and experience labels with the actual clinical-research and smart-farm backend work, data processing and deployment experience. Clarified research-condition/result APIs across the career, project summary, detail diagram and page metadata.
+- Simplified section captions and technology descriptions without adding new contribution or performance claims.
+- Hid the 2023 encouragement award from the recruiter page while retaining its source data and proof file for later reuse. Other qualifications and awards remain visible.
+
+Validation: ESLint, TypeScript and Vite build passed. Browser verified revised copy, the absence of the encouragement award, the four remaining qualification/award entries and no horizontal overflow at desktop and 320px. Browser error log empty; temporary viewport override reset. Source certificate data and proof assets unchanged.
