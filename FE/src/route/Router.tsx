@@ -1,31 +1,23 @@
 import { createBrowserRouter, Navigate } from "react-router-dom";
-import App from "../App";
-import AppLayout from "../layouts/AppLayout";
-import ProfileSelect from "../pages/ProfileSelect";
-import Portfolio from "../pages/Portfolio";
-import Skills from "../pages/Skills";
-import ExperienceTimeline from "../pages/ExperienceTimeline";
-import Projects from "../pages/Projects";
-import ProjectDetail from "../pages/ProjectDetail";
-import Contact from "../pages/Contact";
-import Certifications from "../pages/Certifications";
+import RecruiterLayout from "../layouts/RecruiterLayout";
+import RecruiterHome from "../pages/RecruiterHome";
+import RecruiterProjectList from "../pages/RecruiterProjectList";
+import RecruiterProject, { NotFound } from "../pages/RecruiterProject";
 
-const router = createBrowserRouter([
-  { path: "/", element: <App /> },
-  { path: "/browse", element: <ProfileSelect /> },
-  {
-    element: <AppLayout />,
-    children: [
-      { path: "/portfolio/:profileId", element: <Portfolio /> },
-      { path: "/skills", element: <Skills /> },
-      { path: "/experience", element: <ExperienceTimeline /> },
-      { path: "/certs", element: <Certifications /> },
-      { path: "/projects", element: <Projects /> },
-      { path: "/search", element: <Projects /> },
-      { path: "/projects/:slug", element: <ProjectDetail /> },
-      { path: "/contact", element: <Contact /> },
-      { path: "*", element: <Navigate to="/portfolio/leeyj" replace /> },
-    ],
-  },
-]);
+const router = createBrowserRouter([{
+  element: <RecruiterLayout />,
+  children: [
+    { path: "/", element: <RecruiterHome /> },
+    { path: "/projects", element: <RecruiterProjectList /> },
+    { path: "/search", element: <RecruiterProjectList /> },
+    { path: "/projects/:slug", element: <RecruiterProject /> },
+    { path: "/portfolio/:profileId", element: <Navigate to="/" replace /> },
+    { path: "/browse", element: <Navigate to="/" replace /> },
+    { path: "/skills", element: <Navigate to="/#skills" replace /> },
+    { path: "/experience", element: <Navigate to="/#experience" replace /> },
+    { path: "/certs", element: <Navigate to="/#records" replace /> },
+    { path: "/contact", element: <Navigate to="/#contact" replace /> },
+    { path: "*", element: <NotFound /> },
+  ],
+}]);
 export default router;

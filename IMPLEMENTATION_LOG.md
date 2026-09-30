@@ -223,3 +223,16 @@ Routes: /portfolio/leeyj. Artwork/output: FE/public/videos. Sources: scripts/ren
 Validation: ESLint, TypeScript and Vite production build passed. Decoded all five clips: exactly 144 frames, 6 seconds, 24fps, 1280 × 720, no audio, and measurable frame changes. Inspected decoded frame contact sheets and the live billboard. Browser verified all five videos on desktop and at 320px, one active video, mute, duration and no horizontal overflow. Explicit pause preserved currentTime, resume worked, opening/closing details paused/resumed, and scrolling the banner offscreen paused playback. Reduced-motion, hidden-tab and playback-failure guards were reviewed in source; no simulated browser pass is claimed for those paths.
 
 Final motion revision: removed all platform/water horizontal deformation in response to the owner's preview feedback. Page-turn texture bounds exclude the book binding and foreground plants. Re-decoded the revised clips and checked the updated scenes in the browser. Original thumbnails remain unchanged. Browser error log empty; viewport override reset.
+
+
+## 2026-09-30: Recruiter-first portfolio on a separate branch
+
+- Preserved the current Netflix implementation and existing K-HOPE copy edit on the pushed `codex/netflix-portfolio-archive` branch at `1fe5ec5`. Built the new presentation on `codex/recruiter-portfolio`; no merge or production deployment.
+- Replaced the mounted intro/profile/billboard flow with a direct candidate overview: role and contact, recent career, company/SSAFY projects, technology evidence, education/qualifications and contact. Kept dates, project chronology, proof documents and existing attribution boundaries.
+- Added a warm paper-style responsive layout, smaller static project images, URL-backed project search, keyboard/anchor focus and print styles. Replaced self-rated technology levels with implementation links.
+- Reframed project detail pages around responsibilities, contributions and a visible case index. Retained interactive diagrams and added direct case URLs. No new content-performance claims, company data or dependencies.
+- Added docs/RECRUITER_PORTFOLIO.md with review rationale, route/module map and branch recovery instructions.
+
+Validation: ESLint, TypeScript and Vite production build passed. Static checks passed for five projects, 25 case links, five covers and eight proof assets. Browser checked desktop home/index/detail, 320px home/CheckMate and 768px TlatFarm/ssFinder/MyFairy without horizontal overflow. Search matching/empty states, direct case links, keyboard case selection, diagram view switching, project selection, legacy home/skills redirects and missing-project recovery passed. The skills anchor receives focus and the home has no video element. Print styles were reviewed in source; no exported PDF validation is claimed.
+
+Preview: http://127.0.0.1:5174/. Deferred optional work: approved product screenshots and a standalone concise resume PDF.
