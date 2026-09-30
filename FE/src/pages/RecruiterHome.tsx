@@ -19,7 +19,7 @@ export default function RecruiterHome() {
       <div className="intro-main">
         <p className="eyebrow">BACKEND · DATA PROCESSING</p>
         <h1 id="intro-title">이영재<span>백엔드 개발자</span></h1>
-        <p className="intro-description">Spring Boot로 업무 API를 개발하고,<br className="desktop-break" /> 비동기 처리와 데이터 적재·집계를 서비스에 연결합니다.</p>
+        <p className="intro-description">임상시험과 스마트팜 서비스의 백엔드를 개발해 왔습니다.<br className="desktop-break" /> API 개발과 함께 데이터 수집·처리, 클라우드 배포를 맡았습니다.</p>
         <p className="intro-context">현재 아이티아이즈에서 임상시험 지원 플랫폼 K-HOPE의 백엔드를 개발하고 있습니다.</p>
         <div className="intro-links">
           <a href={`mailto:${PROFILE.email}`}><Mail size={16} />이메일</a>
@@ -30,12 +30,12 @@ export default function RecruiterHome() {
       </div>
       <aside className="intro-aside" aria-label="주요 개발 경험">
         <img src={PROFILE.avatar} alt="이영재 프로필" width="88" height="104" />
-        <div><span className="small-label">주요 개발 경험</span><p>업무 API · 비동기 연동<br />데이터 수집·적재·집계<br />클라우드 실행 환경</p></div>
+        <div><span className="small-label">주요 개발 경험</span><p>Spring Boot 백엔드 개발<br />데이터 수집·처리 자동화<br />GCP·Docker 기반 배포</p></div>
       </aside>
     </section>
 
     <section id="experience" tabIndex={-1} className="document-section">
-      <SectionHeading number="01" title="경력" note="최근 실무에서 맡은 역할과 개발 범위입니다." />
+      <SectionHeading number="01" title="경력" note="회사에서 맡았던 개발 역할입니다." />
       <div className="section-body career-list">
         {TIMELINE.filter(item => item.category === "WORK").map(item => <article className="career-row" key={item.id}>
           <div className="career-meta"><p>{item.period}</p><h3>{item.title}</h3><span>{item.subtitle}</span>{item.current && <span className="current-status">재직 중</span>}</div>
@@ -49,7 +49,7 @@ export default function RecruiterHome() {
     </section>
 
     <section id="projects" tabIndex={-1} className="document-section">
-      <SectionHeading number="02" title="프로젝트" note="서비스의 목적과 제가 구현한 부분을 구분해 정리했습니다." />
+      <SectionHeading number="02" title="프로젝트" note="프로젝트별 담당 기능과 구현 과정입니다." />
       <div className="section-body">
         <h3 className="group-heading">회사 프로젝트 <span>실무</span></h3><ProjectRows category="work" />
         <h3 className="group-heading">SSAFY 프로젝트 <span>6인 팀 프로젝트</span></h3><ProjectRows category="ssafy" />
@@ -58,7 +58,7 @@ export default function RecruiterHome() {
     </section>
 
     <section id="skills" tabIndex={-1} className="document-section">
-      <SectionHeading number="03" title="기술" note="프로젝트에서 사용한 기술과 구현 사례를 함께 연결했습니다." />
+      <SectionHeading number="03" title="기술" note="실제로 사용한 기술과 적용 사례입니다." />
       <div className="section-body skill-evidence">
         {SKILL_EVIDENCE.map(item => <div className="skill-row" key={item.area}><h3>{item.area}</h3><div><strong>{item.technologies}</strong><p>{item.description}</p>
           <div className="case-links">{item.links.map(link => <Link key={link.label} to={caseLink(link.slug,link.caseId)}>{link.label}<ArrowUpRight size={12} /></Link>)}</div></div></div>)}
@@ -66,7 +66,7 @@ export default function RecruiterHome() {
     </section>
 
     <section id="records" tabIndex={-1} className="document-section">
-      <SectionHeading number="04" title="학력·자격" note="교육, 자격과 수상 내역입니다. 증빙은 별도로 열어볼 수 있습니다." />
+      <SectionHeading number="04" title="학력·자격" note="교육·자격·수상 내역과 증빙입니다." />
       <div className="section-body records-columns">
         <div><h3>학력·교육</h3>
           {["ssafy","gai","dongshin-degree"].map(id => {
@@ -78,7 +78,7 @@ export default function RecruiterHome() {
           })}
         </div>
         <div><h3>자격·수상</h3>
-          {CERTS.filter(c => c.category === "license").concat(CERTS.filter(c => c.category === "award")).map(cert => <article className="record-entry record-proof" key={cert.id}>
+          {CERTS.filter(c => c.category === "license").concat(CERTS.filter(c => c.category === "award" && c.id !== "gai-award-encouragement-2023")).map(cert => <article className="record-entry record-proof" key={cert.id}>
             <div><time>{cert.issueDate.replaceAll("-", ".")}</time><h4>{cert.title}</h4><p>{cert.issuer}</p></div>
             {cert.previewUrl && <a href={cert.previewUrl} target="_blank" rel="noreferrer" aria-label={`${cert.title} 증빙 보기 (새 탭)`}>증빙 ↗</a>}
           </article>)}
