@@ -17,7 +17,7 @@ function implementation(
 
 export const KHOPE_STORY: ProjectStory = {
   title: "K-HOPE",
-  description: "임상시험과 연구 업무를 지원하는 플랫폼의 백엔드 개발",
+  description: "임상시험과 연구 업무를 지원하는 플랫폼",
   responsibility: "설계된 업무와 API 명세를 바탕으로 연구 조건 관리, 결과 조회·다운로드, 작업 실행 제어와 AI 서비스 연동을 구현하고 있습니다. Text-to-SQL 학습용 데이터 제작 도구와 Airflow 데이터 적재·집계 DAG도 개발했습니다.",
   technologies: ["Java", "Spring Boot", "Python", "FastAPI", "React", "Airflow", "PostgreSQL", "REST API", "JDBC", "WebSocket", "NDJSON", "Webhook"],
   image: "/artwork/khope.svg",
